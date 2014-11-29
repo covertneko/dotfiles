@@ -161,9 +161,8 @@ let g:tagbar_usearrows=1
 nnoremap <leader>t :TagbarToggle<CR> 
 " }}}
 
-" NERDTree {{{
-let NERDTreeShowHidden=1
-nnoremap <leader>n :NERDTreeToggle<CR>
+" Livedown {{{
+nnoremap <leader>md :call LivedownPreview()<cr>
 " }}}
 " }}}
 
@@ -218,6 +217,7 @@ inoremap {<cr> {<cr>}<c-o>O
 inoremap [<cr> [<cr>]<c-o>O
 inoremap (<cr> (<cr>)<c-o>O
 
+" Ctrl-c is just Esc
 imap <c-c> <esc>
 " }}}
 " Command {{{
