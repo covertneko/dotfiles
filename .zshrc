@@ -3,7 +3,7 @@
 if [[ "$TMUX" == "" ]]; then
   TERM=xterm-256color tmux -2
 else
-  # tmux gets rid of evironment variables like path. That was fun trying to figure out.
+  # tmux gets rid of environment variables like path. That was fun trying to figure out.
   if [[ "$ZDOTDIR" == "" ]]; then
     source $HOME/.zshenv
   else
