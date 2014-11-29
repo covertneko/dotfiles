@@ -1,46 +1,70 @@
 " vim:fdm=marker
-
-set nocompatible
+" Clear all autocommands
+au!
 
 call pathogen#infect()
 Helptags
 
-" allow backspacing over everything in insert mode
+" Basic Options {{{
+set nocompatible
+" Allow backspacing over everything in insert mode
 set backspace=indent,eol,start
-
+" Backups
 set backup
 set undofile
 set backupdir=~/.vim/backup//
 set undodir=~/.vim/undo//
 set directory=~/.vim/swap//
-
 set title
-set history=50
+set history=100
 set ruler
 set showcmd
 set incsearch
+set ignorecase smartcase
 set omnifunc=syntaxcomplete#Complete 
-
 set foldmethod=syntax
 set scrolloff=5
+" Show line number of current line but relative for all others
 set number
 set relativenumber
-
+" Tabs/indents
 set expandtab
 set smarttab
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
-
 set autoindent
+set switchbuf=useopen
+set showtabline=2
+set modeline
+set modelines=1
+set winwidth=79
+" Rolodex mode
+set winheight=5 " has to be set first for some reason
+:set noequalalways winminheight=5 winheight=9999 helpheight=9999
+" Fix slow escape in insert mode
+:set timeout timeoutlen=1000 ttimeoutlen=100
 
 let mapleader=" "
+" }}}
 
+filetype plugin indent on
+
+" Cursor {{{
 if has('mouse')
   set mouse=a
 endif
 
-filetype plugin indent on
+" Highlight current line number
+hi CursorLineNR ctermbg=15 ctermfg=0
+
+" Cursorline in active window only
+augroup CursorLine
+  au!
+  autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  autocmd WinLeave * setlocal nocursorline
+augroup END
+" }}}
 
 " Colors {{{
 syntax on
@@ -50,38 +74,28 @@ if !has('gui_running')
 endif
 
 set background=light
-let g:solarized_termtrans=0
+" Transparency breaks background color sometimes for whateve reason 
+"let g:solarized_termtrans=1
 let g:solarized_termcolors=256
 colorscheme solarized
 " }}}
 
+" Plugins {{{
 " Indent Guides {{{
 let g:indent_guides_guide_size=2
 " }}}
 
-" Cursor {{{
-hi CursorLineNR ctermbg=15 ctermfg=0
-
-" Cursorline in active window only
-augroup CursorLine
-au!
-  autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-  autocmd WinLeave * setlocal nocursorline
-augroup END
-" }}}
-
 " YouCompleteMe {{{
-  let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py' 
-  let g:ycm_add_preview_to_completeopt=1
-  let g:ycm_autoclose_preview_window_after_insertion=1
+let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py' 
+let g:ycm_add_preview_to_completeopt=1
+let g:ycm_autoclose_preview_window_after_insertion=1
 " }}}
 
 " Lightline {{{
-  set laststatus=2
-  set noshowmode
- " let g:airline_symbols.linenr = ''
+set laststatus=2
+set noshowmode
 
-  let g:lightline = {
+let g:lightline = {
       \ 'colorscheme': 'solarized',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
@@ -97,107 +111,120 @@ augroup END
       \ 'subseparator': { 'left': '', 'right': '' }
       \ }  
 
-  function! LLFugitive()
-    if exists('*fugitive#head')
-      let _ = fugitive#head()
-      return strlen(_) ? ' '._ : ''
-    endif
-      return ''
-  endfunction
-  
-  function! LLModified()
-    if &filetype == 'help'
-      return ''
-    elseif &modified
-      return '+'
-    elseif &modifiable
-      return ''
-    else
-      return '-'
-  endfunction
+function! LLFugitive()
+  if exists('*fugitive#head')
+    let _ = fugitive#head()
+    return strlen(_) ? ' '._ : ''
+  endif
+  return ''
+endfunction
 
-  function! LLReadonly()
-    if &filetype == 'help'
-      return ''
-    elseif &readonly
-      return ''
-    else
-      return '' 
-  endfunction
+function! LLModified()
+  if &filetype == 'help'
+    return ''
+  elseif &modified
+    return '+'
+  elseif &modifiable
+    return ''
+  else
+    return '-'
+  endif
+endfunction
 
-  function! LLFilename()
-    return ('' != LLReadonly() ? LLReadonly() . ' ' : '') .
-         \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
-         \ ('' != LLModified() ? ' ' . LLModified() : '')
-  endfunction
+function! LLReadonly()
+  if &filetype == 'help'
+    return ''
+  elseif &readonly
+    return ''
+  else
+    return '' 
+  endif
+endfunction
+
+function! LLFilename()
+  return ('' != LLReadonly() ? LLReadonly() . ' ' : '') .
+        \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' != LLModified() ? ' ' . LLModified() : '')
+endfunction
 " }}}
 
 " Closetag {{{
+augroup CloseTag
+  au!
   autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
   autocmd FileType html,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag/plugin/closetag.vim
+augroup END
 " }}}
 
 " Tagbar {{{
-  let g:tagbar_usearrows=1
-  nnoremap <leader>t :TagbarToggle<CR> 
+let g:tagbar_usearrows=1
+nnoremap <leader>t :TagbarToggle<CR> 
 " }}}
 
 " NERDTree {{{
-    let NERDTreeShowHidden=1
-    nnoremap <leader>n :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
+nnoremap <leader>n :NERDTreeToggle<CR>
+" }}}
 " }}}
 
 " etc {{{
-  " Autocmds {{{
-    augroup vimrcEx
-    au!
-      " When editing a file, jump to the last known cursor position.
-      au BufReadPost *
+" Commands {{{
+augroup vimrcEx
+  au!
+  " When editing a file, jump to the last known cursor position.
+  au BufReadPost *
         \ if line("'\"") > 1 && line("'\"") <= line("$") |
         \   exe "normal! g`\"" |
         \ endif
 
-      " Set cmake file type properly
-      au BufRead,BufNewFile *.cmake,CMakeLists.txt set filetype=cmake
-    augroup END
-    
-      " Set absolute numbers in insert mode or when out of focus
-      au InsertEnter,WinLeave,FocusLost * setlocal norelativenumber
-      au InsertLeave,WinEnter * setlocal relativenumber
+  " Set cmake file type properly
+  au BufRead,BufNewFile *.cmake,CMakeLists.txt set filetype=cmake
+  " And markdown
+  au BufNewFile,BufReadPost *.md set filetype=markdown
 
-    " Diff original file with edits
-    if !exists(":DiffOrig")
-      command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-    		\ | wincmd p | diffthis
-    endif
-  " }}}
+  " Set absolute numbers in insert mode or when out of focus
+  au InsertEnter,WinLeave,FocusLost * setlocal norelativenumber
+  au InsertLeave,WinEnter * setlocal relativenumber
+augroup END
 
-  " Mappings {{{
-    " Normal {{{
-      " Quit and save session as current
-      nnoremap <leader>qs :mksession! ~/.vim/sessions/current.vim<cr>:qa<cr>
-      " Just save session as current
-      nnoremap <leader>ss :mksession! ~/.vim/sessions/current.vim<cr>
-      " Save session as
-      nnoremap <leader>as :mksession! ~/.vim/sessions/
-      " Remap window functions to <leader>w
-      nnoremap <leader>w <C-w>
-      " Resource .vimrc
-      nnoremap <leader>rc :source ~/.vimrc<cr>
-    " }}}
-    " Insert {{{
-      " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-      " so that you can undo CTRL-U after inserting a line break.
-      inoremap <C-U> <C-G>u<C-U>
-      
-      " Sublime-style brace indenting code blocks
-      inoremap {<cr> {<cr>}<c-o>O
-      inoremap [<cr> [<cr>]<c-o>O
-      inoremap (<cr> (<cr>)<c-o>O
-    " }}}
-    " Command {{{
-      " Save as root
-      cnoremap sudow w !sudo tee % > /dev/null
-    " }}}
-  " }}}
+" Diff original file with edits
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+        \ | wincmd p | diffthis
+endif
+" }}}
+
+" Mappings {{{
+" Normal {{{
+" Fancy window stacks
+" Quit and save session as current
+nnoremap <leader>qs :mksession! ~/.vim/sessions/current.vim<cr>:qa<cr>
+" Just save session as current
+nnoremap <leader>ss :mksession! ~/.vim/sessions/current.vim<cr>
+" Save session as
+nnoremap <leader>as :mksession! ~/.vim/sessions/
+" Remap window functions to <leader>w
+nnoremap <leader>w <C-w>
+" Re-source .vimrc
+nnoremap <leader>rc :source ~/.vimrc<cr>
+" }}}
+" Insert {{{
+" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+inoremap <c-u> <c-g>u<c-u>
+
+" Sublime-style brace indenting code blocks
+inoremap {<cr> {<cr>}<c-o>O
+inoremap [<cr> [<cr>]<c-o>O
+inoremap (<cr> (<cr>)<c-o>O
+
+imap <c-c> <esc>
+" }}}
+" Command {{{
+" Directory of current buffer
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+" Save as root
+cnoremap sudow w !sudo tee % > /dev/null
+" }}}
+" }}}
 " }}}
