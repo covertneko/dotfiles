@@ -1,4 +1,4 @@
 export CLICOLOR=YES
 export EDITOR=vim
-path+=( "$HOME/.cabal/bin" ); export PATH
-fpath+=( "$HOME/.zsh/fn" ); export FPATH
+export PATH="$PATH:$HOME/.cabal/bin:."
+export FPATH="$FPATH:$HOME/.zsh/fn"
