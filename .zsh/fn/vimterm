@@ -2,5 +2,5 @@
 # Pass command line arguments to vim
 function vimterm()
 {
-  terminator -b --layout=vimterm -e "vim $@" |&> /dev/null
+  terminator -b --layout=vimterm -e "vim $@" &> /dev/null & disown
 }
