@@ -1,6 +1,3 @@
-[submodule ".vim/bundle/livedown"]
-	path = .vim/bundle/livedown
-	url = https://github.com/shime/livedown
 [submodule ".vim/bundle/vim-colors-solarized"]
 	path = .vim/bundle/vim-colors-solarized
 	url = https://github.com/altercation/vim-colors-solarized

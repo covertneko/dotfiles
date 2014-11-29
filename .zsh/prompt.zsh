@@ -5,11 +5,9 @@ autoload -U colors promptinit
 colors
 promptinit
 
-source git.zsh
-ZSH_THEME_GIT_PROMPT_PREFIX="(%{%F{green}%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%})"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{%F{yellow}%}!"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%{%F{magenta}%}?"
+source $ZSH/git.zsh
+ZSH_THEME_GIT_PROMPT_DIRTY="%{%F{yellow}%}!%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%{%F{red}%}?%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
 shrink_cwd()
@@ -55,20 +53,26 @@ precmd()
   local EXIT=$?
   PROMPT=""
 
-  # Return code of last command
+  # Return code of last command as a check/x
   if [[ $EXIT != 0 ]]; then
     PROMPT+="%{%F{red}%}✗ "
   else
     PROMPT+="%{%F{green}%}✔ "
   fi
-  PROMPT+="%{%B%F{white}%}[%{%b%F{white}%}%*%{%B%F{white}%}]%{$reset_color%}" # [hh:mm:ss]
+  # [hh:mm:ss]
+  PROMPT+="%{%B%F{white}%}[%{%b%F{white}%}%*%{%B%F{white}%}]%{$reset_color%}"
+  # user @ host : dir
   PROMPT+="%{%F{blue}%} %n%{$reset_color%}"
   PROMPT+="%{%B%F{white}%} @ %{$reset_color%}"
   PROMPT+="%{%F{yellow}%}%M%{$reset_color%}"
   PROMPT+="%{%B%F{white}%} : %{$reset_color%}"
-  PROMPT+="%{%F{white}%}$(shrink_cwd)%{$reset_color%} $(git_prompt_info)
+  PROMPT+="%{%F{white}%}$(shrink_cwd) %{$reset_color%}"
+  # (commitid:branch!?)
+  PROMPT+=$(print_if_git "(%G%b%F{magenta}%}$(git_prompt_commit_id)%{$reset_color%}:%G%b%F{green}%}$(git_prompt_branch)%{$reset_color%}$(git_prompt_dirty))")
+  # % on next line
+  PROMPT+="
 %{%F{white}%}%# %{$reset_color%}"
 
-  # Jobs, if any
-  RPROMPT="%{%(1j.%B%F{white}%}[%{%b%F{white}%}%j%{%B%F{white}%}]%{$reset_color.)%}" # [#jobs]
+  # [#jobs], if any, shown on the right
+  RPROMPT="%{%(1j.%B%F{white}%}[%{%b%F{white}%}%j%{%B%F{white}%}]%{$reset_color.)%}"
 }
