@@ -39,6 +39,9 @@ set showtabline=2
 set modeline
 set modelines=1
 set winwidth=79
+set splitbelow
+set wrap
+set formatoptions=crnj1
 " Rolodex mode
 set winheight=5 " has to be set first for some reason
 :set noequalalways winminheight=5 winheight=9999 helpheight=9999
