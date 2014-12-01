@@ -64,3 +64,9 @@
 [submodule ".vim/bundle/vim-livedown"]
 	path = .vim/bundle/vim-livedown
 	url = https://github.com/shime/vim-livedown.git
+[submodule ".vim/bundle/vim-dispatch"]
+	path = .vim/bundle/vim-dispatch
+	url = https://github.com/tpope/vim-dispatch.git
+[submodule ".vim/bundle/omnisharp-vim"]
+	path = .vim/bundle/omnisharp-vim
+	url = https://github.com/OmniSharp/omnisharp-vim
