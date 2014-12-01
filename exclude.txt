@@ -1,6 +1,0 @@
-.git/
-.gitignore
-.gitmodules
-README.md
-sync.sh
-exclude.txt

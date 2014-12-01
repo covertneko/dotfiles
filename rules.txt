@@ -1,0 +1,16 @@
+# rsync rules for sync.sh
+# Don't sync these
+- .git/
+- .gitignore
+- .gitmodules
+- README.md
+- sync.sh
+- rules.txt
+- mirror.txt
+# Don't delete these when mirroring their parent directory
+# If a directory is in mirror.txt, extraneous files will be deleted
+# ** is needed to protect recursively
+protect .vim/backup/**
+protect .vim/undo/**
+protect .vim/swap/**
+protect .vim/bundle/YouCompleteMe/**

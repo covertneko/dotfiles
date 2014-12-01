@@ -1,0 +1,4 @@
+# Mirror these directories. Extraneous files will be deleted.
+# Hint: DON'T put "." or "/" in here. That will delete $HOME.
+.vim/
+.zsh/
