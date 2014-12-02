@@ -61,12 +61,14 @@ precmd()
   fi
   # [hh:mm:ss]
   PROMPT+="%{%B%F{white}%}[%{%b%F{white}%}%*%{%B%F{white}%}]%{$reset_color%}"
-  # user @ host : dir
-  PROMPT+="%{%F{blue}%} %n%{$reset_color%}"
-  PROMPT+="%{%B%F{white}%} @ %{$reset_color%}"
-  PROMPT+="%{%F{yellow}%}%M%{$reset_color%}"
-  PROMPT+="%{%B%F{white}%} : %{$reset_color%}"
-  PROMPT+="%{%F{white}%}$(shrink_cwd) %{$reset_color%}"
+  # user @ host : if terminal is larger than 65 cols
+  if [[ `tput cols` -gt 65 ]]; then
+    PROMPT+="%{%F{blue}%} %n%{$reset_color%}"
+    PROMPT+="%{%B%F{white}%} @ %{$reset_color%}"
+    PROMPT+="%{%F{yellow}%}%M%{$reset_color%}"
+    PROMPT+="%{%B%F{white}%} :%{$reset_color%}"
+  fi
+  PROMPT+="%{%F{white}%} $(shrink_cwd) %{$reset_color%}"
   # (commitid:branch!?)
   PROMPT+=$(print_if_git "(%G%b%F{magenta}%}$(git_prompt_commit_id)%{$reset_color%}:%G%b%F{green}%}$(git_prompt_branch)%{$reset_color%}$(git_prompt_dirty))")
   # % on next line
