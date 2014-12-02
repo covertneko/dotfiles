@@ -39,7 +39,7 @@ shrink_cwd()
     elif [[ $dir =~ "$first/$proj/$end"$ ]]; then
       workingdir="$beginning/$end"
     else
-      workingdir="$beginning/… /$end"
+      workingdir="$beginning/…/$end"
     fi
   else
     workingdir="$dir"
@@ -57,7 +57,7 @@ precmd()
   if [[ $EXIT != 0 ]]; then
     PROMPT+="%{%F{red}%}✗ "
   else
-    PROMPT+="%{%F{green}%}✔ "
+    PROMPT+="%{%F{green}%}✓ "
   fi
   # [hh:mm:ss]
   PROMPT+="%{%B%F{white}%}[%{%b%F{white}%}%*%{%B%F{white}%}]%{$reset_color%}"
