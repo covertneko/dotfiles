@@ -79,9 +79,19 @@ if !has('gui_running')
   set t_Co=256
 endif
 
-" If the terminal colors are set to match the vim color scheme I generally set
-" this environment variable in a startup script for the terminal.
-if $VIMANSI == 1
+" If the 16 terminal colors are set to match the vim color scheme I generally set
+" a couple environment variables in a startup script for the terminal to
+" indicate that without needing to launch vim with extra options.
+" This is mostly just so solarized looks nice no matter where I'm using it.
+if $TERMBG ==? "light"
+  set background=light
+elseif $TERMBG ==? "dark"
+  set background=dark
+else
+  set background=dark
+endif
+
+if $TERMTHEME ==? "solarized"
   let g:solarized_termtrans=1
 else
   let g:solarized_termcolors=256
