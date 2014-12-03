@@ -79,10 +79,14 @@ if !has('gui_running')
   set t_Co=256
 endif
 
-set background=light
-" Transparency breaks background color sometimes for whateve reason 
-"let g:solarized_termtrans=1
-let g:solarized_termcolors=256
+" If the terminal colors are set to match the vim color scheme I generally set
+" this environment variable in a startup script for the terminal.
+if $VIMANSI == 1
+  let g:solarized_termtrans=1
+else
+  let g:solarized_termcolors=256
+endif 
+
 colorscheme solarized
 " }}}
 

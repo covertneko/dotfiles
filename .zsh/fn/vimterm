@@ -1,3 +1,4 @@
+# vim:ft=zsh
 # Open a terminator window with vim in it
 # Pass command line arguments to vim
 function vimterm()
