@@ -52,9 +52,6 @@
 [submodule ".vim/bundle/cmake.vim-syntax"]
 	path = .vim/bundle/cmake.vim-syntax
 	url = https://github.com/vim-scripts/cmake.vim-syntax
-[submodule ".vim/bundle/grunt-init-csharpsolution"]
-	path = .vim/bundle/grunt-init-csharpsolution
-	url = https://github.com/nosami/grunt-init-csharpsolution
 [submodule ".vim/bundle/vim-csharp"]
 	path = .vim/bundle/vim-csharp
 	url = https://github.com/OrangeT/vim-csharp
