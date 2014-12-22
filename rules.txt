@@ -3,6 +3,7 @@
 - .git/
 - .gitignore
 - .gitmodules
+- .DS_Store
 - README.md
 - sync.sh
 - rules.txt

@@ -39,7 +39,7 @@ shrink_cwd()
     elif [[ $dir =~ "$first/$proj/$end"$ ]]; then
       workingdir="$beginning/$end"
     else
-      workingdir="$beginning/…/$end"
+      workingdir="$beginning/%{…%2G%}/$end"
     fi
   else
     workingdir="$dir"
@@ -68,6 +68,7 @@ precmd()
     PROMPT+="%{%F{yellow}%}%M%{$reset_color%}"
     PROMPT+="%{%B%F{white}%} :%{$reset_color%}"
   fi
+  # cwd
   PROMPT+="%{%F{white}%} $(shrink_cwd) %{$reset_color%}"
   # (commitid:branch!?)
   PROMPT+=$(print_if_git "(%G%b%F{magenta}%}$(git_prompt_commit_id)%{$reset_color%}:%G%b%F{green}%}$(git_prompt_branch)%{$reset_color%}$(git_prompt_dirty))")

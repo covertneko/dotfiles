@@ -127,8 +127,7 @@ let g:lightline = {
       \   'modified': 'LLModified',
       \   'filename': 'LLFilename'
       \ },
-      \ 'separator': { 'left': '', 'right': '' },
-      \ 'subseparator': { 'left': '', 'right': '' }
+      \ 'subseparator': { 'left': '|', 'right': '|' }
       \ }  
 
 function! LLFugitive()
@@ -184,6 +183,11 @@ nnoremap <leader>t :TagbarToggle<CR>
 " Livedown {{{
 nnoremap <leader>md :call LivedownPreview()<cr>
 " }}}
+
+" Ctrl-P {{{
+nnoremap <leader>p <c-p>
+" }}}
+
 " }}}
 
 " etc {{{
@@ -202,7 +206,7 @@ augroup vimrcEx
   au BufNewFile,BufReadPost *.md set filetype=markdown
 
   " Set absolute numbers in insert mode or when out of focus
-  au InsertEnter,WinLeave,FocusLost * setlocal norelativenumber
+  au InsertEnter,WinLeave,FocusLost * setlocal norelativenumber number
   au InsertLeave,WinEnter * setlocal relativenumber
 augroup END
 
