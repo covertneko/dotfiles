@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 autoload -U colors && colors
 ## Sync dotfiles to home
-cd "$(dirname "${BASH_SOURCE}")"
+cd "$(dirname "$0")"
 
 echo -e "$fg[green]Syncing with git repo . . .$reset_color"
 git pull origin master
