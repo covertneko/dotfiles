@@ -28,12 +28,16 @@ function link()
   if in_array ignore $name; then
     echo "Ignoring $name."
   elif [[ -e $name ]]; then
-    echo "$name exists! Delete $HOME/$name and create symlink?"
-    read choice
-    if [[ $choice =~ ([yY][eE][sS])|[yY] ]]; then
-      echo "Deleting and linking $name ..."
-      rm -rf $name
-      ln -s $DOTFILESDIR/$name $name
+    if [[ -L "$HOME/$name" ]] && [[ $(readlink "$HOME/$name") == "$DOTFILESDIR/$name" ]]; then
+      echo "$HOME/$name exists and already links to $DOTFILESDIR/$name"
+    else
+      echo "$HOME/$name exists! Delete $HOME/$name and create symlink?"
+      read choice
+      if [[ $choice =~ ([yY][eE][sS])|[yY] ]]; then
+        echo "Deleting and linking $name ..."
+        rm -rf $name
+        ln -s $DOTFILESDIR/$name $name
+      fi
     fi
   fi
 }

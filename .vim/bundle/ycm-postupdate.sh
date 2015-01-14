@@ -1,4 +1,4 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
 # Properly update YCM by rebuilding the compiled portion
 cd "$(dirname "${BASH_SOURCE}")"
 cd ./YouCompleteMe

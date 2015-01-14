@@ -46,9 +46,6 @@
 [submodule ".vim/bundle/YouCompleteMe"]
 	path = .vim/bundle/YouCompleteMe
 	url = https://github.com/Valloric/YouCompleteMe
-[submodule ".vim/bundle/vim-cmake"]
-	path = .vim/bundle/vim-cmake
-	url = https://github.com/vhdirk/vim-cmake
 [submodule ".vim/bundle/cmake.vim-syntax"]
 	path = .vim/bundle/cmake.vim-syntax
 	url = https://github.com/vim-scripts/cmake.vim-syntax
@@ -64,6 +61,3 @@
 [submodule ".vim/bundle/vim-dispatch"]
 	path = .vim/bundle/vim-dispatch
 	url = https://github.com/tpope/vim-dispatch.git
-[submodule ".vim/bundle/omnisharp-vim"]
-	path = .vim/bundle/omnisharp-vim
-	url = https://github.com/OmniSharp/omnisharp-vim
