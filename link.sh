@@ -33,17 +33,18 @@ function link()
     else
       echo "$HOME/$name exists! Delete $HOME/$name and create symlink?"
       read choice
-      if [[ $choice =~ ([yY][eE][sS])|[yY] ]]; then
-        echo "Deleting and linking $name ..."
+      if [[ $choice =~ ^([yY][eE][sS])|[yY]$ ]]; then
+        echo "Deleting and linking ${name}..."
         rm -rf $name
         ln -s $DOTFILESDIR/$name $name
       fi
     fi
+  else
+    echo "Linking ${name}..."
+    ln -s $DOTFILESDIR/$name $name
   fi
 }
 
-in_array ignore ".vimrc" && echo "True"
-
-for f in $(ls -a | tail +3); do
+for f in $(ls -a | tail -n +3); do
   link $f
 done
