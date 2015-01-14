@@ -1,0 +1,5 @@
+link.sh
+ignore.txt
+.DS_Store
+.git
+.gitignore

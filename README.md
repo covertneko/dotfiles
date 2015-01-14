@@ -1,6 +1,6 @@
 Dotfiles
 ========
 
-I put my dotfiles on GitHub to force myself to maintain them.
+I put my dotfiles on GitHub because I hate using different environments on my laptop and VPS and sshfs is too darn slow for most things.
 
-The dotfiles directory is synced to $HOME via rsync almost exactly like https://github.com/mathiasbynens/dotfiles/blob/master/bootstrap.sh, it just appends the rest of the command line to the rsync line and has text files in which to place filter rules.
+link.sh creates symlinks in $HOME to all top-level files and directories in the dotfiles directory, ignoring filenames in ignore.txt.
