@@ -2,7 +2,7 @@
 # If not running tmux, run tmux
 if [[ $+commands[tmux] != 0 && "$TMUX" == "" ]]; then
   TERM=xterm-256color tmux -2
-else
+else if [[ "$TMUX" != "" ]]
   # tmux gets rid of environment variables like path. That was fun trying to figure out.
   if [[ "$ZDOTDIR" == "" ]]; then
     source $HOME/.zshenv
@@ -26,7 +26,3 @@ ZSH=$HOME/.zsh
 source $ZSH/opts.zsh
 source $ZSH/aliases.zsh
 source $ZSH/prompt.zsh
-
-if [[ $+commands[terminator] != 0 ]]; then
-  autoload vimterm;
-fi
