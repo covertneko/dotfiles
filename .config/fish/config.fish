@@ -1,3 +1,5 @@
+set fish_color_cwd green
+
 set __fish_git_prompt_show_informative_status 'yes'
 set __fish_git_prompt_showdirtystate 'yes'
 set __fish_git_prompt_showuntrackedfiles 'yes'
