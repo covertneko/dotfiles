@@ -1,7 +1,0 @@
-link.sh
-ignore.txt
-README.md
-.DS_Store
-.git
-.gitignore
-.gitmodules
