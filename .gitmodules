@@ -1,63 +1,27 @@
-[submodule ".vim/bundle/vim-colors-solarized"]
-	path = .vim/bundle/vim-colors-solarized
-	url = https://github.com/altercation/vim-colors-solarized
-[submodule ".vim/bundle/vim-css-color"]
-	path = .vim/bundle/vim-css-color
-	url = https://github.com/ap/vim-css-color
-[submodule ".vim/bundle/closetag.vim"]
-	path = .vim/bundle/closetag.vim
-	url = https://github.com/docunext/closetag.vim
-[submodule ".vim/bundle/vim-less"]
-	path = .vim/bundle/vim-less
-	url = https://github.com/groenewege/vim-less
-[submodule ".vim/bundle/lightline.vim"]
-	path = .vim/bundle/lightline.vim
-	url = https://github.com/itchyny/lightline.vim
-[submodule ".vim/bundle/tagbar"]
-	path = .vim/bundle/tagbar
-	url = https://github.com/majutsushi/tagbar
-[submodule ".vim/bundle/vim-cpp-enhanced-highlight"]
-	path = .vim/bundle/vim-cpp-enhanced-highlight
-	url = https://github.com/octol/vim-cpp-enhanced-highlight
-[submodule ".vim/bundle/vim-syntax-shakespeare"]
-	path = .vim/bundle/vim-syntax-shakespeare
-	url = https://github.com/pbrisbin/vim-syntax-shakespeare
-[submodule ".vim/bundle/delimitMate"]
-	path = .vim/bundle/delimitMate
-	url = https://github.com/Raimondi/delimitMate
-[submodule ".vim/bundle/syntastic"]
-	path = .vim/bundle/syntastic
-	url = https://github.com/scrooloose/syntastic
-[submodule ".vim/bundle/vim-multiple-cursors"]
-	path = .vim/bundle/vim-multiple-cursors
-	url = https://github.com/terryma/vim-multiple-cursors
-[submodule ".vim/bundle/vim-glsl"]
-	path = .vim/bundle/vim-glsl
-	url = https://github.com/tikhomirov/vim-glsl
-[submodule ".vim/bundle/vim-fugitive"]
-	path = .vim/bundle/vim-fugitive
-	url = https://github.com/tpope/vim-fugitive
-[submodule ".vim/bundle/vim-pathogen"]
-	path = .vim/bundle/vim-pathogen
-	url = https://github.com/tpope/vim-pathogen
-[submodule ".vim/bundle/vim-surround"]
-	path = .vim/bundle/vim-surround
-	url = https://github.com/tpope/vim-surround
-[submodule ".vim/bundle/YouCompleteMe"]
-	path = .vim/bundle/YouCompleteMe
-	url = https://github.com/Valloric/YouCompleteMe
-[submodule ".vim/bundle/cmake.vim-syntax"]
-	path = .vim/bundle/cmake.vim-syntax
-	url = https://github.com/vim-scripts/cmake.vim-syntax
-[submodule ".vim/bundle/vim-csharp"]
-	path = .vim/bundle/vim-csharp
-	url = https://github.com/OrangeT/vim-csharp
-[submodule ".vim/bundle/ctrlp.vim"]
-	path = .vim/bundle/ctrlp.vim
-	url = https://github.com/kien/ctrlp.vim.git
-[submodule ".vim/bundle/vim-livedown"]
-	path = .vim/bundle/vim-livedown
-	url = https://github.com/shime/vim-livedown.git
-[submodule ".vim/bundle/vim-dispatch"]
-	path = .vim/bundle/vim-dispatch
-	url = https://github.com/tpope/vim-dispatch.git
+[submodule "vim/.vim/bundle/vim-surround"]
+	path = vim/.vim/bundle/vim-surround
+	url = git@github.com:tpope/vim-surround.git
+[submodule "vim/.vim/bundle/vim-closetag"]
+	path = vim/.vim/bundle/vim-closetag
+	url = git@github.com:alvan/vim-closetag.git
+[submodule "vim/.vim/bundle/vim-colors-solarized"]
+	path = vim/.vim/bundle/vim-colors-solarized
+	url = git@github.com:altercation/vim-colors-solarized.git
+[submodule "vim/.vim/bundle/vim-css-color"]
+	path = vim/.vim/bundle/vim-css-color
+	url = git@github.com:skammer/vim-css-color.git
+[submodule "vim/.vim/bundle/vim-multiple-cursors"]
+	path = vim/.vim/bundle/vim-multiple-cursors
+	url = git@github.com:terryma/vim-multiple-cursors.git
+[submodule "vim/.vim/bundle/vim-livedown"]
+	path = vim/.vim/bundle/vim-livedown
+	url = git@github.com:shime/vim-livedown.git
+[submodule "vim/.vim/bundle/syntastic"]
+	path = vim/.vim/bundle/syntastic
+	url = git@github.com:scrooloose/syntastic.git
+[submodule "vim/.vim/bundle/delimitMate"]
+	path = vim/.vim/bundle/delimitMate
+	url = git@github.com:Raimondi/delimitMate.git
+[submodule "vim/.vim/bundle/ctrlp.vim"]
+	path = vim/.vim/bundle/ctrlp.vim
+	url = git@github.com:kien/ctrlp.vim.git
