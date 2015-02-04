@@ -1,3 +1,4 @@
+set fish_user_paths "$HOME/bin"
 set fish_color_cwd green
 
 set __fish_git_prompt_show_informative_status 'yes'
