@@ -3,4 +3,4 @@
 
 cd $(dirname "${BASH_SOURCE[0]}")
 
-for i in $(ls -d */); do stow -t $HOME ${i%%/}; done
+for i in $(ls -d */); do echo "Linking ${i%%/}..."; stow -t $HOME $i; done

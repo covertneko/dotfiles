@@ -1,6 +1,7 @@
 import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
+import XMonad.Layout.NoBorders
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
@@ -14,6 +15,9 @@ main = do
                           { ppOutput = hPutStrLn xmproc
                           , ppTitle  = xmobarColor "green" "" . shorten 50
                           }
+        , borderWidth = 2
+        , normalBorderColor = "#002b36"
+        , focusedBorderColor = "#ffffff"
         , terminal = "urxvt"
         , modMask = mod4Mask
         } `additionalKeys`
