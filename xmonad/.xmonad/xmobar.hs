@@ -1,4 +1,4 @@
-Config  { font   = "xft:Open Sans:style=Regular:size=11:antialias=true"
+Config  { font   = "xft:Open Sans:style=Regular:size=10:antialias=true"
         , bgColor = "#002b36"
         , fgColor = "#839496"
         , position = TopW L 90

@@ -6,8 +6,11 @@ import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
 
+myTerminal = "/usr/bin/urxvt"
+myXMobarConfig = "/home/eric/.xmonad/xmobar.hs"
+
 main = do
-    xmproc <- spawnPipe "xmobar"
+    xmproc <- spawnPipe $ "xmobar " ++ myXMobarConfig
     xmonad $ defaultConfig
 		    { manageHook = manageDocks <+> manageHook defaultConfig
         , layoutHook = avoidStruts  $  layoutHook defaultConfig
@@ -18,7 +21,7 @@ main = do
         , borderWidth = 2
         , normalBorderColor = "#002b36"
         , focusedBorderColor = "#ffffff"
-        , terminal = "urxvt"
+        , terminal = myTerminal
         , modMask = mod4Mask
         } `additionalKeys`
         [ ((0                     , 0x1008FF11), spawn "pulseaudio-ctl down 2")
