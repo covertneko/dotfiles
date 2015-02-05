@@ -1,0 +1,2 @@
+# Use Numix Solarized theme
+include "/usr/share/themes/Numix Solarized/gtk-2.0/gtkrc"
