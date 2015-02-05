@@ -16,12 +16,12 @@
 [submodule "vim/.vim/bundle/vim-livedown"]
 	path = vim/.vim/bundle/vim-livedown
 	url = git@github.com:shime/vim-livedown.git
-[submodule "vim/.vim/bundle/syntastic"]
-	path = vim/.vim/bundle/syntastic
-	url = git@github.com:scrooloose/syntastic.git
 [submodule "vim/.vim/bundle/delimitMate"]
 	path = vim/.vim/bundle/delimitMate
 	url = git@github.com:Raimondi/delimitMate.git
 [submodule "vim/.vim/bundle/ctrlp.vim"]
 	path = vim/.vim/bundle/ctrlp.vim
 	url = git@github.com:kien/ctrlp.vim.git
+[submodule "vim/.vim/bundle/tabular"]
+	path = vim/.vim/bundle/tabular
+	url = git@github.com:godlygeek/tabular.git
