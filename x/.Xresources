@@ -11,20 +11,6 @@ Xft.rgba:                       rgb
 Xft.hinting:                    true
 Xft.hintstyle:                  hintslight
 
-!-----------------------------
-! XScreenSaver
-!-----------------------------
-
-!xscreensaver.dpmsEnabled:       true
-!xscreensaver.dpmsQuickoffEnabled:  false
-!xscreensaver.dpmsStandby:       2
-!xscreensaver.dpmsSuspend:       2
-!xscreensaver.dpmsOff:           4
-
-!-----------------------------
-! URxvt
-!-----------------------------
-
 URxvt.buffered:                 true
 URxvt.cursorblink:              true
 URxvt.depth:                    32
