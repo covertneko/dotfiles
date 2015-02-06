@@ -1,2 +1,5 @@
 # Use Numix Solarized theme
-include "/usr/share/themes/Numix Solarized/gtk-2.0/gtkrc"
+#include "/usr/share/themes/Numix Solarized/gtk-2.0/gtkrc"
+gtk-theme-name = "Numix Solarized"
+gtk-font-name = "Open Sans 11"
+gtk-icon-theme-name = "elementary"
