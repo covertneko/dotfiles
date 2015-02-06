@@ -27,5 +27,5 @@ main = do
         [ ((0                     , 0x1008FF11), spawn "pulseaudio-ctl down 2")
         , ((0                     , 0x1008FF13), spawn "pulseaudio-ctl up 2")
         , ((0                     , 0x1008FF12), spawn "pulseaudio-ctl mute")
-        , ((mod4Mask .|. shiftMask, xK_L), spawn "xscreensaver-command -lock")
+        , ((mod4Mask .|. shiftMask, xK_l), spawn "xscreensaver-command -lock")
         ]
