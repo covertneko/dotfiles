@@ -3,3 +3,4 @@ trayer --edge top --align right --SetDockType true --SetPartialStrut true \
 
 /usr/bin/start-pulseaudio-x11 &
 /usr/bin/xscreensaver -no-splash &
+/usr/bin/pnmixer &
