@@ -143,7 +143,7 @@ function! LLReadonly()
   if &filetype == 'help'
     return ''
   elseif &readonly
-    return ''
+    return '[ro]'
   else
     return '' 
   endif
