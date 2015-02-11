@@ -3,3 +3,5 @@
 	name = Eric Winkelmann
 [push]
 	default = simple
+[color]
+	ui = true

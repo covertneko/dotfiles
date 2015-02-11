@@ -95,7 +95,7 @@ let g:indent_guides_guide_size=2
 " }}}
 
 " YouCompleteMe {{{
-let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py' 
+let g:ycm_global_ycm_extra_conf='~/.vim/YCM/conf/global_ycm_extra_conf.py' 
 let g:ycm_add_preview_to_completeopt=1
 let g:ycm_autoclose_preview_window_after_insertion=1
 " }}}
@@ -143,7 +143,7 @@ function! LLReadonly()
   if &filetype == 'help'
     return ''
   elseif &readonly
-    return ''
+    return '[ro]'
   else
     return '' 
   endif
