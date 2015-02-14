@@ -1,14 +1,45 @@
 " vim:fdm=marker
-" Clear all autocommands
 au!
 
-call pathogen#infect()
-Helptags
+" Plugins {{{
+call plug#begin('~/.vim/plugged')
+
+" Colors
+Plug 'altercation/vim-colors-solarized'
+Plug 'ap/vim-css-color'
+Plug 'vim-scripts/cmake.vim-syntax'
+Plug 'nathanaelkane/vim-indent-guides'
+
+" Formatting
+Plug 'junegunn/vim-easy-align'
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'docunext/closetag.vim'
+Plug 'Raimondi/delimitMate'
+Plug 'tpope/vim-surround'
+Plug 'terryma/vim-multiple-cursors'
+
+" Unite
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Shougo/unite.vim'
+Plug 'rking/ag.vim'
+
+" Etc
+Plug 'airblade/vim-gitgutter'
+Plug 'itchyny/lightline.vim'
+Plug 'shime/vim-livedown'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer' }
+
+call plug#end()
+" }}}
+
+"Helptags
 
 " Basic Options {{{
 set nocompatible
 " Allow backspacing over everything in insert mode
 set backspace=indent,eol,start
+" No goddamn beeps
+set visualbell
 " Backups
 set backup
 set undofile
@@ -59,8 +90,6 @@ if &shell =~# 'bin/fish$'
   set shell=/bin/sh
 endif
 
-filetype plugin indent on
-
 " Cursor {{{
 if has('mouse')
   set mouse=a
@@ -78,18 +107,25 @@ augroup END
 " }}}
 
 " Colors {{{
-syntax on
-
 if !has('gui_running')
   set t_Co=256
 endif
 
+" Show 80th column
+if (exists('+colorcolumn'))
+  set colorcolumn=80
+  highlight ColorColumn ctermbg=15 ctermfg=0
+endif
+
 set background=dark
 
-colorscheme solarized
+try
+  colorscheme solarized
+catch
+endtry
 " }}}
 
-" Plugins {{{
+" Plugin Configuration {{{
 " Indent Guides {{{
 let g:indent_guides_guide_size=2
 " }}}
@@ -98,6 +134,25 @@ let g:indent_guides_guide_size=2
 let g:ycm_global_ycm_extra_conf='~/.vim/YCM/conf/global_ycm_extra_conf.py' 
 let g:ycm_add_preview_to_completeopt=1
 let g:ycm_autoclose_preview_window_after_insertion=1
+" }}}
+
+" Unite {{{
+let g:unite_source_history_yank_enable = 1
+try
+    let g:unite_source_rec_async_command = 'ag --nocolor --nogroup -g ""'
+    call unite#filters#matcher_default#use(['matcher_fuzzy'])
+catch
+endtry
+
+" Search for a file and open in a horizontal split
+nnoremap <leader><leader> :split<cr> :<C-u>Unite -start-insert file_rec/async<cr>
+" Reset Unite
+nnoremap <leader>r <Plug>(unite_restart)
+" }}}
+
+" Ag {{{
+nmap <leader>* :Ag <c-r>=expand("<cword>")<cr><cr>
+nnoremap <leader>/ :Ag
 " }}}
 
 " Lightline {{{
@@ -157,11 +212,7 @@ endfunction
 " }}}
 
 " Closetag {{{
-augroup CloseTag
-  au!
-  autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
-  autocmd FileType html,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag.vim/plugin/closetag.vim
-augroup END
+let g:closetag_filenames = "*.html,*.xhtml,*.xml,*.phtml"
 " }}}
 
 " Tagbar {{{
@@ -171,10 +222,6 @@ nnoremap <leader>t :TagbarToggle<CR>
 
 " Livedown {{{
 nnoremap <leader>md :call LivedownPreview()<cr>
-" }}}
-
-" Ctrl-P {{{
-nnoremap <leader>p <c-p>
 " }}}
 
 " }}}
@@ -208,7 +255,6 @@ endif
 
 " Mappings {{{
 " Normal {{{
-" Fancy window stacks
 " Quit and save session as current
 nnoremap <leader>qs :mksession! ~/.vim/sessions/current.vim<cr>:qa<cr>
 " Just save session as current
@@ -225,12 +271,12 @@ nnoremap <leader>rc :source ~/.vimrc<cr>
 " so that you can undo CTRL-U after inserting a line break.
 inoremap <c-u> <c-g>u<c-u>
 
-" Sublime-style brace indenting code blocks
+" Sublime-style brace indenting
 inoremap {<cr> {<cr>}<c-o>O
 inoremap [<cr> [<cr>]<c-o>O
 inoremap (<cr> (<cr>)<c-o>O
 
-" Ctrl-c is just Esc
+" Ctrl-c should just be Esc
 imap <c-c> <esc>
 " }}}
 " Command {{{
