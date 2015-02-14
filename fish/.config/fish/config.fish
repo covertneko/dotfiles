@@ -1,3 +1,4 @@
+# Add $HOME/bin to path for user scripts if it exists
 if test -d "$HOME/bin"
   set fish_user_paths "$HOME/bin"
 end
@@ -17,8 +18,8 @@ set __fish_git_prompt_color_upstream white
 set __fish_git_prompt_color_cleanstate green
 
 function fish_prompt
+  # Visualize exit status of the last executed command
   set last_status $status
-
   if test $last_status -gt 0
     set_color red
     printf '%s' '✗ '
@@ -29,33 +30,46 @@ function fish_prompt
     set_color normal
   end
 
+  # 24 hour timestamp
   set_color white
   printf '%s' "["(date +"%H:%M:%S")"] "
 
+  # user @ hostname
   set_color blue
   printf '%s ' (whoami)
   set_color white
   printf '%s' "@ "
+  # Only print the full hostname if the terminal is wider than 80 columns
   set_color yellow
-  printf '%s ' (hostname)
+  if test (tput cols) -gt 80
+    printf '%s ' (hostname -f)
+  else
+    printf '%s ' (hostname)
+  end
+
+  # : cwd
   set_color white
   printf '%s' ": "
-
   set_color $fish_color_cwd
   printf '%s ' (prompt_pwd)
   set_color normal
-  
+
+  # New line with '>' for the command line
   echo -e '\n> '
 end
 
+# Show git status on the right-hand side
 function fish_right_prompt
   set -l _up '\e[1A'
   set -l _down '\e[1B'
 
+  # Move the cursor up so the git status isn't on the same line that commands
+  # are typed on.
   echo -e $_up
-  
+
   printf '%s ' (__fish_git_prompt)
   set_color normal
 
+  # And back down to the ">"
   echo -e $_down
 end
