@@ -77,7 +77,7 @@ set formatoptions=crnj1
 set wildmenu
 set wildmode=list:longest,full
 " Rolodex mode
-set winheight=5 " has to be set first for some reason
+set winheight=5 " has to be set lower first for some reason
 :set noequalalways winminheight=5 winheight=9999 helpheight=9999
 " Fix slow escape in insert mode
 :set timeout timeoutlen=1000 ttimeoutlen=100
