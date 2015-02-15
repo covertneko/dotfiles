@@ -39,13 +39,8 @@ function fish_prompt
   printf '%s ' (whoami)
   set_color white
   printf '%s' "@ "
-  # Only print the full hostname if the terminal is wider than 80 columns
   set_color yellow
-  if test (tput cols) -gt 80
-    printf '%s ' (hostname -f)
-  else
-    printf '%s ' (hostname)
-  end
+  printf '%s ' (cat /etc/hostname)
 
   # : cwd
   set_color white
