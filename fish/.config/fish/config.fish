@@ -1,7 +1,12 @@
-# Add $HOME/bin to path for user scripts if it exists
-if test -d "$HOME/bin"
-  set fish_user_paths "$HOME/bin"
+# Add paths if they exist
+set paths "$HOME/.cabal/bin" "$HOME/bin"
+
+for p in $paths
+  if test -d $p
+    set -gx PATH $p $PATH
+  end
 end
+
 set fish_color_cwd green
 
 set __fish_git_prompt_show_informative_status 'yes'
