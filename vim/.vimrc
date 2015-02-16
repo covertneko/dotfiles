@@ -9,6 +9,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'ap/vim-css-color'
 Plug 'vim-scripts/cmake.vim-syntax'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'dag/vim-fish'
 
 " Formatting
 Plug 'junegunn/vim-easy-align'
@@ -28,6 +29,9 @@ Plug 'airblade/vim-gitgutter'
 Plug 'itchyny/lightline.vim'
 Plug 'shime/vim-livedown'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer' }
+Plug 'tpope/vim-obsession'
+Plug 'dhruvasagar/vim-prosession', { 'depends': 'tpope/vim-obsession' }
+Plug 'dhruvasagar/vim-dotoo'
 
 call plug#end()
 " }}}
@@ -52,7 +56,7 @@ set ruler
 set showcmd
 set incsearch
 set ignorecase smartcase
-set omnifunc=syntaxcomplete#Complete 
+set omnifunc=syntaxcomplete#Complete
 set foldmethod=syntax
 set scrolloff=5
 " Show line number of current line but relative for all others
@@ -77,8 +81,16 @@ set formatoptions=crnj1
 set wildmenu
 set wildmode=list:longest,full
 " Rolodex mode
-set winheight=5 " has to be set lower first for some reason
-:set noequalalways winminheight=5 winheight=9999 helpheight=9999
+" For some reason sessions get messed up by these options if they are set
+" normally, but they work if set on VimEnter.
+set noequalalways
+augroup at_end_of_vim_setup
+  autocmd!
+  autocmd VimEnter set winheight=5
+  autocmd VimEnter set winminheight=5
+  autocmd VimEnter set winheight=9999
+  autocmd VimEnter set helpheight=9999
+augroup END
 " Fix slow escape in insert mode
 :set timeout timeoutlen=1000 ttimeoutlen=100
 
@@ -144,15 +156,15 @@ try
 catch
 endtry
 
-" Search for a file and open in a horizontal split
-nnoremap <leader><leader> :split<cr> :<C-u>Unite -start-insert file_rec/async<cr>
+" Search for a file
+nnoremap <leader><leader> :Unite -start-insert file_rec/async<cr>
 " Reset Unite
-nnoremap <leader>r <Plug>(unite_restart)
+:nnoremap <leader>r <Plug>(unite_restart)
 " }}}
 
 " Ag {{{
 nmap <leader>* :Ag <c-r>=expand("<cword>")<cr><cr>
-nnoremap <leader>/ :Ag
+nnoremap <leader>/ :Ag<space>
 " }}}
 
 " Lightline {{{
@@ -224,6 +236,9 @@ nnoremap <leader>t :TagbarToggle<CR>
 nnoremap <leader>md :call LivedownPreview()<cr>
 " }}}
 
+" Do Too {{{
+let g:dotoo#agenda#files = ['$HOME/Documents/todo/agenda.txt']
+" }}}
 " }}}
 
 " etc {{{
