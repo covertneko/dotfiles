@@ -277,12 +277,6 @@ endif
 
 " Mappings {{{
 " Normal {{{
-" Quit and save session as current
-nnoremap <leader>qs :mksession! ~/.vim/sessions/current.vim<cr>:qa<cr>
-" Just save session as current
-nnoremap <leader>ss :mksession! ~/.vim/sessions/current.vim<cr>
-" Save session as
-nnoremap <leader>as :mksession! ~/.vim/sessions/
 " Remap window functions to <leader>w
 nnoremap <leader>w <C-w>
 " Re-source .vimrc
