@@ -80,6 +80,9 @@ set formatoptions=crnj1
 " Smarter command completion
 set wildmenu
 set wildmode=list:longest,full
+" Show eol
+set list
+set listchars=eol:¬
 " Rolodex mode
 " For some reason sessions get messed up by these options if they are set
 " normally, but they work if set on VimEnter.
@@ -140,6 +143,10 @@ endtry
 " Plugin Configuration {{{
 " Indent Guides {{{
 let g:indent_guides_guide_size=2
+" }}}
+
+" Trailing Whitespace {{{
+let g:extra_whitespace_ignored_filetypes = ['unite', 'mkd', 'md']
 " }}}
 
 " YouCompleteMe {{{
