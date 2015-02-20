@@ -45,7 +45,11 @@ function fish_prompt
   set_color white
   printf '%s' "@ "
   set_color yellow
-  printf '%s ' (cat /etc/hostname)
+  if test -e /etc/hostname
+    printf '%s ' (cat /etc/hostname)
+  else
+    printf '%s ' (hostname)
+  end
 
   # : cwd
   set_color white
