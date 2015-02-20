@@ -140,7 +140,7 @@ let g:indent_guides_guide_size=2
 " }}}
 
 " Trailing Whitespace {{{
-let g:extra_whitespace_ignored_filetypes = ['unite', 'mkd', 'md']
+let g:extra_whitespace_ignored_filetypes = ['unite', 'mkd', 'markdown']
 " }}}
 
 " YouCompleteMe {{{
