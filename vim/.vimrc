@@ -65,9 +65,9 @@ set relativenumber
 " Tabs/indents
 set expandtab
 set smarttab
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set autoindent
 set switchbuf=useopen
 set showtabline=2
@@ -77,6 +77,8 @@ set winwidth=79
 set splitbelow
 set wrap
 set formatoptions=crnj1
+set sessionoptions+=winpos sessionoptions+=resize
+set shortmess=atT
 " Smarter command completion
 set wildmenu
 set wildmode=list:longest,full
@@ -84,16 +86,8 @@ set wildmode=list:longest,full
 set list
 set listchars=eol:¬
 " Rolodex mode
-" For some reason sessions get messed up by these options if they are set
-" normally, but they work if set on VimEnter.
-set noequalalways
-augroup at_end_of_vim_setup
-  autocmd!
-  autocmd VimEnter set winheight=5
-  autocmd VimEnter set winminheight=5
-  autocmd VimEnter set winheight=9999
-  autocmd VimEnter set helpheight=9999
-augroup END
+set winheight=5
+:set noequalalways winminheight=5 winheight=9999 helpheight=9999
 " Fix slow escape in insert mode
 :set timeout timeoutlen=1000 ttimeoutlen=100
 
