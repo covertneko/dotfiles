@@ -15,7 +15,7 @@ Plug 'yogsototh/haskell-vim'
 " Formatting
 Plug 'junegunn/vim-easy-align'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'docunext/closetag.vim'
+Plug 'docunext/closetag.vim', { 'for': 'html, xml, xhtml' }
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
@@ -32,8 +32,8 @@ Plug 'Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer' }
 
 " Haskell
 " See https://github.com/kazu-yamamoto/ghc-mod/wiki/InconsistentCabalVersions
-Plug 'eagletmt/ghcmod-vim', {'do': 'cabal install ghc-mod --constraint \"Cabal < 1.22\" cabal-install', 'for': 'haskell'}
-Plug 'eagletmt/neco-ghc', {'for': 'haskell'}
+Plug 'eagletmt/ghcmod-vim', { 'do': 'cabal install ghc-mod --constraint \"Cabal < 1.22\" cabal-install', 'for': 'haskell' }
+Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
 Plug 'enomsg/vim-haskellConcealPlus', { 'for': 'haskell' }
 
 " Etc
