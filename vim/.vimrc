@@ -10,6 +10,7 @@ Plug 'ap/vim-css-color'
 Plug 'vim-scripts/cmake.vim-syntax'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'dag/vim-fish'
+Plug 'yogsototh/haskell-vim'
 
 " Formatting
 Plug 'junegunn/vim-easy-align'
@@ -18,17 +19,27 @@ Plug 'docunext/closetag.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'pbrisbin/html-template-syntax'
 
 " Unite
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/unite.vim'
 Plug 'rking/ag.vim'
 
+" Languages
+Plug 'scrooloose/syntastic'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer' }
+
+" Haskell
+" See https://github.com/kazu-yamamoto/ghc-mod/wiki/InconsistentCabalVersions
+Plug 'eagletmt/ghcmod-vim', {'do': 'cabal install ghc-mod --constraint \"Cabal < 1.22\" cabal-install', 'for': 'haskell'}
+Plug 'eagletmt/neco-ghc', {'for': 'haskell'}
+Plug 'enomsg/vim-haskellConcealPlus', { 'for': 'haskell' }
+
 " Etc
+Plug 'shime/vim-livedown'
 Plug 'airblade/vim-gitgutter'
 Plug 'itchyny/lightline.vim'
-Plug 'shime/vim-livedown'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer' }
 Plug 'tpope/vim-obsession'
 Plug 'dhruvasagar/vim-prosession', { 'depends': 'tpope/vim-obsession' }
 Plug 'dhruvasagar/vim-dotoo'
@@ -143,10 +154,39 @@ let g:indent_guides_guide_size=2
 let g:extra_whitespace_ignored_filetypes = ['unite', 'mkd', 'markdown']
 " }}}
 
+" Syntastic {{{
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_mode_map={'mode': 'active', 'passive_filetypes': ['haskell']}
+nmap <silent> <leader>hl :SyntasticCheck hlint<cr>:lopen<cr>
+" }}}
+
+" Ghc-mod {{{
+nmap <silent> <leader>ht :GhcModType<CR>
+nmap <silent> <leader>hh :GhcModTypeClear<CR>
+nmap <silent> <leader>hT :GhcModTypeInsert<CR>
+nmap <silent> <leader>hc :SyntasticCheck ghc_mod<CR>:lopen<CR>
+" Auto-checking on writing
+autocmd BufWritePost *.hs,*.lhs GhcModCheckAndLintAsync
+" }}}
+
+" Neco-ghc {{{
+autocmd BufEnter *.hs,*.lhs let g:neocomplcache_enable_at_startup = 1
+function! SetToCabalBuild()
+  if glob("*.cabal") != ''
+    set makeprg=cabal\ build
+  endif
+endfunction
+autocmd BufEnter *.hs,*.lhs :call SetToCabalBuild()
+
+let $PATH=$PATH.':'.expand("~/.cabal/bin")
+" }}}
+
 " YouCompleteMe {{{
-let g:ycm_global_ycm_extra_conf='~/.vim/YCM/conf/global_ycm_extra_conf.py' 
+let g:ycm_global_ycm_extra_conf='~/.vim/YCM/conf/global_ycm_extra_conf.py'
 let g:ycm_add_preview_to_completeopt=1
 let g:ycm_autoclose_preview_window_after_insertion=1
+" For comptability with neco-ghc
+let g:ycm_semantic_triggers = {'haskell' : ['.']}
 " }}}
 
 " Unite {{{
@@ -284,6 +324,10 @@ endfunction
 " }}}
 
 " Mappings {{{
+" Visual {{{
+" Align things
+vnoremap <silent> <Enter> :EasyAlign<cr>
+" }}}
 " Normal {{{
 " Remap window functions to <leader>w
 nnoremap <leader>w <C-w>
