@@ -65,9 +65,9 @@ set relativenumber
 " Tabs/indents
 set expandtab
 set smarttab
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set autoindent
 set switchbuf=useopen
 set showtabline=2
@@ -269,12 +269,34 @@ if !exists(":DiffOrig")
 endif
 " }}}
 
+" Functions {{{
+
+function! TabSize(size)
+  if a:size > 0
+    let &tabstop=a:size
+    let &shiftwidth=a:size
+    let &softtabstop=a:size
+  else
+    echom "ERROR: Tab size must be greater than 0."
+  endif
+endfunction
+
+" }}}
+
 " Mappings {{{
 " Normal {{{
 " Remap window functions to <leader>w
 nnoremap <leader>w <C-w>
 " Re-source .vimrc
 nnoremap <leader>rc :source ~/.vimrc<cr>
+
+" Change tab sizes quick and easily
+" Little tabs (2)
+nnoremap <leader>tl :call TabSize(2)
+" Medium tabs (4)
+nnoremap <leader>tm :call TabSize(4)
+" Big tabs (8)
+nnoremap <leader>tb :call TabSize(8)
 " }}}
 " Insert {{{
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
