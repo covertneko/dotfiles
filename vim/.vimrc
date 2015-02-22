@@ -11,11 +11,12 @@ Plug 'vim-scripts/cmake.vim-syntax'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'dag/vim-fish'
 Plug 'yogsototh/haskell-vim'
+Plug 'Valloric/MatchTagAlways'
 
 " Formatting
 Plug 'junegunn/vim-easy-align'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'docunext/closetag.vim', { 'for': 'html, xml, xhtml' }
+Plug 'alvan/vim-closetag'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
@@ -266,6 +267,8 @@ endfunction
 
 " Closetag {{{
 let g:closetag_filenames = "*.html,*.xhtml,*.xml,*.phtml"
+" Disable delimitMate for angle brackets on closetag files (messes with tags)
+au FileType html,xhtml,xml,phtml let b:delimitMate_matchpairs = "(:),[:],{:}"
 " }}}
 
 " Tagbar {{{
@@ -336,11 +339,11 @@ nnoremap <leader>rc :source ~/.vimrc<cr>
 
 " Change tab sizes quick and easily
 " Little tabs (2)
-nnoremap <leader>tl :call TabSize(2)
+nnoremap <leader>tl :call TabSize(2)<cr>
 " Medium tabs (4)
-nnoremap <leader>tm :call TabSize(4)
+nnoremap <leader>tm :call TabSize(4)<cr>
 " Big tabs (8)
-nnoremap <leader>tb :call TabSize(8)
+nnoremap <leader>tb :call TabSize(8)<cr>
 " }}}
 " Insert {{{
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
