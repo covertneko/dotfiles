@@ -1,5 +1,5 @@
 # Add paths if they exist
-set paths "$HOME/.cabal/bin" "$HOME/bin"
+set paths "$HOME/.gem/ruby/2.2.0/bin" "$HOME/.cabal/bin" "$HOME/bin"
 
 for p in $paths
   if test -d $p
