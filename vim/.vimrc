@@ -16,7 +16,7 @@ Plug 'Valloric/MatchTagAlways'
 " Formatting
 Plug 'junegunn/vim-easy-align'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'alvan/vim-closetag'
+Plug 'docunext/closetag.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
@@ -30,12 +30,13 @@ Plug 'rking/ag.vim'
 " Languages
 Plug 'scrooloose/syntastic'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer' }
+Plug 'othree/html5.vim'
 
 " Haskell
 " See https://github.com/kazu-yamamoto/ghc-mod/wiki/InconsistentCabalVersions
 Plug 'eagletmt/ghcmod-vim', { 'do': 'cabal install ghc-mod --constraint \"Cabal < 1.22\" cabal-install', 'for': 'haskell' }
 Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
-Plug 'enomsg/vim-haskellConcealPlus', { 'for': 'haskell' }
+"Plug 'enomsg/vim-haskellConcealPlus', { 'for': 'haskell' }
 
 " Etc
 Plug 'shime/vim-livedown'
