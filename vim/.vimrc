@@ -16,7 +16,7 @@ Plug 'Valloric/MatchTagAlways'
 " Formatting
 Plug 'junegunn/vim-easy-align'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'docunext/closetag.vim'
+Plug 'docunext/closetag.vim', { 'for': 'html,xml' }
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
@@ -48,8 +48,6 @@ Plug 'dhruvasagar/vim-prosession', { 'do': 'mkdir ~/.vim/session', 'depends': 't
 
 call plug#end()
 " }}}
-
-"Helptags
 
 " Basic Options {{{
 set nocompatible
@@ -267,7 +265,6 @@ endfunction
 " }}}
 
 " Closetag {{{
-let g:closetag_filenames = "*.html,*.xhtml,*.xml,*.phtml"
 " Disable delimitMate for angle brackets on closetag files (messes with tags)
 au FileType html,xhtml,xml,phtml let b:delimitMate_matchpairs = "(:),[:],{:}"
 " }}}
