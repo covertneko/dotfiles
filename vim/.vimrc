@@ -20,7 +20,7 @@ Plug 'docunext/closetag.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'pbrisbin/html-template-syntax'
+Plug 'tpope/vim-unimpaired'
 
 " Unite
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
@@ -31,6 +31,7 @@ Plug 'rking/ag.vim'
 Plug 'scrooloose/syntastic'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer' }
 Plug 'othree/html5.vim'
+Plug 'pbrisbin/html-template-syntax'
 
 " Haskell
 " See https://github.com/kazu-yamamoto/ghc-mod/wiki/InconsistentCabalVersions
@@ -43,8 +44,7 @@ Plug 'shime/vim-livedown'
 Plug 'airblade/vim-gitgutter'
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-obsession'
-Plug 'dhruvasagar/vim-prosession', { 'depends': 'tpope/vim-obsession' }
-Plug 'dhruvasagar/vim-dotoo'
+Plug 'dhruvasagar/vim-prosession', { 'do': 'mkdir ~/.vim/session', 'depends': 'tpope/vim-obsession' }
 
 call plug#end()
 " }}}
@@ -331,6 +331,11 @@ endfunction
 " Visual {{{
 " Align things
 vnoremap <silent> <Enter> :EasyAlign<cr>
+
+vmap <left> <gv
+vmap <right> >gv
+vmap <up> [egv
+vmap <down> ]egv
 " }}}
 " Normal {{{
 " Remap window functions to <leader>w
@@ -345,6 +350,11 @@ nnoremap <leader>tl :call TabSize(2)<cr>
 nnoremap <leader>tm :call TabSize(4)<cr>
 " Big tabs (8)
 nnoremap <leader>tb :call TabSize(8)<cr>
+
+nmap <left> <<
+nmap <right> >>
+nmap <up> [e
+nmap <down> ]e
 " }}}
 " Insert {{{
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
