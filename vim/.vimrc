@@ -4,12 +4,13 @@ au!
 " Plugins {{{
 call plug#begin('~/.vim/plugged')
 
-" Colors
+" Syntax/Colors
 Plug 'altercation/vim-colors-solarized'
 Plug 'ap/vim-css-color'
 Plug 'vim-scripts/cmake.vim-syntax'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'dag/vim-fish'
+Plug 'kelan/gyp.vim'
 Plug 'yogsototh/haskell-vim'
 Plug 'Valloric/MatchTagAlways'
 
