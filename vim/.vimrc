@@ -30,7 +30,7 @@ Plug 'rking/ag.vim'
 
 " Languages
 Plug 'scrooloose/syntastic'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer' }
+Plug 'Valloric/YouCompleteMe', { 'do': 'curl -s https://gist.githubusercontent.com/nikelmwann/1ad8390f3a2a030fae32/raw/150583bff334db9908c24024a5d90a2f00dbfcf2/ycm-install.py \| python2', 'for': 'c,cc,cpp,h,hh,hpp' }
 Plug 'othree/html5.vim'
 Plug 'pbrisbin/html-template-syntax'
 
