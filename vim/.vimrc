@@ -276,7 +276,7 @@ nnoremap <leader>t :TagbarToggle<CR>
 " }}}
 
 " Livedown {{{
-nnoremap <leader>md :call LivedownPreview()<cr>
+nnoremap <leader>md :LivedownPreview<cr>
 " }}}
 
 " Do Too {{{
