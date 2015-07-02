@@ -1,57 +1,109 @@
 " vim:fdm=marker
 au!
 
-" Plugins {{{
+set nocompatible
+
+let s:is_windows = has('win16') || has('win32') || has('win64')
+let s:is_cygwin = has('win32unix')
+let s:is_mac = !s:is_windows && !s:is_cygwin
+      \ && (has('mac') || has('macunix') || has('gui_macvim') ||
+      \   (!executable('xdg-open') &&
+      \     system('uname') =~? '^darwin'))
+
+"Plugins {{{
 call plug#begin('~/.vim/plugged')
 
-" Syntax/Colors
+" Syntax/Colors {{{
 Plug 'altercation/vim-colors-solarized'
-Plug 'ap/vim-css-color'
-Plug 'vim-scripts/cmake.vim-syntax'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'dag/vim-fish'
 Plug 'kelan/gyp.vim'
 Plug 'yogsototh/haskell-vim'
-Plug 'Valloric/MatchTagAlways'
+Plug 'pbrisbin/vim-syntax-shakespeare'
+Plug 'ap/vim-css-color'
+Plug 'othree/html5.vim', { 'for': ['html', 'xml'] }
+Plug 'Valloric/MatchTagAlways', { 'for': ['html', 'xml'] }
+Plug 'vim-scripts/cmake.vim-syntax'
+" }}}
 
-" Formatting
+" Formatting {{{
 Plug 'junegunn/vim-easy-align'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'docunext/closetag.vim', { 'for': 'html,xml' }
+Plug 'docunext/closetag.vim', { 'for': ['html', 'xml'] }
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-commentary'
+" }}}
 
-" Unite
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'Shougo/unite.vim'
+" Unite {{{
+function! BuildVimProc(info)
+  if a:info.status == 'installed' || a:info.force
+    if s:is_cygwin
+      silent !make -f make_cygwin.mak
+    elseif s:is_mac
+      silent !make -f make_mac.mak
+    elseif !s:is_windows
+      silent !make
+    endif
+
+    redraw
+  endif
+endfunction
+
+Plug 'Shougo/vimproc.vim', { 'do': function('BuildVimProc') }
+Plug 'Shougo/unite.vim', { 'depends': 'Shougo/vimproc' }
 Plug 'rking/ag.vim'
+" }}}
 
-" Languages
+" Additional language support {{{
+function! BuildYCM(info)
+  if a:info.status == 'installed' || a:info.force
+    silent !curl -sL http://git.io/vtjTG | python2
+    redraw
+  endif
+endfunction
+
 Plug 'scrooloose/syntastic'
-Plug 'Valloric/YouCompleteMe', { 'do': 'curl -s https://gist.githubusercontent.com/nikelmwann/1ad8390f3a2a030fae32/raw/150583bff334db9908c24024a5d90a2f00dbfcf2/ycm-install.py \| python2', 'for': 'c,cc,cpp,h,hh,hpp' }
-Plug 'othree/html5.vim'
-Plug 'pbrisbin/html-template-syntax'
+Plug 'Valloric/YouCompleteMe', {
+\ 'do': function('BuildYCM'),
+\ 'for': ['c', 'cpp']
+\ }
 
-" Haskell
 " See https://github.com/kazu-yamamoto/ghc-mod/wiki/InconsistentCabalVersions
-Plug 'eagletmt/ghcmod-vim', { 'do': 'cabal install ghc-mod --constraint \"Cabal < 1.22\" cabal-install', 'for': 'haskell' }
-Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
-"Plug 'enomsg/vim-haskellConcealPlus', { 'for': 'haskell' }
+"Plug 'eagletmt/ghcmod-vim', {
+"\ 'do': 'cabal install ghc-mod --constraint \"Cabal < 1.22\" cabal-install',
+"\ 'for': 'haskell'
+"\ }
+"Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
+" }}}
 
-" Etc
-Plug 'shime/vim-livedown'
+" Etc {{{
+" Patch livedown to handle cygwin paths when using windows nodejs (nodejs
+" doesn't support cygwin)
+function! PatchLivedown(info)
+  if s:is_cygwin
+    if a:info.status == 'installed' || a:info.force
+      silent !curl -sL http://git.io/vtjLp | patch -p1
+      redraw
+    endif
+  endif
+endfunction
+
+Plug 'shime/vim-livedown', {
+\ 'do': function('PatchLivedown'),
+\ 'for': 'markdown'
+\ }
 Plug 'airblade/vim-gitgutter'
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-obsession'
-Plug 'dhruvasagar/vim-prosession', { 'do': 'mkdir ~/.vim/session', 'depends': 'tpope/vim-obsession' }
+Plug 'dhruvasagar/vim-prosession', { 'depends': 'tpope/vim-obsession' }
+" }}}
 
 call plug#end()
 " }}}
 
 " Basic Options {{{
-set nocompatible
 " Allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 " No goddamn beeps
@@ -96,7 +148,7 @@ set wildmenu
 set wildmode=list:longest,full
 " Show eol
 set list
-set listchars=eol:¬
+set listchars=eol:¬,tab:->
 " Rolodex mode
 set winheight=5
 :set noequalalways winminheight=5 winheight=9999 helpheight=9999
@@ -152,7 +204,7 @@ let g:indent_guides_guide_size=2
 " }}}
 
 " Trailing Whitespace {{{
-let g:extra_whitespace_ignored_filetypes = ['unite', 'mkd', 'markdown']
+let g:extra_whitespace_ignored_filetypes = ['unite', 'mkd', 'markdown', 'help']
 " }}}
 
 " Syntastic {{{
