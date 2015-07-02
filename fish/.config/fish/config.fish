@@ -96,7 +96,7 @@ function fish_prompt
     set_color red
     if begin set -gq last_job_duration
     and test $last_job_duration -gt 10; end
-      printf '%s' "$last_job_duration "
+      printf '%s' "$last_status, "$last_job_duration"s "
     else
       printf '%s' '✗ '
     end
@@ -106,7 +106,7 @@ function fish_prompt
     if begin set -gq last_job_duration
     and test $last_job_duration -gt 10; end
       test $last_job_duration -gt 10
-      printf '%s' "$last_job_duration "
+      printf '%s' "$last_status, "$last_job_duration"s "
     else
       printf '%s' '✓ '
     end
