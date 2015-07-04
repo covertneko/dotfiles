@@ -27,6 +27,7 @@ Plug 'vim-scripts/cmake.vim-syntax'
 " }}}
 
 " Formatting {{{
+Plug 'editorconfig/editorconfig-vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'docunext/closetag.vim', { 'for': ['html', 'xml'] }
@@ -69,6 +70,8 @@ Plug 'Valloric/YouCompleteMe', {
 \ 'do': function('BuildYCM'),
 \ 'for': ['c', 'cpp']
 \ }
+" Necessary for on-demand loading with YCM
+autocmd! User YouCompleteMe call youcompleteme#Enable()
 
 " See https://github.com/kazu-yamamoto/ghc-mod/wiki/InconsistentCabalVersions
 "Plug 'eagletmt/ghcmod-vim', {
@@ -330,10 +333,6 @@ nnoremap <leader>t :TagbarToggle<CR>
 " Livedown {{{
 nnoremap <leader>md :LivedownPreview<cr>
 " }}}
-
-" Do Too {{{
-let g:dotoo#agenda#files = ['$HOME/Documents/todo/agenda.txt']
-" }}}
 " }}}
 
 " etc {{{
@@ -346,10 +345,15 @@ augroup vimrcEx
         \   exe "normal! g`\"" |
         \ endif
 
-  " Set cmake file type properly
-  au BufRead,BufNewFile *.cmake,CMakeLists.txt set filetype=cmake
-  " And markdown
+  " Filetypes
+  " CMake
+  au BufNewFile,BufReadPost *.cmake,CMakeLists.txt set filetype=cmake
+  " Markdown
   au BufNewFile,BufReadPost *.md set filetype=markdown
+  " Editorconfig
+  au BufNewFile,BufReadPost .editorconfig set filetype=sh
+  " SCons
+  au BufNewFile,BufReadPost SCons* set filetype=python
 
   " Set absolute numbers in insert mode or when out of focus
   au InsertEnter,WinLeave,FocusLost * setlocal norelativenumber number
