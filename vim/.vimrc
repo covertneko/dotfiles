@@ -11,7 +11,7 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
       \     system('uname') =~? '^darwin'))
 
 if s:is_windows
-  echom "You're gonna have a bad time.a"
+  echom "You're gonna have a bad time."
 endif
 
 " Plugins {{{
@@ -42,7 +42,6 @@ Plug 'itchyny/lightline.vim'
 " Utilities {{{
 Plug 'rking/ag.vim'
 Plug 'Shougo/unite.vim', { 'depends': 'Shougo/vimproc' }
-Plug 'scrooloose/syntastic'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-obsession'
 Plug 'dhruvasagar/vim-prosession', { 'depends': 'tpope/vim-obsession' }
@@ -124,6 +123,11 @@ else
         \ 'for': ['c', 'cpp']
         \ }
 endif
+" }}}
+
+" General Language Support {{{
+Plug 'majutsushi/tagbar'
+Plug 'scrooloose/syntastic'
 " }}}
 
 call plug#end()
@@ -238,6 +242,12 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_mode_map={'mode': 'active', 'passive_filetypes': ['haskell']}
 
 nmap <silent> <leader>hl :SyntasticCheck hlint<cr>:lopen<cr>
+" }}}
+
+" Tagbar {{{
+let g:tagbar_left = 1
+let g:tagbar_usearrows=1
+nnoremap <leader>t :TagbarToggle<CR>
 " }}}
 
 " Ghc-mod {{{
@@ -368,11 +378,6 @@ endfunction
 " Closetag {{{
 " Disable delimitMate for angle brackets on closetag files (messes with tags)
 au FileType html,xhtml,xml,phtml let b:delimitMate_matchpairs = "(:),[:],{:}"
-" }}}
-
-" Tagbar {{{
-"let g:tagbar_usearrows=1
-"nnoremap <leader>t :TagbarToggle<CR> 
 " }}}
 
 " Livedown {{{
