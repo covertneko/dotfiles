@@ -50,12 +50,12 @@ function before_prompt --on-event fish_prompt
 end
 
 function fish_prompt
+  set -l last_status $status
+
   if set -gq STY
     # For screen window titles
     echo -ne '\033k\033\\'
   end
-
-  set -l last_status $status
 
   # Last job duration.
   if begin set -gq last_job last_job_start last_job_end
