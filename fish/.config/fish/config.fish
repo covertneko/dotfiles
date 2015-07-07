@@ -5,7 +5,7 @@ set -l paths \
   "$HOME/bin" \
   "/usr/bin"
 # Commands not to notify for when their jobs run longer than 10 seconds
-set -g silentjobs "vim"
+set -g silentjobs "vim tmux screen"
 
 # Add additional user paths
 for p in $paths
@@ -50,6 +50,11 @@ function before_prompt --on-event fish_prompt
 end
 
 function fish_prompt
+  if set -gq STY
+    # For screen window titles
+    echo -ne '\033k\033\\'
+  end
+
   set -l last_status $status
 
   # Last job duration.
