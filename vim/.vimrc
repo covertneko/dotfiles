@@ -333,15 +333,15 @@ augroup vimrc_CMake
   au FileType c,cpp set switchbuf+=usetab,newtab
 
   " Generate build files
-  au FileType c,cpp nnoremap <leader>bg :CMake<CR>
+  au FileType c,cpp,cmake nnoremap <leader>bg :CMake<CR>
   " Build
-  au FileType c,cpp nnoremap <leader>bb :make<CR>
+  au FileType c,cpp,cmake nnoremap <leader>bb :make<CR>
   " Clean build files
-  au FileType c,cpp nnoremap <leader>bc :CMakeClean<CR>
+  au FileType c,cpp,cmake nnoremap <leader>bc :CMakeClean<CR>
   " Set build type to release
-  au FileType c,cpp nnoremap <leader>bsr :call CMakeSetBuildType("RELEASE")<CR>
+  au FileType c,cpp,cmake nnoremap <leader>bsr :call CMakeSetBuildType("RELEASE")<CR>
   " Set build type to debug
-  au FileType c,cpp nnoremap <leader>bsd :call CMakeSetBuildType("DEBUG")<CR>
+  au FileType c,cpp,cmake nnoremap <leader>bsd :call CMakeSetBuildType("DEBUG")<CR>
 augroup END
 " }}}
 
