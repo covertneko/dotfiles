@@ -317,8 +317,8 @@ augroup END
 " }}}
 
 " CMake {{{
-let g:cmake_c_compiler = "clang"
-let g:cmake_cxx_compiler = "clang++"
+let g:cmake_c_compiler = "gcc"
+let g:cmake_cxx_compiler = "g++"
 let g:cmake_build_type = "DEBUG"
 
 function! CMakeSetBuildType(type)
