@@ -100,6 +100,7 @@ Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
 
 " C++ {{{
 Plug 'vim-scripts/cmake.vim-syntax'
+Plug 'vhdirk/vim-cmake'
 
 if !s:is_cygwin
   function! BuildYCM(info)
@@ -204,8 +205,8 @@ hi CursorLineNR ctermbg=15 ctermfg=0
 " Cursorline in active window only
 augroup CursorLine
   au!
-  autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-  autocmd WinLeave * setlocal nocursorline
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  au WinLeave * setlocal nocursorline
 augroup END
 " }}}
 
@@ -247,7 +248,7 @@ nmap <silent> <leader>hl :SyntasticCheck hlint<cr>:lopen<cr>
 " Tagbar {{{
 let g:tagbar_left = 1
 let g:tagbar_usearrows=1
-nnoremap <leader>t :TagbarToggle<CR>
+nnoremap <leader>tt :TagbarToggle<CR>
 " }}}
 
 " Ghc-mod {{{
@@ -255,18 +256,24 @@ nmap <silent> <leader>ht :GhcModType<CR>
 nmap <silent> <leader>hh :GhcModTypeClear<CR>
 nmap <silent> <leader>hT :GhcModTypeInsert<CR>
 nmap <silent> <leader>hc :SyntasticCheck ghc_mod<CR>:lopen<CR>
-" Check Haskell on write
-autocmd BufWritePost *.hs,*.lhs GhcModCheckAndLintAsync
+
+augroup vimrc_GHCmod
+  " Check Haskell on write
+  au BufWritePost *.hs,*.lhs GhcModCheckAndLintAsync
+augroup END
 " }}}
 
 " Neco-ghc {{{
-autocmd BufEnter *.hs,*.lhs let g:neocomplcache_enable_at_startup = 1
 function! SetToCabalBuild()
   if glob("*.cabal") != ''
     set makeprg=cabal\ build
   endif
 endfunction
-autocmd BufEnter *.hs,*.lhs :call SetToCabalBuild()
+
+augroup vimrc_NecoGHC
+  au BufEnter *.hs,*.lhs let g:neocomplcache_enable_at_startup = 1
+  au BufEnter *.hs,*.lhs :call SetToCabalBuild()
+augroup END
 
 let $PATH=$PATH.':'.expand("~/.cabal/bin")
 " }}}
@@ -297,14 +304,45 @@ let g:marching_include_paths = filter(
 
 "let g:marching_enable_refresh_always = 1
 
-" Don't auto-insert the first word
-autocmd FileType cpp noremap <C-x><C-o> <Plug>(marching_start_omni_complete)
+augroup vimrc_Marching
+  " Don't auto-insert the first word
+  au FileType c,cpp noremap <C-x><C-o> <Plug>(marching_start_omni_complete)
 
-" Automatically complete when using scope resolution or member access
-" operators.
-autocmd FileType cpp inoremap :: ::<C-x><C-o>
-autocmd FileType cpp inoremap . .<C-x><C-o>
-autocmd FileType cpp inoremap -> -><C-x><C-o>
+  " Automatically complete when using scope resolution or member access
+  " operators.
+  au FileType c,cpp inoremap :: ::<C-x><C-o>
+  au FileType c,cpp inoremap . .<C-x><C-o>
+  au FileType c,cpp inoremap -> -><C-x><C-o>
+augroup END
+" }}}
+
+" CMake {{{
+let g:cmake_c_compiler = "clang"
+let g:cmake_cxx_compiler = "clang++"
+let g:cmake_build_type = "DEBUG"
+
+function! CMakeSetBuildType(type)
+  let g:cmake_build_type = a:type
+
+  echom "CMake: Build type set to " . a:type
+endfunction
+
+augroup vimrc_CMake
+  au!
+  " Open new quickfix buffers in a new tab or switch to existing buffer.
+  au FileType c,cpp set switchbuf+=usetab,newtab
+
+  " Generate build files
+  au FileType c,cpp nnoremap <leader>bg :CMake<CR>
+  " Build
+  au FileType c,cpp nnoremap <leader>bb :make<CR>
+  " Clean build files
+  au FileType c,cpp nnoremap <leader>bc :CMakeClean<CR>
+  " Set build type to release
+  au FileType c,cpp nnoremap <leader>bsr :call CMakeSetBuildType("RELEASE")<CR>
+  " Set build type to debug
+  au FileType c,cpp nnoremap <leader>bsd :call CMakeSetBuildType("DEBUG")<CR>
+augroup END
 " }}}
 
 " Unite {{{
@@ -318,7 +356,7 @@ endtry
 " Search for a file
 nnoremap <leader><leader> :Unite -start-insert file_rec/async<cr>
 " Reset Unite
-:nnoremap <leader>r <Plug>(unite_restart)
+nnoremap <leader>r <Plug>(unite_restart)
 " }}}
 
 " Ag {{{
@@ -376,8 +414,10 @@ endfunction
 " }}}
 
 " Closetag {{{
-" Disable delimitMate for angle brackets on closetag files (messes with tags)
-au FileType html,xhtml,xml,phtml let b:delimitMate_matchpairs = "(:),[:],{:}"
+augroup vimrc_Closetag
+  " Disable delimitMate for angle brackets on closetag files (messes with tags)
+  au FileType html,xhtml,xml,phtml let b:delimitMate_matchpairs = "(:),[:],{:}"
+augroup END
 " }}}
 
 " Livedown {{{
@@ -391,7 +431,7 @@ vnoremap <silent> <Enter> :EasyAlign<cr>
 
 " etc {{{
 " Commands {{{
-augroup vimrcEx
+augroup vimrcExtra
   au!
   " When editing a file, jump to the last known cursor position.
   au BufReadPost *
