@@ -1,0 +1,15 @@
+term xterm-256color
+shell "/usr/bin/fish"
+
+vbell off
+altscreen on
+startup_message off
+hardstatus off
+hardstatus alwayslastline
+hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W} %c %{g}]'
+
+# Use mouse to scroll
+terminfo xterm* ti=:te=
+
+# Command as window title
+shelltitle "> |fish"
