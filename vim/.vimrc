@@ -10,97 +10,120 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
       \   (!executable('xdg-open') &&
       \     system('uname') =~? '^darwin'))
 
-"Plugins {{{
+if s:is_windows
+  echom "You're gonna have a bad time.a"
+endif
+
+" Plugins {{{
 call plug#begin('~/.vim/plugged')
 
-" Syntax/Colors {{{
+" Dependencies {{{
+" VimProc
+function! BuildVimProc(info)
+  if a:info.status == 'installed' || a:info.force
+    if s:is_cygwin
+      !make -f make_cygwin.mak
+    elseif s:is_mac
+      !make -f make_mac.mak
+    elseif !s:is_windows
+      !make
+    endif
+  endif
+endfunction
+Plug 'Shougo/vimproc.vim', { 'do': function('BuildVimProc') }
+" }}}
+
+" Visuals {{{
 Plug 'altercation/vim-colors-solarized'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'dag/vim-fish'
-Plug 'kelan/gyp.vim'
-Plug 'yogsototh/haskell-vim'
-Plug 'pbrisbin/vim-syntax-shakespeare'
-Plug 'ap/vim-css-color'
-Plug 'othree/html5.vim', { 'for': ['html', 'xml'] }
-Plug 'Valloric/MatchTagAlways', { 'for': ['html', 'xml'] }
-Plug 'vim-scripts/cmake.vim-syntax'
+Plug 'itchyny/lightline.vim'
+" }}}
+
+" Utilities {{{
+Plug 'rking/ag.vim'
+Plug 'Shougo/unite.vim', { 'depends': 'Shougo/vimproc' }
+Plug 'scrooloose/syntastic'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-obsession'
+Plug 'dhruvasagar/vim-prosession', { 'depends': 'tpope/vim-obsession' }
 " }}}
 
 " Formatting {{{
-Plug 'editorconfig/editorconfig-vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'docunext/closetag.vim', { 'for': ['html', 'xml'] }
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
+Plug 'editorconfig/editorconfig-vim'
 " }}}
 
-" Unite {{{
-function! BuildVimProc(info)
-  if a:info.status == 'installed' || a:info.force
-    if s:is_cygwin
-      silent !make -f make_cygwin.mak
-    elseif s:is_mac
-      silent !make -f make_mac.mak
-    elseif !s:is_windows
-      silent !make
-    endif
-
-    redraw
-  endif
-endfunction
-
-Plug 'Shougo/vimproc.vim', { 'do': function('BuildVimProc') }
-Plug 'Shougo/unite.vim', { 'depends': 'Shougo/vimproc' }
-Plug 'rking/ag.vim'
+" Shell {{{
+Plug 'dag/vim-fish'
+Plug 'kelan/gyp.vim'
 " }}}
 
-" Additional language support {{{
-function! BuildYCM(info)
-  if a:info.status == 'installed' || a:info.force
-    silent !curl -sL http://git.io/vtjTG | python2
-    redraw
-  endif
-endfunction
-
-Plug 'scrooloose/syntastic'
-Plug 'Valloric/YouCompleteMe', {
-\ 'do': function('BuildYCM'),
-\ 'for': ['c', 'cpp']
-\ }
-" Necessary for on-demand loading with YCM
-autocmd! User YouCompleteMe call youcompleteme#Enable()
-
-" See https://github.com/kazu-yamamoto/ghc-mod/wiki/InconsistentCabalVersions
-"Plug 'eagletmt/ghcmod-vim', {
-"\ 'do': 'cabal install ghc-mod --constraint \"Cabal < 1.22\" cabal-install',
-"\ 'for': 'haskell'
-"\ }
-"Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
+" Web {{{
+Plug 'ap/vim-css-color'
+Plug 'othree/html5.vim', { 'for': ['html', 'xml'] }
+Plug 'Valloric/MatchTagAlways', { 'for': ['html', 'xml'] }
+Plug 'docunext/closetag.vim', { 'for': ['html', 'xml'] }
 " }}}
 
-" Etc {{{
-" Patch livedown to handle cygwin paths when using windows nodejs (nodejs
-" doesn't support cygwin)
+" Markdown {{{
 function! PatchLivedown(info)
+  " Patch livedown to handle cygwin paths when using windows nodejs (nodejs
+  " doesn't support cygwin)
   if s:is_cygwin
     if a:info.status == 'installed' || a:info.force
-      silent !curl -sL http://git.io/vtjLp | patch -p1
+      !curl -sL http://git.io/vtjLp | patch -p1
       redraw
     endif
   endif
 endfunction
 
 Plug 'shime/vim-livedown', {
-\ 'do': function('PatchLivedown'),
-\ 'for': 'markdown'
-\ }
-Plug 'airblade/vim-gitgutter'
-Plug 'itchyny/lightline.vim'
-Plug 'tpope/vim-obsession'
-Plug 'dhruvasagar/vim-prosession', { 'depends': 'tpope/vim-obsession' }
+      \ 'do': function('PatchLivedown'),
+      \ 'for': 'markdown'
+      \ }
+" }}}
+
+" Haskell {{{
+Plug 'yogsototh/haskell-vim'
+Plug 'pbrisbin/vim-syntax-shakespeare'
+" See https://github.com/kazu-yamamoto/ghc-mod/wiki/InconsistentCabalVersions
+Plug 'eagletmt/ghcmod-vim', {
+      \ 'do': 'cabal install ghc-mod --constraint \"Cabal<1.22\" cabal-install',
+      \ 'for': 'haskell'
+      \ }
+Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
+" }}}
+
+" C++ {{{
+Plug 'vim-scripts/cmake.vim-syntax'
+
+if !s:is_cygwin
+  function! BuildYCM(info)
+    if a:info.status == 'installed' || a:info.force
+      !./install.sh
+    endif
+  endfunction
+
+  Plug 'Valloric/YouCompleteMe', {
+        \ 'do': function('BuildYCM'),
+        \ 'for': ['c', 'cpp']
+        \ }
+  " Necessary for on-demand loading with YCM
+  " See https://github.com/junegunn/vim-plug/issues/149#issuecomment-103597834
+  autocmd! User YouCompleteMe call youcompleteme#Enable()
+else
+  " YouCompleteMe doesn't work on Cygwin, so fall back to vim-marching for C++
+  " completion.
+  Plug 'osyo-manga/vim-marching', {
+        \ 'depends': ['Shougo/vimproc.vim', 'osyo-manga/vim-reuinions'],
+        \ 'for': ['c', 'cpp']
+        \ }
+endif
 " }}}
 
 call plug#end()
@@ -190,7 +213,7 @@ endif
 " Show 80th column
 if (exists('+colorcolumn'))
   set colorcolumn=80
-  highlight ColorColumn ctermbg=15 ctermfg=0
+  hi ColorColumn ctermbg=15 ctermfg=0
 endif
 
 set background=dark
@@ -203,7 +226,7 @@ endtry
 
 " Plugin Configuration {{{
 " Indent Guides {{{
-let g:indent_guides_guide_size=2
+let g:indent_guides_guide_size=&tabstop
 " }}}
 
 " Trailing Whitespace {{{
@@ -213,6 +236,7 @@ let g:extra_whitespace_ignored_filetypes = ['unite', 'mkd', 'markdown', 'help']
 " Syntastic {{{
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_mode_map={'mode': 'active', 'passive_filetypes': ['haskell']}
+
 nmap <silent> <leader>hl :SyntasticCheck hlint<cr>:lopen<cr>
 " }}}
 
@@ -221,7 +245,7 @@ nmap <silent> <leader>ht :GhcModType<CR>
 nmap <silent> <leader>hh :GhcModTypeClear<CR>
 nmap <silent> <leader>hT :GhcModTypeInsert<CR>
 nmap <silent> <leader>hc :SyntasticCheck ghc_mod<CR>:lopen<CR>
-" Auto-checking on writing
+" Check Haskell on write
 autocmd BufWritePost *.hs,*.lhs GhcModCheckAndLintAsync
 " }}}
 
@@ -238,18 +262,46 @@ let $PATH=$PATH.':'.expand("~/.cabal/bin")
 " }}}
 
 " YouCompleteMe {{{
-let g:ycm_global_ycm_extra_conf='~/.vim/YCM/conf/global_ycm_extra_conf.py'
+if s:is_mac
+  let g:ycm_global_ycm_extra_conf='~/.vim/YCM/conf/default-libc++.py'
+else
+  let g:ycm_global_ycm_extra_conf='~/.vim/YCM/conf/default-libstdc++.py'
+endif
+
 let g:ycm_add_preview_to_completeopt=1
 let g:ycm_autoclose_preview_window_after_insertion=1
-" For comptability with neco-ghc
+
+" Use neco-ghc for Haskell files
 let g:ycm_semantic_triggers = {'haskell' : ['.']}
+" }}}
+
+" Marching {{{
+let g:marching_include_paths = filter(
+      \ split(glob('/usr/include/c++/*/'), '\n') +
+      \ split(glob('/usr/include/*/c++/*/'), '\n') +
+      \ split(glob('/usr/include/*/'), '\n'),
+      \ 'isdirectory(v:val)') + [
+      \ 'include/',
+      \ '.'
+      \ ]
+
+"let g:marching_enable_refresh_always = 1
+
+" Don't auto-insert the first word
+autocmd FileType cpp noremap <C-x><C-o> <Plug>(marching_start_omni_complete)
+
+" Automatically complete when using scope resolution or member access
+" operators.
+autocmd FileType cpp inoremap :: ::<C-x><C-o>
+autocmd FileType cpp inoremap . .<C-x><C-o>
+autocmd FileType cpp inoremap -> -><C-x><C-o>
 " }}}
 
 " Unite {{{
 let g:unite_source_history_yank_enable = 1
 try
-    let g:unite_source_rec_async_command = 'ag --nocolor --nogroup -g ""'
-    call unite#filters#matcher_default#use(['matcher_fuzzy'])
+  let g:unite_source_rec_async_command = 'ag --nocolor --nogroup -g ""'
+  call unite#filters#matcher_default#use(['matcher_fuzzy'])
 catch
 endtry
 
@@ -260,7 +312,9 @@ nnoremap <leader><leader> :Unite -start-insert file_rec/async<cr>
 " }}}
 
 " Ag {{{
+" Search for highlighted word in all files.
 nmap <leader>* :Ag <c-r>=expand("<cword>")<cr><cr>
+" Search all files for a given string.
 nnoremap <leader>/ :Ag<space>
 " }}}
 
@@ -275,21 +329,12 @@ let g:lightline = {
       \             [ 'fugitive', 'filename' ] ]
       \ },
       \ 'component_function': {
-      \   'fugitive': 'LLFugitive',
       \   'readonly': 'LLReadonly',
       \   'modified': 'LLModified',
       \   'filename': 'LLFilename'
       \ },
       \ 'subseparator': { 'left': '|', 'right': '|' }
       \ }  
-
-function! LLFugitive()
-  if exists('*fugitive#head')
-    let _ = fugitive#head()
-    return strlen(_) ? ' '._ : ''
-  endif
-  return ''
-endfunction
 
 function! LLModified()
   if &filetype == 'help'
@@ -326,12 +371,16 @@ au FileType html,xhtml,xml,phtml let b:delimitMate_matchpairs = "(:),[:],{:}"
 " }}}
 
 " Tagbar {{{
-let g:tagbar_usearrows=1
-nnoremap <leader>t :TagbarToggle<CR> 
+"let g:tagbar_usearrows=1
+"nnoremap <leader>t :TagbarToggle<CR> 
 " }}}
 
 " Livedown {{{
 nnoremap <leader>md :LivedownPreview<cr>
+" }}}
+
+" EasyAlign {{{
+vnoremap <silent> <Enter> :EasyAlign<cr>
 " }}}
 " }}}
 
@@ -355,7 +404,7 @@ augroup vimrcEx
   " SCons
   au BufNewFile,BufReadPost SCons* set filetype=python
 
-  " Set absolute numbers in insert mode or when out of focus
+  " Show absolute line numbers in insert mode or when out of focus.
   au InsertEnter,WinLeave,FocusLost * setlocal norelativenumber number
   au InsertLeave,WinEnter * setlocal relativenumber
 augroup END
@@ -368,29 +417,31 @@ endif
 " }}}
 
 " Functions {{{
-
 function! TabSize(size)
   if a:size > 0
     let &tabstop=a:size
     let &shiftwidth=a:size
     let &softtabstop=a:size
+
+    " Set indent guides size as well.
+    let g:indent_guides_guide_size=a:size
   else
     echom "ERROR: Tab size must be greater than 0."
   endif
 endfunction
-
 " }}}
 
 " Mappings {{{
 " Visual {{{
 " Align things
-vnoremap <silent> <Enter> :EasyAlign<cr>
 
+" Move visual selection with arrow keys.
 vmap <left> <gv
 vmap <right> >gv
 vmap <up> [egv
 vmap <down> ]egv
 " }}}
+
 " Normal {{{
 " Remap window functions to <leader>w
 nnoremap <leader>w <C-w>
@@ -405,11 +456,13 @@ nnoremap <leader>tm :call TabSize(4)<cr>
 " Big tabs (8)
 nnoremap <leader>tb :call TabSize(8)<cr>
 
+" Move current line with arrow keys.
 nmap <left> <<
 nmap <right> >>
 nmap <up> [e
 nmap <down> ]e
 " }}}
+
 " Insert {{{
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
@@ -423,6 +476,7 @@ inoremap (<cr> (<cr>)<c-o>O
 " Ctrl-c should just be Esc
 imap <c-c> <esc>
 " }}}
+
 " Command {{{
 " Directory of current buffer
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
