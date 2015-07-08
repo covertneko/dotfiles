@@ -34,7 +34,7 @@ Plug 'Shougo/vimproc.vim', { 'do': function('BuildVimProc') }
 " }}}
 
 " Visuals {{{
-Plug 'altercation/vim-colors-solarized'
+Plug 'w0ng/vim-hybrid'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'itchyny/lightline.vim'
 " }}}
@@ -58,8 +58,8 @@ Plug 'editorconfig/editorconfig-vim'
 " }}}
 
 " Shell {{{
-Plug 'dag/vim-fish'
-Plug 'kelan/gyp.vim'
+Plug 'dag/vim-fish', { 'for': 'fish' }
+Plug 'kelan/gyp.vim', { 'for': 'gyp' }
 " }}}
 
 " Web {{{
@@ -101,34 +101,21 @@ Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
 " C++ {{{
 Plug 'vim-scripts/cmake.vim-syntax'
 Plug 'vhdirk/vim-cmake'
+Plug 'octol/vim-cpp-enhanced-highlight'
 
-if !s:is_cygwin
-  function! BuildYCM(info)
-    if a:info.status == 'installed' || a:info.force
-      !./install.sh
-    endif
-  endfunction
-
-  Plug 'Valloric/YouCompleteMe', {
-        \ 'do': function('BuildYCM'),
-        \ 'for': ['c', 'cpp']
-        \ }
-  " Necessary for on-demand loading with YCM
-  " See https://github.com/junegunn/vim-plug/issues/149#issuecomment-103597834
-  autocmd! User YouCompleteMe call youcompleteme#Enable()
-else
-  " YouCompleteMe doesn't work on Cygwin, so fall back to vim-marching for C++
-  " completion.
-  Plug 'osyo-manga/vim-marching', {
-        \ 'depends': ['Shougo/vimproc.vim', 'osyo-manga/vim-reuinions'],
-        \ 'for': ['c', 'cpp']
-        \ }
-endif
+Plug 'osyo-manga/vim-marching', {
+      \ 'depends': 'Shougo/vimproc.vim',
+      \ 'for': ['c', 'cpp']
+      \ }
+Plug 'osyo-manga/vim-snowdrop', { 'for': ['c', 'cpp' ] }
 " }}}
 
 " General Language Support {{{
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/syntastic'
+Plug 'Shougo/neocomplete.vim', { 'depends': 'Shougo/vimproc.vim' }
+Plug 'Shougo/neosnippet.vim', { 'depends': 'Shougo/neocomplete.vim' }
+Plug 'Shougo/neosnippet-snippets', { 'depends': 'Shougo/neosnippet.vim' }
 " }}}
 
 call plug#end()
@@ -224,7 +211,7 @@ endif
 set background=dark
 
 try
-  colorscheme solarized
+  colorscheme hybrid
 catch
 endtry
 " }}}
@@ -258,6 +245,7 @@ nmap <silent> <leader>hT :GhcModTypeInsert<CR>
 nmap <silent> <leader>hc :SyntasticCheck ghc_mod<CR>:lopen<CR>
 
 augroup vimrc_GHCmod
+  au!
   " Check Haskell on write
   au BufWritePost *.hs,*.lhs GhcModCheckAndLintAsync
 augroup END
@@ -271,49 +259,77 @@ function! SetToCabalBuild()
 endfunction
 
 augroup vimrc_NecoGHC
-  au BufEnter *.hs,*.lhs let g:neocomplcache_enable_at_startup = 1
+  au!
   au BufEnter *.hs,*.lhs :call SetToCabalBuild()
 augroup END
 
 let $PATH=$PATH.':'.expand("~/.cabal/bin")
 " }}}
 
-" YouCompleteMe {{{
-if s:is_mac
-  let g:ycm_global_ycm_extra_conf='~/.vim/YCM/conf/default-libc++.py'
-else
-  let g:ycm_global_ycm_extra_conf='~/.vim/YCM/conf/default-libstdc++.py'
+" NeoComplete {{{
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 2
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+  let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplete#close_popup() . "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
+inoremap <expr><C-e>  neocomplete#cancel_popup()
+
+augroup vimrc_NeoComplete
+  au FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  au FileType python setlocal omnifunc=pythoncomplete#Complete
+  au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+augroup END
+"}}}
+
+" Snowdrop {{{
+if s:is_cygwin
+  let g:snowdrop#libclang_directory = "/usr/lib"
+  let g:snowdrop#libclang_file = "libclang.dll.a"
 endif
 
-let g:ycm_add_preview_to_completeopt=1
-let g:ycm_autoclose_preview_window_after_insertion=1
+let g:snowdrop#command_options = {
+      \   "cpp" : "-std=c++1y"
+      \ }
 
-" Use neco-ghc for Haskell files
-let g:ycm_semantic_triggers = {'haskell' : ['.']}
+let g:snowdrop#include_paths = {
+      \ "cpp" : filter(
+      \   split(glob('/usr/include/c++/*'), '\n') +
+      \   split(glob('/usr/include/*/c++/*'), '\n') +
+      \   split(glob('/usr/include/*/'), '\n'),
+      \   'isdirectory(v:val)') + [
+      \   'include/',
+      \   '.'
+      \   ]
+      \ }
 " }}}
 
 " Marching {{{
-let g:marching_include_paths = filter(
-      \ split(glob('/usr/include/c++/*/'), '\n') +
-      \ split(glob('/usr/include/*/c++/*/'), '\n') +
-      \ split(glob('/usr/include/*/'), '\n'),
-      \ 'isdirectory(v:val)') + [
-      \ 'include/',
-      \ '.'
-      \ ]
+let g:marching_backend = "snowdrop"
+let g:marching_enable_neocomplete = 1
 
-"let g:marching_enable_refresh_always = 1
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
 
-augroup vimrc_Marching
-  " Don't auto-insert the first word
-  au FileType c,cpp noremap <C-x><C-o> <Plug>(marching_start_omni_complete)
-
-  " Automatically complete when using scope resolution or member access
-  " operators.
-  au FileType c,cpp inoremap :: ::<C-x><C-o>
-  au FileType c,cpp inoremap . .<C-x><C-o>
-  au FileType c,cpp inoremap -> -><C-x><C-o>
-augroup END
+let g:neocomplete#force_omni_input_patterns.cpp =
+    \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 " }}}
 
 " CMake {{{
@@ -371,7 +387,7 @@ set laststatus=2
 set noshowmode
 
 let g:lightline = {
-      \ 'colorscheme': 'solarized',
+      \ 'colorscheme': 'jellybeans',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'fugitive', 'filename' ] ]
@@ -415,6 +431,7 @@ endfunction
 
 " Closetag {{{
 augroup vimrc_Closetag
+  au!
   " Disable delimitMate for angle brackets on closetag files (messes with tags)
   au FileType html,xhtml,xml,phtml let b:delimitMate_matchpairs = "(:),[:],{:}"
 augroup END
