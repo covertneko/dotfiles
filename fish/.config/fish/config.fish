@@ -52,6 +52,9 @@ end
 function fish_prompt
   set -l last_status $status
 
+  # Empty line
+  echo
+
   if set -gq STY
     # For screen window titles
     echo -ne '\033k\033\\'
