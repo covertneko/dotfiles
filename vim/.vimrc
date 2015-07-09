@@ -18,7 +18,6 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " Dependencies {{{
-" VimProc
 function! BuildVimProc(info)
   if a:info.status == 'installed' || a:info.force
     if s:is_cygwin
@@ -30,6 +29,7 @@ function! BuildVimProc(info)
     endif
   endif
 endfunction
+
 Plug 'Shougo/vimproc.vim', { 'do': function('BuildVimProc') }
 " }}}
 
@@ -41,10 +41,9 @@ Plug 'itchyny/lightline.vim'
 
 " Utilities {{{
 Plug 'rking/ag.vim'
-Plug 'Shougo/unite.vim', { 'depends': 'Shougo/vimproc' }
+Plug 'Shougo/unite.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-obsession'
-Plug 'dhruvasagar/vim-prosession', { 'depends': 'tpope/vim-obsession' }
+Plug 'tpope/vim-obsession' | Plug 'dhruvasagar/vim-prosession'
 " }}}
 
 " Formatting {{{
@@ -54,6 +53,7 @@ Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-endwise'
 Plug 'editorconfig/editorconfig-vim'
 " }}}
 
@@ -99,23 +99,39 @@ Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
 " }}}
 
 " C++ {{{
-Plug 'vim-scripts/cmake.vim-syntax'
-Plug 'vhdirk/vim-cmake'
-Plug 'octol/vim-cpp-enhanced-highlight'
-
-Plug 'osyo-manga/vim-marching', {
-      \ 'depends': 'Shougo/vimproc.vim',
-      \ 'for': ['c', 'cpp']
-      \ }
-Plug 'osyo-manga/vim-snowdrop', { 'for': ['c', 'cpp' ] }
+Plug 'vim-scripts/cmake.vim-syntax', { 'for': 'cmake' }
+Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
+Plug 'vhdirk/vim-cmake', { 'for': ['c', 'cpp', 'cmake'] }
 " }}}
 
 " General Language Support {{{
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/syntastic'
-Plug 'Shougo/neocomplete.vim', { 'depends': 'Shougo/vimproc.vim' }
-Plug 'Shougo/neosnippet.vim', { 'depends': 'Shougo/neocomplete.vim' }
-Plug 'Shougo/neosnippet-snippets', { 'depends': 'Shougo/neosnippet.vim' }
+
+function! BuildYCM(info)
+  if a:info.status == 'installed' || a:info.force
+    " Cygwin requires system libclang and a patch for Boost.Python.
+    if s:is_cygwin
+      !curl -sL http://git.io/vqocY | patch -p1
+      !./install.sh --clang-completer --system-libclang
+    else
+      !./install.sh --clang-completer
+    endif
+  endif
+endfunction
+
+Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM'), 'on': [] }
+" Delay YCM startup to InsertEnter (may hang for 1-3 seconds on some machines)
+augroup load_ycm
+  au!
+  au! InsertEnter *
+        \ call plug#load('YouCompleteMe')     |
+        \ if exists('g:loaded_youcompleteme') |
+        \   call youcompleteme#Enable()       |
+        \ endif                               |
+        \ autocmd! load_ycm
+augroup END
+
 " }}}
 
 call plug#end()
@@ -140,6 +156,8 @@ set incsearch
 set ignorecase smartcase
 set omnifunc=syntaxcomplete#Complete
 set foldmethod=syntax
+" Don't open a file with all folds closed.
+set foldlevelstart=20
 set scrolloff=5
 " Show line number of current line but relative for all others
 set number
@@ -244,11 +262,8 @@ nmap <silent> <leader>hh :GhcModTypeClear<CR>
 nmap <silent> <leader>hT :GhcModTypeInsert<CR>
 nmap <silent> <leader>hc :SyntasticCheck ghc_mod<CR>:lopen<CR>
 
-augroup vimrc_GHCmod
-  au!
-  " Check Haskell on write
-  au BufWritePost *.hs,*.lhs GhcModCheckAndLintAsync
-augroup END
+" Check Haskell on write
+au BufWritePost *.hs,*.lhs GhcModCheckAndLintAsync
 " }}}
 
 " Neco-ghc {{{
@@ -258,78 +273,23 @@ function! SetToCabalBuild()
   endif
 endfunction
 
-augroup vimrc_NecoGHC
-  au!
-  au BufEnter *.hs,*.lhs :call SetToCabalBuild()
-augroup END
+au BufEnter *.hs,*.lhs :call SetToCabalBuild()
 
 let $PATH=$PATH.':'.expand("~/.cabal/bin")
 " }}}
 
-" NeoComplete {{{
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 2
+" YouCompleteMe {{{
+let g:ycm_server_log_level = 'debug'
+let g:ycm_confirm_extra_conf = 0
 
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-  let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return neocomplete#close_popup() . "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplete#close_popup()
-inoremap <expr><C-e>  neocomplete#cancel_popup()
-
-augroup vimrc_NeoComplete
-  au FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  au FileType python setlocal omnifunc=pythoncomplete#Complete
-  au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-augroup END
-"}}}
-
-" Snowdrop {{{
-if s:is_cygwin
-  let g:snowdrop#libclang_directory = "/usr/lib"
-  let g:snowdrop#libclang_file = "libclang.dll.a"
+if s:is_mac
+  let g:ycm_global_ycm_extra_conf = '~/.vim/YCM/conf/libc++/.ycm_extra_conf.py'
+else
+  let g:ycm_global_ycm_extra_conf = '~/.vim/YCM/conf/libstdc++/.ycm_extra_conf.py'
 endif
 
-let g:snowdrop#command_options = {
-      \   "cpp" : "-std=c++1y"
-      \ }
-
-let g:snowdrop#include_paths = {
-      \ "cpp" : filter(
-      \   split(glob('/usr/include/c++/*'), '\n') +
-      \   split(glob('/usr/include/*/c++/*'), '\n') +
-      \   split(glob('/usr/include/*/'), '\n'),
-      \   'isdirectory(v:val)') + [
-      \   'include/',
-      \   '.'
-      \   ]
-      \ }
-" }}}
-
-" Marching {{{
-let g:marching_backend = "snowdrop"
-let g:marching_enable_neocomplete = 1
-
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
-endif
-
-let g:neocomplete#force_omni_input_patterns.cpp =
-    \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+let g:ycm_extra_conf_vim_data   = ['&filetype']
+let g:ycm_seed_identifiers_with_syntax = 1
 " }}}
 
 " CMake {{{
@@ -343,22 +303,19 @@ function! CMakeSetBuildType(type)
   echom "CMake: Build type set to " . a:type
 endfunction
 
-augroup vimrc_CMake
-  au!
-  " Open new quickfix buffers in a new tab or switch to existing buffer.
-  au FileType c,cpp set switchbuf+=usetab,newtab
+" Open new quickfix buffers in a new tab or switch to existing buffer.
+au FileType c,cpp set switchbuf+=usetab,newtab
 
-  " Generate build files
-  au FileType c,cpp,cmake nnoremap <leader>bg :CMake<CR>
-  " Build
-  au FileType c,cpp,cmake nnoremap <leader>bb :make<CR>
-  " Clean build files
-  au FileType c,cpp,cmake nnoremap <leader>bc :CMakeClean<CR>
-  " Set build type to release
-  au FileType c,cpp,cmake nnoremap <leader>bsr :call CMakeSetBuildType("RELEASE")<CR>
-  " Set build type to debug
-  au FileType c,cpp,cmake nnoremap <leader>bsd :call CMakeSetBuildType("DEBUG")<CR>
-augroup END
+" Generate build files
+au FileType c,cpp,cmake nnoremap <leader>bg :CMake<CR>
+" Build
+au FileType c,cpp,cmake nnoremap <leader>bb :make<CR>
+" Clean build files
+au FileType c,cpp,cmake nnoremap <leader>bc :CMakeClean<CR>
+" Set build type to release
+au FileType c,cpp,cmake nnoremap <leader>bsr :call CMakeSetBuildType("RELEASE")<CR>
+" Set build type to debug
+au FileType c,cpp,cmake nnoremap <leader>bsd :call CMakeSetBuildType("DEBUG")<CR>
 " }}}
 
 " Unite {{{
@@ -398,7 +355,7 @@ let g:lightline = {
       \   'filename': 'LLFilename'
       \ },
       \ 'subseparator': { 'left': '|', 'right': '|' }
-      \ }  
+      \ }
 
 function! LLModified()
   if &filetype == 'help'
@@ -418,7 +375,7 @@ function! LLReadonly()
   elseif &readonly
     return '[ro]'
   else
-    return '' 
+    return ''
   endif
 endfunction
 
@@ -430,11 +387,8 @@ endfunction
 " }}}
 
 " Closetag {{{
-augroup vimrc_Closetag
-  au!
-  " Disable delimitMate for angle brackets on closetag files (messes with tags)
-  au FileType html,xhtml,xml,phtml let b:delimitMate_matchpairs = "(:),[:],{:}"
-augroup END
+" Disable delimitMate for angle brackets on closetag files (messes with tags)
+au FileType html,xhtml,xml,phtml let b:delimitMate_matchpairs = "(:),[:],{:}"
 " }}}
 
 " Livedown {{{
