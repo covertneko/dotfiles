@@ -2,14 +2,13 @@
 set -l paths \
   "$HOME/.gem/ruby/2.2.0/bin" \
   "$HOME/.cabal/bin" \
-  "$HOME/bin" \
-  "/usr/bin"
+  "$HOME/bin"
 # Commands not to notify for when their jobs run longer than 10 seconds
-set -g silentjobs "vim tmux screen"
+set -g silentjobs "vim tmux screen man less more"
 
 # Add additional user paths
 for p in $paths
-  if test -d $p
+  if not contains $p $PATH
     set -gx PATH $p $PATH
   end
 end
