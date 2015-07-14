@@ -102,6 +102,12 @@ Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
 Plug 'vim-scripts/cmake.vim-syntax', { 'for': 'cmake' }
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
 Plug 'vhdirk/vim-cmake', { 'for': ['c', 'cpp', 'cmake'] }
+
+" Fall back to vim-marching for C++ completion on cygwin
+if s:is_cygwin
+  Plug 'osyo-manga/vim-snowdrop', { 'for': ['c', 'cpp'] }
+  Plug 'osyo-manga/vim-marching', { 'for': ['c', 'cpp'] }
+endif
 " }}}
 
 " General Language Support {{{
@@ -110,10 +116,9 @@ Plug 'scrooloose/syntastic'
 
 function! BuildYCM(info)
   if a:info.status == 'installed' || a:info.force
-    " Cygwin requires system libclang and a patch for Boost.Python.
+    " YouCompleteMe's clang support doesn't work on Cygwin.
     if s:is_cygwin
-      !curl -sL http://git.io/vqocY | patch -p1
-      !./install.sh --clang-completer --system-libclang
+      !./install.sh
     else
       !./install.sh --clang-completer
     endif
@@ -275,11 +280,63 @@ endfunction
 
 au BufEnter *.hs,*.lhs :call SetToCabalBuild()
 
+" Use neco-ghc for Haskell files
+let g:ycm_semantic_triggers = {'haskell' : ['.']}
+
 let $PATH=$PATH.':'.expand("~/.cabal/bin")
 " }}}
 
+" Alternative C++ completion on Cygwin.
+if s:is_cygwin
+  " Snowdrop {{{
+  let g:snowdrop#libclang_directory = "/usr/bin"
+  let g:snowdrop#libclang_file = "cygclang.dll"
+
+  let g:snowdrop#command_options = {
+        \   "cpp" : "-std=c++1y"
+        \ }
+
+  let g:snowdrop#include_paths = {
+        \ "cpp" : filter(
+        \   split(glob('/usr/include/c++/*'), '\n') +
+        \   split(glob('/usr/include/*/c++/*'), '\n') +
+        \   split(glob('/usr/include/*/'), '\n'),
+        \   'isdirectory(v:val)') + [
+        \   'include/',
+        \   '.'
+        \   ]
+        \ }
+  " }}}
+
+  " Marching {{{
+  "let g:marching_backend = "snowdrop"
+
+  let g:marching_include_paths = filter(
+        \ split(glob('/usr/include/c++/*/'), '\n') +
+        \ split(glob('/usr/include/*/c++/*/'), '\n') +
+        \ split(glob('/usr/include/*/'), '\n') +
+        \ split(glob('/lib/gcc/*-cygwin/*/include'), '\n') +
+        \ split(glob('/lib/gcc/*-cygwin/*/include/c++'), '\n'),
+        \ 'isdirectory(v:val)') + [
+        \ 'include/',
+        \ '.'
+        \ ]
+
+  let g:marching_enable_refresh_always = 1
+
+  autocmd FileType cpp noremap <C-x><C-o> <Plug>(marching_start_omni_complete)
+
+  " Use vim-marching for C/C++ on Cygwin
+  let g:ycm_semantic_triggers = { 'c': ['.', '->'], 'cpp': ['.', '->', '::'] }
+
+  " Automatically complete when using appropriate operators.
+  autocmd FileType cpp inoremap :: ::<C-x><C-o>
+  autocmd FileType cpp inoremap . .<C-x><C-o>
+  autocmd FileType cpp inoremap -> -><C-x><C-o>
+  " }}}
+endif
+
 " YouCompleteMe {{{
-let g:ycm_server_log_level = 'debug'
 let g:ycm_confirm_extra_conf = 0
 
 if s:is_mac
