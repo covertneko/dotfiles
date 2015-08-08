@@ -1,5 +1,6 @@
 # Additional user paths
 set -l paths \
+  "/opt/local/bin" \
   "$HOME/.gem/ruby/2.2.0/bin" \
   "$HOME/.cabal/bin" \
   "$HOME/bin"
@@ -80,10 +81,12 @@ function fish_prompt
       # Calculate the duration of the last job.
       set -g last_job_duration (math $last_job_end-$last_job_start)
 
-      # Notify with snarl if using cygwin and snarl is installed and the last job
-      # took longer than 10 seconds.
+      # If last job took longer than 10 seconds, notify with snarl on Cygwin or
+      # growl on OS X.
       if test $last_job_duration -gt 10
-        if type heysnarl > /dev/null ^&1
+        if type growlnotify > /dev/null ^&1
+          growlnotify -m "Returned $last_status, took $last_job_duration seconds." "$last_cmd_line" > /dev/null ^&1
+        else if type heysnarl > /dev/null ^&1
           heysnarl "notify?title=$last_cmd_line&text=Returned $last_status, took $last_job_duration seconds." > /dev/null ^&1
         end
       end
