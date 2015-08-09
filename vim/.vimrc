@@ -99,6 +99,10 @@ Plug 'eagletmt/ghcmod-vim', {
 Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
 " }}}
 
+" Scala {{{
+Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
+" }}}
+
 " C++ {{{
 Plug 'vim-scripts/cmake.vim-syntax', { 'for': 'cmake' }
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
@@ -127,6 +131,8 @@ function! BuildYCM(info)
 endfunction
 
 Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM'), 'on': [] }
+      \ | Plug 'rdnetto/YCM-Generator', { 'tag': 'stable' }
+
 " Delay YCM startup to InsertEnter (may hang for 1-3 seconds on some machines)
 augroup load_ycm
   au!
@@ -137,7 +143,6 @@ augroup load_ycm
         \ endif                               |
         \ autocmd! load_ycm
 augroup END
-
 " }}}
 
 call plug#end()
@@ -343,7 +348,7 @@ if s:is_cygwin
 endif
 
 " YouCompleteMe {{{
-let g:ycm_confirm_extra_conf = 0
+let g:ycm_autoclose_preview_window_after_insertion = 1
 
 if s:is_mac
   let g:ycm_global_ycm_extra_conf = '~/.vim/YCM/conf/libc++/.ycm_extra_conf.py'
@@ -359,6 +364,7 @@ let g:ycm_autoclose_preview_window_after_insertion = 1
 " CMake {{{
 let g:cmake_c_compiler = "gcc"
 let g:cmake_cxx_compiler = "g++"
+
 let g:cmake_build_type = "DEBUG"
 
 function! CMakeSetBuildType(type)
