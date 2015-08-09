@@ -37,6 +37,7 @@ Plug 'Shougo/vimproc.vim', { 'do': function('BuildVimProc') }
 Plug 'w0ng/vim-hybrid'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'itchyny/lightline.vim'
+Plug 'junegunn/limelight.vim'
 " }}}
 
 " Utilities {{{
@@ -244,6 +245,11 @@ endtry
 let g:indent_guides_guide_size=&tabstop
 " }}}
 
+" Limelight {{{
+nmap <Leader>l :Limelight!!<cr>
+xmap <Leader>l :Limelight!!<cr>
+" }}}
+
 " Trailing Whitespace {{{
 let g:extra_whitespace_ignored_filetypes = ['unite', 'mkd', 'markdown', 'help']
 " }}}
@@ -258,14 +264,14 @@ nmap <silent> <leader>hl :SyntasticCheck hlint<cr>:lopen<cr>
 " Tagbar {{{
 let g:tagbar_left = 1
 let g:tagbar_usearrows=1
-nnoremap <leader>tt :TagbarToggle<CR>
+nnoremap <leader>tt :TagbarToggle<cr>
 " }}}
 
 " Ghc-mod {{{
-nmap <silent> <leader>ht :GhcModType<CR>
-nmap <silent> <leader>hh :GhcModTypeClear<CR>
-nmap <silent> <leader>hT :GhcModTypeInsert<CR>
-nmap <silent> <leader>hc :SyntasticCheck ghc_mod<CR>:lopen<CR>
+nmap <silent> <leader>ht :GhcModType<cr>
+nmap <silent> <leader>hh :GhcModTypeClear<cr>
+nmap <silent> <leader>hT :GhcModTypeInsert<cr>
+nmap <silent> <leader>hc :SyntasticCheck ghc_mod<cr>:lopen<cr>
 
 " Check Haskell on write
 au BufWritePost *.hs,*.lhs GhcModCheckAndLintAsync
@@ -330,9 +336,9 @@ if s:is_cygwin
   let g:ycm_semantic_triggers = { 'c': ['.', '->'], 'cpp': ['.', '->', '::'] }
 
   " Automatically complete when using appropriate operators.
-  autocmd FileType cpp inoremap :: ::<C-x><C-o>
-  autocmd FileType cpp inoremap . .<C-x><C-o>
-  autocmd FileType cpp inoremap -> -><C-x><C-o>
+  " autocmd FileType cpp inoremap :: ::<C-x><C-o>
+  " autocmd FileType cpp inoremap . .<C-x><C-o>
+  " autocmd FileType cpp inoremap -> -><C-x><C-o>
   " }}}
 endif
 
@@ -347,6 +353,7 @@ endif
 
 let g:ycm_extra_conf_vim_data   = ['&filetype']
 let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
 " }}}
 
 " CMake {{{
@@ -364,15 +371,15 @@ endfunction
 au FileType c,cpp set switchbuf+=usetab,newtab
 
 " Generate build files
-au FileType c,cpp,cmake nnoremap <leader>bg :CMake<CR>
+au FileType c,cpp,cmake nnoremap <leader>bg :CMake<cr>
 " Build
-au FileType c,cpp,cmake nnoremap <leader>bb :make<CR>
+au FileType c,cpp,cmake nnoremap <leader>bb :make<cr>
 " Clean build files
-au FileType c,cpp,cmake nnoremap <leader>bc :CMakeClean<CR>
+au FileType c,cpp,cmake nnoremap <leader>bc :CMakeClean<cr>
 " Set build type to release
-au FileType c,cpp,cmake nnoremap <leader>bsr :call CMakeSetBuildType("RELEASE")<CR>
+au FileType c,cpp,cmake nnoremap <leader>bsr :call CMakeSetBuildType("RELEASE")<cr>
 " Set build type to debug
-au FileType c,cpp,cmake nnoremap <leader>bsd :call CMakeSetBuildType("DEBUG")<CR>
+au FileType c,cpp,cmake nnoremap <leader>bsd :call CMakeSetBuildType("DEBUG")<cr>
 " }}}
 
 " Unite {{{
