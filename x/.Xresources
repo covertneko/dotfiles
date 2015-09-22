@@ -11,14 +11,16 @@ Xft.rgba:                       rgb
 Xft.hinting:                    true
 Xft.hintstyle:                  hintslight
 
+!-----------------------------
+! URxvt
+!-----------------------------
+
 URxvt.buffered:                 true
 URxvt.cursorblink:              true
 URxvt.depth:                    32
 URxvt.borderless:               1
 URxvt.loginShell:               true
 URxvt.iso14755:                 false
-! No fading upon losing focus
-URxvt.fading:                     0
 
 ! Fonts
 URxvt.allow_bold:               true
@@ -40,56 +42,37 @@ URxvt.matcher.button:           1
 URxvt.keysym.M-C-c:             perl:clipboard:copy
 URxvt.keysym.M-C-v:             perl:clipboard:paste
 
-! Colors
-! Solarized palette: http://ethanschoonover.com/solarized
-#define S_yellow                #b58900
-#define S_orange                #cb4b16
-#define S_red                   #dc322f
-#define S_magenta               #d33682
-#define S_violet                #6c71c4
-#define S_blue                  #268bd2
-#define S_cyan                  #2aa198
-#define S_green                 #859900
-! Dark
-#define SD_base03               #002b36
-#define SD_base02               #073642
-#define SD_base01               #586e75
-#define SD_base00               #657b83
-#define SD_base0                #839496
-#define SD_base1                #93a1a1
-#define SD_base2                #eee8d5
-#define SD_base3                #fdf6e3
-! Light
-#define SL_base03               #fdf6e3
-#define SL_base02               #eee8d5
-#define SL_base01               #93a1a1
-#define SL_base00               #839496
-#define SL_base0                #657b83
-#define SL_base1                #586e75
-#define SL_base2                #073642
-#define SL_base3                #002b36
+! Hybrid Terminal Colours. Uses the palette from Tomorrow-Night:
+! https://github.com/chriskempson/tomorrow-theme/blob/master/vim/colors/Tomorrow-Night.vim
 
-URxvt*background:               SD_base03
-URxvt*foreground:               SD_base0
-URxvt*fading:                   40
-URxvt*fadeColor:                SD_base03
-URxvt*cursorColor:              SD_base1
-URxvt*pointerColorBackground:   SD_base01
-URxvt*pointerColorForeground:   SD_base1
- 
-URxvt*color0:                   SD_base02
-URxvt*color1:                   S_red
-URxvt*color2:                   S_green
-URxvt*color3:                   S_yellow
-URxvt*color4:                   S_blue
-URxvt*color5:                   S_magenta
-URxvt*color6:                   S_cyan
-URxvt*color7:                   SD_base2
-URxvt*color8:                   SD_base03
-URxvt*color9:                   S_orange
-URxvt*color10:                  SD_base01
-URxvt*color11:                  SD_base00
-URxvt*color12:                  SD_base0
-URxvt*color13:                  S_violet
-URxvt*color14:                  SD_base1
-URxvt*color15:                  SD_base3
+URxvt*background: #1D1F21
+URxvt*foreground: #C5C8C6
+URxvt*fading: 30
+URxvt*cursorColor: #C5C8C6
+URxvt*pointerColorBackground: #1D1F21
+URxvt*pointerColorForeground: #C5C8C6
+
+! black
+URxvt*color0: #282A2E
+URxvt*color8: #373B41
+! red
+URxvt*color1: #A54242
+URxvt*color9: #CC6666
+! green
+URxvt*color2: #8C9440
+URxvt*color10: #B5BD68
+! yellow
+URxvt*color3: #DE935F
+URxvt*color11: #F0C674
+! blue
+URxvt*color4: #5F819D
+URxvt*color12: #81A2BE
+! magenta
+URxvt*color5: #85678F
+URxvt*color13: #B294BB
+! cyan
+URxvt*color6: #5E8D87
+URxvt*color14: #8ABEB7
+! white
+URxvt*color7: #707880
+URxvt*color15: #C5C8C6
