@@ -151,8 +151,8 @@ call plug#end()
 " Basic Options {{{
 " Allow backspacing over everything in insert mode
 set backspace=indent,eol,start
-" No goddamn beeps
-set visualbell
+" No goddamn bells
+set noeb novb t_vb=
 " Backups
 set backup
 set undofile
@@ -242,6 +242,10 @@ endif
 set background=dark
 
 try
+  if !s:is_cygwin && !s:is_mac
+    let g:hybrid_use_Xresources = 1
+  endif
+
   colorscheme hybrid
 catch
 endtry
