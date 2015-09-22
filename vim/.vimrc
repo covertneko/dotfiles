@@ -229,6 +229,8 @@ augroup END
 " Colors {{{
 if !has('gui_running')
   set t_Co=256
+  " Fill in background color
+  set t_ut=
 endif
 
 " Show 80th column
@@ -391,7 +393,7 @@ au FileType c,cpp,cmake nnoremap <leader>bsd :call CMakeSetBuildType("DEBUG")<cr
 " Unite {{{
 let g:unite_source_history_yank_enable = 1
 try
-  let g:unite_source_rec_async_command = 'ag --nocolor --nogroup -g ""'
+  let g:unite_source_rec_async_command = ['ag', '--nocolor', '--nogroup', '-g', '']
   call unite#filters#matcher_default#use(['matcher_fuzzy'])
 catch
 endtry
