@@ -1,6 +1,7 @@
 import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Layout.NoBorders
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
@@ -11,8 +12,9 @@ myXMobarConfig = "/home/eric/.xmonad/xmobar.hs"
 
 main = do
     xmproc <- spawnPipe $ "xmobar " ++ myXMobarConfig
-    xmonad $ defaultConfig
-		    { manageHook = manageDocks <+> manageHook defaultConfig
+    xmonad $ ewmh defaultConfig
+        { handleEventHook = handleEventHook defaultConfig <+> fullscreenEventHook
+        , manageHook = manageDocks <+> manageHook defaultConfig
         , layoutHook = avoidStruts  $  layoutHook defaultConfig
         , logHook    = dynamicLogWithPP xmobarPP
                           { ppOutput = hPutStrLn xmproc
