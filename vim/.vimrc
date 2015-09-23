@@ -152,7 +152,7 @@ call plug#end()
 " Allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 " No goddamn bells
-set noeb novb t_vb=
+set noeb vb t_vb=
 " Backups
 set backup
 set undofile
