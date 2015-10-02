@@ -8,6 +8,10 @@ set -l paths \
 # Commands not to notify for when their jobs run longer than 10 seconds
 set -g silentjobs "vim tmux screen man less more"
 
+# Exports
+set -x EDITOR vim
+set -x VISUAL vim
+
 # Add additional user paths
 for p in $paths
   if not contains $p $PATH
