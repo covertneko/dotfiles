@@ -4,7 +4,7 @@ function arduino_init_ycm
   if test -e $config
     cp $config ./
   else
-    curl -o $config https://gist.github.com/ajford/f551b2b6fd4d6b6e1ef2
+    curl -o $config https://gist.githubusercontent.com/ajford/f551b2b6fd4d6b6e1ef2/raw/3bab0d36c667a02877b138219caa6bf7341ce7e1/.ycm_extra_conf.py
     arduino_init_ycm
   end
 end
