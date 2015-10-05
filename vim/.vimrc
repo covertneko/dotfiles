@@ -103,6 +103,10 @@ Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 " }}}
 
+" Arduino {{{
+Plug 'vim-scripts/Arduino-syntax-file', { 'for': ['c', 'cpp', 'arduino']}
+" }}}
+
 " C++ {{{
 Plug 'vim-scripts/cmake.vim-syntax', { 'for': 'cmake' }
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
@@ -495,6 +499,9 @@ augroup vimrcExtra
   au BufNewFile,BufReadPost .editorconfig set filetype=sh
   " SCons
   au BufNewFile,BufReadPost SCons* set filetype=python
+
+  " Use tabs for Makefiles
+  au BufNewFile,BufReadPost Makefile,*.mak :setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 
   " Show absolute line numbers in insert mode or when out of focus.
   au InsertEnter,WinLeave,FocusLost * setlocal norelativenumber number
