@@ -1,5 +1,5 @@
 function arduino_init_ycm
-	set -l config "$HOME/lib/platformio/arduino/.ycm_extra_conf"
+	set -l config "$HOME/lib/platformio/arduino/.ycm_extra_conf.py"
 
   if test -e $config
     cp $config ./
