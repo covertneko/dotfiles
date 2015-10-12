@@ -366,7 +366,8 @@ else
   let g:ycm_global_ycm_extra_conf = '~/.vim/YCM/conf/libstdc++/.ycm_extra_conf.py'
 endif
 
-let g:ycm_extra_conf_vim_data   = ['&filetype']
+let g:ycm_extra_conf_vim_data = ['&filetype']
+let g:ycm_confirm_extra_conf = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 " }}}
