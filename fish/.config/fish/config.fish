@@ -14,7 +14,8 @@ set -x VISUAL vim
 
 # Add additional user paths
 for p in $paths
-  if not contains $p $PATH
+  if begin not contains $p $PATH
+  and test -d $p; end
     set -gx PATH $p $PATH
   end
 end
