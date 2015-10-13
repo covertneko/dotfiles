@@ -1,5 +1,6 @@
 # Additional user paths
 set -l paths \
+  "/usr/bin" \
   "/usr/local/bin" \
   "/opt/local/bin" \
   "$HOME/.gem/ruby/2.2.0/bin" \
