@@ -103,6 +103,10 @@ Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 " }}}
 
+" Arduino {{{
+Plug 'vim-scripts/Arduino-syntax-file', { 'for': ['c', 'cpp', 'arduino']}
+" }}}
+
 " C++ {{{
 Plug 'vim-scripts/cmake.vim-syntax', { 'for': 'cmake' }
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
@@ -369,7 +373,8 @@ else
   let g:ycm_global_ycm_extra_conf = '~/.vim/YCM/conf/libstdc++/.ycm_extra_conf.py'
 endif
 
-let g:ycm_extra_conf_vim_data   = ['&filetype']
+let g:ycm_extra_conf_vim_data = ['&filetype']
+let g:ycm_confirm_extra_conf = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 " }}}
@@ -404,7 +409,7 @@ au FileType c,cpp,cmake nnoremap <leader>bsd :call CMakeSetBuildType("DEBUG")<cr
 " Unite {{{
 let g:unite_source_history_yank_enable = 1
 try
-  let g:unite_source_rec_async_command = ['ag', '--nocolor', '--nogroup', '-g', '']
+  let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '']
   call unite#filters#matcher_default#use(['matcher_fuzzy'])
 catch
 endtry
@@ -502,6 +507,9 @@ augroup vimrcExtra
   au BufNewFile,BufReadPost .editorconfig set filetype=sh
   " SCons
   au BufNewFile,BufReadPost SCons* set filetype=python
+
+  " Use tabs for Makefiles
+  au BufNewFile,BufReadPost Makefile,*.mak :setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 
   " Show absolute line numbers in insert mode or when out of focus.
   au InsertEnter,WinLeave,FocusLost * setlocal norelativenumber number
