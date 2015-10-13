@@ -1,5 +1,6 @@
 # Additional user paths
 set -l paths \
+  "/usr/local/bin" \
   "/opt/local/bin" \
   "$HOME/.gem/ruby/2.2.0/bin" \
   "$HOME/.cabal/bin" \
@@ -7,18 +8,32 @@ set -l paths \
 # Commands not to notify for when their jobs run longer than 10 seconds
 set -g silentjobs "vim tmux screen man less more"
 
+# Exports
+set -x EDITOR vim
+set -x VISUAL vim
+set -x VIRTUALFISH_HOME=$HOME/virtualenvs
+
+if not test -d $VIRTUALFISH_HOME
+  mkdir -p $VIRTUALFISH_HOME
+end
+
 # Add additional user paths
 for p in $paths
-  if not contains $p $PATH
+  if begin not contains $p $PATH
+  and test -d $p; end
     set -gx PATH $p $PATH
   end
 end
 
+# init virtualfish
+eval (python -m virtualfish compat_aliases)
+
+# Set up ssh-agent on login if it isn't already running
 if status --is-login
-  # Set up ssh-agent on login if it isn't already running
   ssh_agent_start
 end
 
+# Prompt styles
 set fish_color_cwd green
 
 set __fish_git_prompt_show_informative_status 'yes'
@@ -55,10 +70,15 @@ function fish_prompt
   # Empty line
   echo
 
+  # For screen window titles
   if set -gq STY
-    # For screen window titles
     echo -ne '\033k\033\\'
   end
+
+  # Virtual environment indicator
+  if set -q VIRTUAL_ENV
+    echo -n -s (set_color -b blue -o white) "(" (basename "$VIRTUAL_ENV") ")" (set_color normal) " "
+end
 
   # Last job duration.
   if begin set -gq last_job last_job_start last_job_end

@@ -1,9 +1,9 @@
 Config  { font   = "xft:DejaVu Sans:style=Regular:size=10:antialias=true"
-        , bgColor = "#002b36"
-        , fgColor = "#839496"
+        , bgColor = "#1D1F21"
+        , fgColor = "#C5C8C6"
         , position = TopSize L 90 25
         , border = BottomB
-        , borderColor = "#002b36"
+        , borderColor = "#1D1F21"
         , borderWidth = 0
         , lowerOnStart = True
         , commands = [ Run Weather "KVUO" [ "-t", " <tempC>°C, <skyCondition>"

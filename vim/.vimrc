@@ -103,6 +103,10 @@ Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 " }}}
 
+" Arduino {{{
+Plug 'vim-scripts/Arduino-syntax-file', { 'for': ['c', 'cpp', 'arduino']}
+" }}}
+
 " C++ {{{
 Plug 'vim-scripts/cmake.vim-syntax', { 'for': 'cmake' }
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
@@ -151,8 +155,8 @@ call plug#end()
 " Basic Options {{{
 " Allow backspacing over everything in insert mode
 set backspace=indent,eol,start
-" No goddamn beeps
-set visualbell
+" No goddamn bells
+set noeb vb t_vb=
 " Backups
 set backup
 set undofile
@@ -229,6 +233,8 @@ augroup END
 " Colors {{{
 if !has('gui_running')
   set t_Co=256
+  " Fill in background color
+  set t_ut=
 endif
 
 " Show 80th column
@@ -240,6 +246,10 @@ endif
 set background=dark
 
 try
+  if !s:is_cygwin && !s:is_mac
+    let g:hybrid_use_Xresources = 1
+  endif
+
   colorscheme hybrid
 catch
 endtry
@@ -356,7 +366,8 @@ else
   let g:ycm_global_ycm_extra_conf = '~/.vim/YCM/conf/libstdc++/.ycm_extra_conf.py'
 endif
 
-let g:ycm_extra_conf_vim_data   = ['&filetype']
+let g:ycm_extra_conf_vim_data = ['&filetype']
+let g:ycm_confirm_extra_conf = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 " }}}
@@ -489,6 +500,9 @@ augroup vimrcExtra
   au BufNewFile,BufReadPost .editorconfig set filetype=sh
   " SCons
   au BufNewFile,BufReadPost SCons* set filetype=python
+
+  " Use tabs for Makefiles
+  au BufNewFile,BufReadPost Makefile,*.mak :setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 
   " Show absolute line numbers in insert mode or when out of focus.
   au InsertEnter,WinLeave,FocusLost * setlocal norelativenumber number
