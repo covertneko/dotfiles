@@ -123,9 +123,16 @@ function! BuildYCM(info)
   if a:info.status == 'installed' || a:info.force
     " YouCompleteMe's clang support doesn't work on Cygwin.
     if s:is_cygwin
-      !./install.sh
+      " Also needs a patch for boost libs
+      if a:info.status == 'installed' || a:info.force
+        !curl -sL http://git.io/vCe12 | patch -p1
+        redraw
+      endif
+      !./install.py
+  endif
+
     else
-      !./install.sh --clang-completer
+      !./install.py --clang-completer
     endif
   endif
 endfunction
