@@ -11,7 +11,7 @@ function addgitignore
   # Options
   set -l options (options $argv)
 
-  if test (count $options) -gt 0
+  if test (count $options) -gt 1
     for i in $options
       echo $i | read -l option value
 
