@@ -20,8 +20,7 @@ function addgitignore
           # List available gitignores
           curl -s "https://api.github.com/repos/$gi_repo/git/trees/master?recursive=1" \
             | jq --raw-output '.tree | .[] | .path' \
-            | sed 's/\.gitignore//' \
-            | less
+            | sed 's/\.gitignore//'
         case h help
           # Print help text
           echo '
