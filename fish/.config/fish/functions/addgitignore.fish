@@ -39,7 +39,15 @@ Options:
     return
   end
 
+  # Download specified gitignores and append their contents to ./.gitignore
 	for gi in $argv;
-    curl "https://raw.githubusercontent.com/$gi_repo/master/$gi.gitignore" >> .gitignore;
+    set -l response (curl "https://raw.githubusercontent.com/$gi_repo/master/$gi.gitignore")
+
+    # Ensure gitignore was found
+    if not test $response = "Not Found"
+      echo $response >> ./.gitignore;
+    else
+      echo -e "\nERROR 404: $gi.gitignore not found."
+    end
   end
 end
