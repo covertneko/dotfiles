@@ -28,10 +28,17 @@ colorBase0D = "#8fa1b3" -- Blue
 colorBase0E = "#b48ead" -- Magenta
 colorBase0F = "#ab7967" -- Brown
 
+myManageHook = composeAll
+  [ title =? "Network Operations Manager" --> doFloat
+  , className =? "Chromium"               --> doShift "1:main"
+  , className =? "Pidgin"                 --> doShift "1:main"
+  ]
+
 main = do
     xmproc <- spawnPipe $ "xmobar " ++ myXMobarConfig
     xmonad $ ewmh defaultConfig
-        { handleEventHook = handleEventHook defaultConfig <+> fullscreenEventHook
+        { workspaces = ["1:main", "2:dev", "3:web", "4", "5", "6", "7", "8", "9", "0", "-", "="]
+        , handleEventHook = handleEventHook defaultConfig <+> fullscreenEventHook
         , manageHook = manageDocks <+> manageHook defaultConfig
         , layoutHook = avoidStruts  $  layoutHook defaultConfig
         , logHook    = dynamicLogWithPP xmobarPP
