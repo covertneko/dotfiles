@@ -1,17 +1,17 @@
 function addgitignore
 	# Print help if no arguments given
-	if test (count $argv) -eq 0
+  if [ (count $argv) -eq 0 ]
     addgitignore --help
     return 1
   end
 
   # The repo to source gitignores from
-	set -l gi_repo 'github/gitignore'
+  set -l gi_repo 'github/gitignore'
 
   # Options
   set -l options (options $argv)
 
-  if test (count $options) -gt 1
+  if [ (count $options) -gt 1 ]
     for i in $options
       echo $i | read -l option value
 
@@ -40,14 +40,18 @@ Options:
   end
 
   # Download specified gitignores and append their contents to ./.gitignore
-	for gi in $argv;
+  for gi in $argv;
+    # Modify IFS to get around fish's inability to preserve newlines in variables
+    set oldIFS "$IFS"
+    set IFS ""
     set -l response (curl "https://raw.githubusercontent.com/$gi_repo/master/$gi.gitignore")
+    set IFS "$oldIFS"
 
     # Ensure gitignore was found
-    if not test $response = "Not Found"
-      echo $response >> ./.gitignore;
-    else
+    if [ $response = "Not Found" ]
       echo -e "\nERROR 404: $gi.gitignore not found."
+    else
+      echo $response >> ./.gitignore;
     end
   end
 end
