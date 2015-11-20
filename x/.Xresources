@@ -24,7 +24,7 @@ URxvt.iso14755:                 false
 
 ! Fonts
 URxvt.allow_bold:               true
-URxvt.font:                     xft:Inconsolata:style=Regular:size=12
+URxvt.font:                     xft:Monospace:style=Regular:size=13,xft:DejaVu Sans Mono:style=Regular:size=12
 
 ! Scrolling
 URxvt.scrollBar:                false
@@ -33,7 +33,7 @@ URxvt.secondaryScroll:          true
 
 ! Extensions
 URxvt.perl-ext-common:          default,matcher,clipboard
-URxvt.url-launcher:             chromium
+URxvt.url-launcher:             vivaldi-beta
 ! Left click to open link
 URxvt.matcher.button:           1
 
