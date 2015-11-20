@@ -1,4 +1,4 @@
-" vim:fdm=marker
+" vim:fdm=marker:fdl=0
 au!
 
 set nocompatible
@@ -44,6 +44,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'rking/ag.vim'
 Plug 'Shougo/unite.vim'
 Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession' | Plug 'dhruvasagar/vim-prosession'
 " }}}
 
@@ -66,8 +67,15 @@ Plug 'kelan/gyp.vim', { 'for': 'gyp' }
 " Web {{{
 Plug 'ap/vim-css-color'
 Plug 'othree/html5.vim', { 'for': ['html', 'xml'] }
-Plug 'Valloric/MatchTagAlways', { 'for': ['html', 'xml'] }
-Plug 'docunext/closetag.vim', { 'for': ['html', 'xml'] }
+Plug 'Valloric/MatchTagAlways', { 'for': ['html', 'xml', 'javascript.jsx', 'htmldjango', 'eruby'] }
+Plug 'docunext/closetag.vim', { 'for': ['html', 'xml', 'htmldjango', 'eruby'] }
+Plug 'pangloss/vim-javascript', { 'for': ['javascript'] }
+      \ | Plug 'mxw/vim-jsx', { 'for': ['javascript', 'javascript.jsx'] }
+
+Plug 'ternjs/tern_for_vim', {
+      \ 'do': 'npm install',
+      \ 'for': ['javascript', 'javascript.jsx']
+      \ }
 " }}}
 
 " Markdown {{{
@@ -86,6 +94,13 @@ Plug 'shime/vim-livedown', {
       \ 'do': function('PatchLivedown'),
       \ 'for': 'markdown'
       \ }
+" }}}
+
+" Ruby {{{
+Plug 'vim-ruby/vim-ruby', { 'for': ['ruby', 'eruby'] }
+Plug 'tpope/vim-rvm', { 'for': ['ruby', 'eruby']  }
+Plug 'tpope/vim-rails', { 'for': ['ruby', 'eruby']  }
+Plug 'tpope/vim-bundler', { 'for': ['ruby', 'eruby']  }
 " }}}
 
 " Haskell {{{
@@ -280,6 +295,11 @@ let g:extra_whitespace_ignored_filetypes = ['unite', 'mkd', 'markdown', 'help']
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_mode_map={'mode': 'active', 'passive_filetypes': ['haskell']}
 
+" Javascript with JSX syntax checking
+let g:syntastic_javascript_checkers = ['eslint']
+" For vim-jsx - highlight jsx in js files
+" let g:jsx_ext_required = 0
+
 nmap <silent> <leader>hl :SyntasticCheck hlint<cr>:lopen<cr>
 " }}}
 
@@ -307,9 +327,6 @@ function! SetToCabalBuild()
 endfunction
 
 au BufEnter *.hs,*.lhs :call SetToCabalBuild()
-
-" Use neco-ghc for Haskell files
-let g:ycm_semantic_triggers = {'haskell' : ['.']}
 
 let $PATH=$PATH.':'.expand("~/.cabal/bin")
 " }}}
@@ -354,9 +371,6 @@ if s:is_cygwin
 
   autocmd FileType cpp noremap <C-x><C-o> <Plug>(marching_start_omni_complete)
 
-  " Use vim-marching for C/C++ on Cygwin
-  let g:ycm_semantic_triggers = { 'c': ['.', '->'], 'cpp': ['.', '->', '::'] }
-
   " Automatically complete when using appropriate operators.
   " autocmd FileType cpp inoremap :: ::<C-x><C-o>
   " autocmd FileType cpp inoremap . .<C-x><C-o>
@@ -372,6 +386,15 @@ if s:is_mac
 else
   let g:ycm_global_ycm_extra_conf = '~/.vim/YCM/conf/libstdc++/.ycm_extra_conf.py'
 endif
+
+let g:ycm_semantic_triggers = {
+      \ 'c': ['.', '->'],
+      \ 'cpp': ['.', '->', '::'],
+      \ 'css': ['re!.*:\s*', '::', 're!^\s+'],
+      \ 'scss': ['re!.*:\s*', '::', 're!^\s+'],
+      \ 'haskell' : ['.'],
+      \ 'ruby' : ['.', '::'],
+\ }
 
 let g:ycm_extra_conf_vim_data = ['&filetype']
 let g:ycm_confirm_extra_conf = 1
@@ -438,6 +461,7 @@ let g:lightline = {
       \             [ 'fugitive', 'filename' ] ]
       \ },
       \ 'component_function': {
+      \   'fugitive': 'LLFugitive',
       \   'readonly': 'LLReadonly',
       \   'modified': 'LLModified',
       \   'filename': 'LLFilename'
@@ -471,6 +495,10 @@ function! LLFilename()
   return ('' != LLReadonly() ? LLReadonly() . ' ' : '') .
         \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
         \ ('' != LLModified() ? ' ' . LLModified() : '')
+endfunction
+
+function! LLFugitive()
+  return exists('*fugitive#head') ? fugitive#head() : ''
 endfunction
 " }}}
 
@@ -507,9 +535,20 @@ augroup vimrcExtra
   au BufNewFile,BufReadPost .editorconfig set filetype=sh
   " SCons
   au BufNewFile,BufReadPost SCons* set filetype=python
+  " Vagrantfile
+  au BufNewFile,BufReadPost Vagrantfile set filetype=ruby
+
+  " Run tests in Ruby projects
+  au BufNewFile,BufReadPost *.rb,*.erb noremap <F6> :Bundle exec rake test<CR>
 
   " Use tabs for Makefiles
   au BufNewFile,BufReadPost Makefile,*.mak :setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
+
+  " Ruby completion settings
+  au FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+  au FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+  " Breaks due to RVM currently:
+  " au FileType ruby,eruby let g:rubycomplete_rails = 1
 
   " Show absolute line numbers in insert mode or when out of focus.
   au InsertEnter,WinLeave,FocusLost * setlocal norelativenumber number
@@ -540,8 +579,6 @@ endfunction
 
 " Mappings {{{
 " Visual {{{
-" Align things
-
 " Move visual selection with arrow keys.
 vmap <left> <gv
 vmap <right> >gv
