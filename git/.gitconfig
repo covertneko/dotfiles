@@ -10,3 +10,5 @@
 	autocrlf = false
 	safecrlf = true
 	eol = lf
+[alias]
+	co = checkout

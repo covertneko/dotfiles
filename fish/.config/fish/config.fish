@@ -1,10 +1,11 @@
 # Additional user paths
 set -l paths \
+  "/usr/bin" \
   "/usr/local/bin" \
   "/opt/local/bin" \
   "$HOME/.gem/ruby/2.2.0/bin" \
   "$HOME/.cabal/bin" \
-  "$HOME/bin"
+  "$HOME/.local/bin"
 # Commands not to notify for when their jobs run longer than 10 seconds
 set -g silentjobs "vim tmux screen man less more"
 
@@ -27,6 +28,9 @@ end
 
 # init virtualfish
 eval (python -m virtualfish compat_aliases)
+
+# activate default ruby
+rvm default
 
 # Set up ssh-agent on login if it isn't already running
 if status --is-login

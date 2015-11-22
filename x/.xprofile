@@ -1,3 +1,5 @@
+# The executable "trayer" should be the one provided by the package
+# "trayer-srg", a fork that adds the --monitor option.
 /usr/bin/trayer --monitor primary --edge top --align right --SetDockType true --SetPartialStrut true \
  --expand true --width 10 --transparent true --alpha 0 --tint 0x002b36 --height 25 &
 

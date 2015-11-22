@@ -1,7 +1,7 @@
 
 [Default Applications]
-text/html=chromium.desktop
-text/xhtml=chromium.desktop
-application/xhtml=chromium.desktop
-x-scheme-handler/http=chromium.desktop
-x-scheme-handler/https=chromium.desktop
+text/html=vivaldi-beta.desktop
+text/xhtml=vivaldi-beta.desktop
+application/xhtml=vivaldi-beta.desktop
+x-scheme-handler/http=vivaldi-beta.desktop
+x-scheme-handler/https=vivaldi-beta.desktop
