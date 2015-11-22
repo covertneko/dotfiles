@@ -60,7 +60,6 @@ Plug 'editorconfig/editorconfig-vim'
 
 " Shell {{{
 Plug 'dag/vim-fish', { 'for': 'fish' }
-Plug 'kelan/gyp.vim', { 'for': 'gyp' }
 " }}}
 
 " Web {{{
