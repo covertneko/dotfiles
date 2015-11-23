@@ -1,4 +1,4 @@
-Config  { font   = "xft:DejaVu Sans:style=Regular:size=10:antialias=true"
+Config  { font   = "xft:Droid Sans:style=Regular:size=10:antialias=true"
         , bgColor = "#1D1F21"
         , fgColor = "#C5C8C6"
         , position = TopSize L 90 25
