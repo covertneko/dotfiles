@@ -1,5 +1,5 @@
 # Use Numix Ocean theme
 #include "/usr/share/themes/Numix-Ocean-Ocean/gtk-2.0/gtkrc"
 gtk-theme-name = "Numix-Ocean-Ocean"
-gtk-font-name = "Open Sans 12"
-gtk-icon-theme-name = "elementary"
+gtk-font-name = "Open Sans 11"
+gtk-icon-theme-name = "Archdroid-BlueGrey"
