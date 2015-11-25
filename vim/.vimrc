@@ -146,11 +146,9 @@ function! BuildYCM(info)
         !curl -sL http://git.io/vCe12 | patch -p1
         redraw
       endif
-      !./install.py
-  endif
-
+      !python2 install.py
     else
-      !./install.py --clang-completer
+      !python2 install.py --clang-completer
     endif
   endif
 endfunction
