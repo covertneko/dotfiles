@@ -5,5 +5,18 @@
 
 /usr/bin/start-pulseaudio-x11 &
 /usr/bin/xscreensaver -no-splash &
+/usr/bin/twmnd &
 /usr/bin/pnmixer &
 /usr/bin/nm-applet &
+/usr/bin/cbatticon &
+
+if [ -z "${WALLPAPERS_DIR}"]; then
+  export WALLPAPERS_DIR=$HOME/Pictures/wallpapers
+fi
+
+# Set random wallpaper if wallpaper directory exists
+if [ -d $WALLPAPERS_DIR ]; then
+  hsetroot -fill `find $WALLPAPERS_DIR -type f | sort -R | tail -1`
+else
+  hsetroot #111111
+fi
