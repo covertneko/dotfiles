@@ -14,6 +14,10 @@ if s:is_windows
   echom "You're gonna have a bad time."
 endif
 
+" Some plugins expect the following node modules to be installed:
+" livedown
+" eslint
+
 " Plugins {{{
 call plug#begin('~/.vim/plugged')
 
@@ -68,7 +72,7 @@ Plug 'ap/vim-css-color'
 Plug 'othree/html5.vim', { 'for': ['html', 'xml'] }
 Plug 'Valloric/MatchTagAlways', { 'for': ['html', 'xml', 'javascript.jsx', 'htmldjango', 'eruby'] }
 Plug 'docunext/closetag.vim', { 'for': ['html', 'xml', 'htmldjango', 'eruby'] }
-Plug 'pangloss/vim-javascript', { 'for': ['javascript'] }
+Plug 'isRuslan/vim-es6', { 'for': ['javascript'] }
       \ | Plug 'mxw/vim-jsx', { 'for': ['javascript', 'javascript.jsx'] }
 
 Plug 'ternjs/tern_for_vim', {
