@@ -50,6 +50,7 @@ Plug 'Shougo/unite.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession' | Plug 'dhruvasagar/vim-prosession'
+Plug 'tpope/vim-vinegar'
 " }}}
 
 " Formatting {{{
@@ -79,6 +80,10 @@ Plug 'ternjs/tern_for_vim', {
       \ 'do': 'npm install',
       \ 'for': ['javascript', 'javascript.jsx']
       \ }
+" }}}
+
+" Typescript {{{
+Plug 'leafgarland/typescript-vim', { 'for': ['typescript'] }
 " }}}
 
 " Markdown {{{
@@ -152,7 +157,7 @@ function! BuildYCM(info)
       endif
       !python2 install.py
     else
-      !python2 install.py --clang-completer
+      !python2 install.py --clang-completer --gocode-completer
     endif
   endif
 endfunction
@@ -550,6 +555,10 @@ augroup vimrcExtra
   au FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
   " Breaks due to RVM currently:
   " au FileType ruby,eruby let g:rubycomplete_rails = 1
+
+  " Complete erb tags in eruby files
+  au FileType eruby let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
+  au FileType eruby let b:delimitMate_quotes = "' \" ` | %"
 
   " Show absolute line numbers in insert mode or when out of focus.
   au InsertEnter,WinLeave,FocusLost * setlocal norelativenumber number
