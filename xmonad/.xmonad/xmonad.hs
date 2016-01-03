@@ -1,11 +1,14 @@
 import XMonad
+import XMonad.StackSet hiding (workspaces)
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.NoBorders
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
+import Data.List(isInfixOf, concat)
 
 myTerminal = "/usr/bin/urxvt"
 myXMobarConfig = "/home/eric/.xmonad/xmobar.hs"
@@ -28,19 +31,31 @@ colorBase0D = "#8fa1b3" -- Blue
 colorBase0E = "#b48ead" -- Magenta
 colorBase0F = "#ab7967" -- Brown
 
-myManageHook = composeAll
-  [ title =? "Network Operations Manager" --> doFloat
-  , className =? "Chromium"               --> doShift "1:main"
-  , className =? "Pidgin"                 --> doShift "1:main"
+myManageHook = composeOne . concat $
+  [ [ title =? "Network Operations Manager" -?> doFloat ]
+  , [ className =? "Pidgin"                 -?> doShift "1:main" ]
+  , [ isDialog                              -?> doFloat ]
+  , [ role =? "pop-up"                      -?> doRectFloat
+      $ RationalRect 0.5 0.5 0.5 0.5 ]
+  -- [ [ fmap ( c `isInfixOf`) resource -?> doFloat | c <- matchTitleSubstringFloats ]
   ]
+    where role = stringProperty "WM_WINDOW_ROLE"
+    -- where matchTitleSubstringFloats = ["Developer Tools"]
+
+myLayoutHook = tiled ||| Full ||| Mirror tiled
+  where
+    tiled = Tall nmaster delta ratio
+    nmaster = 1
+    ratio = 1/2
+    delta = 3/100
 
 main = do
     xmproc <- spawnPipe $ "xmobar " ++ myXMobarConfig
     xmonad $ ewmh defaultConfig
         { workspaces = ["1:main", "2:dev", "3:web", "4", "5", "6", "7", "8", "9", "0", "-", "="]
         , handleEventHook = handleEventHook defaultConfig <+> fullscreenEventHook
-        , manageHook = manageDocks <+> manageHook defaultConfig
-        , layoutHook = avoidStruts  $  layoutHook defaultConfig
+        , manageHook = manageDocks <+> myManageHook
+        , layoutHook = avoidStruts $ smartBorders $ myLayoutHook
         , logHook    = dynamicLogWithPP xmobarPP
                           { ppOutput = hPutStrLn xmproc
                           , ppTitle  = xmobarColor colorBase07 "" . shorten 50
