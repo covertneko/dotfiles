@@ -51,6 +51,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession' | Plug 'dhruvasagar/vim-prosession'
 Plug 'tpope/vim-vinegar'
+Plug 'Valloric/ListToggle'
 " }}}
 
 " Formatting {{{
@@ -73,17 +74,19 @@ Plug 'ap/vim-css-color'
 Plug 'othree/html5.vim', { 'for': ['html', 'xml'] }
 Plug 'Valloric/MatchTagAlways', { 'for': ['html', 'xml', 'javascript.jsx', 'htmldjango', 'eruby'] }
 Plug 'docunext/closetag.vim', { 'for': ['html', 'xml', 'htmldjango', 'eruby'] }
-Plug 'isRuslan/vim-es6', { 'for': ['javascript'] }
+Plug 'othree/yajs.vim', { 'for': ['javascript'] }
       \ | Plug 'mxw/vim-jsx', { 'for': ['javascript', 'javascript.jsx'] }
 
 Plug 'ternjs/tern_for_vim', {
       \ 'do': 'npm install',
       \ 'for': ['javascript', 'javascript.jsx']
       \ }
+
+Plug 'elzr/vim-json', { 'for': ['json'] }
 " }}}
 
 " Typescript {{{
-Plug 'leafgarland/typescript-vim', { 'for': ['typescript'] }
+Plug 'HerringtonDarkholme/yats.vim', { 'for': ['typescript'] }
 " }}}
 
 " Markdown {{{
@@ -163,7 +166,6 @@ function! BuildYCM(info)
 endfunction
 
 Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM'), 'on': [] }
-      \ | Plug 'rdnetto/YCM-Generator', { 'tag': 'stable' }
 
 " Delay YCM startup to InsertEnter (may hang for 1-3 seconds on some machines)
 augroup load_ycm
@@ -289,24 +291,32 @@ let g:indent_guides_guide_size=&tabstop
 " }}}
 
 " Limelight {{{
-nmap <Leader>l :Limelight!!<cr>
-xmap <Leader>l :Limelight!!<cr>
+nmap <Leader>ll :Limelight!!<cr>
+xmap <Leader>ll :Limelight!!<cr>
+let g:limelight_conceal_ctermfg = 'darkgray'
 " }}}
 
-" Trailing Whitespace {{{
-let g:extra_whitespace_ignored_filetypes = ['unite', 'mkd', 'markdown', 'help']
+" ListToggle {{{
+let g:lt_location_list_toggle_map = '<leader>lt'
+let g:lt_quickfix_list_toggle_map = '<leader>qt'
+let g:lt_height = 5
+" }}}
+
+" Better Whitespace {{{
+let g:better_whitespace_filetypes_blacklist = ['diff', 'gitcommit', 'unite', 'qf', 'help', 'mkd', 'markdown']
 " }}}
 
 " Syntastic {{{
+" Always populate errors so they show up when calling :lopen
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_mode_map={'mode': 'active', 'passive_filetypes': ['haskell']}
+
+" Expect and use tsconfig.json for typescript projects
+let g:syntastic_typescript_tsc_fname = ''
 
 " Javascript with JSX syntax checking
 let g:syntastic_javascript_checkers = ['eslint']
 " For vim-jsx - highlight jsx in js files
 " let g:jsx_ext_required = 0
-
-nmap <silent> <leader>hl :SyntasticCheck hlint<cr>:lopen<cr>
 " }}}
 
 " Tagbar {{{
@@ -316,25 +326,25 @@ nnoremap <leader>tt :TagbarToggle<cr>
 " }}}
 
 " Ghc-mod {{{
-nmap <silent> <leader>ht :GhcModType<cr>
-nmap <silent> <leader>hh :GhcModTypeClear<cr>
-nmap <silent> <leader>hT :GhcModTypeInsert<cr>
-nmap <silent> <leader>hc :SyntasticCheck ghc_mod<cr>:lopen<cr>
+" nmap <silent> <leader>ht :GhcModType<cr>
+" nmap <silent> <leader>hh :GhcModTypeClear<cr>
+" nmap <silent> <leader>hT :GhcModTypeInsert<cr>
+" nmap <silent> <leader>hc :SyntasticCheck ghc_mod<cr>:lopen<cr>
 
-" Check Haskell on write
-au BufWritePost *.hs,*.lhs GhcModCheckAndLintAsync
+" " Check Haskell on write
+" au BufWritePost *.hs,*.lhs GhcModCheckAndLintAsync
 " }}}
 
 " Neco-ghc {{{
-function! SetToCabalBuild()
-  if glob("*.cabal") != ''
-    set makeprg=cabal\ build
-  endif
-endfunction
+" function! SetToCabalBuild()
+"   if glob("*.cabal") != ''
+"     set makeprg=cabal\ build
+"   endif
+" endfunction
 
-au BufEnter *.hs,*.lhs :call SetToCabalBuild()
+" au BufEnter *.hs,*.lhs :call SetToCabalBuild()
 
-let $PATH=$PATH.':'.expand("~/.cabal/bin")
+" let $PATH=$PATH.':'.expand("~/.cabal/bin")
 " }}}
 
 " Alternative C++ completion on Cygwin.
@@ -400,6 +410,7 @@ let g:ycm_semantic_triggers = {
       \ 'scss': ['re!.*:\s*', '::', 're!^\s+'],
       \ 'haskell' : ['.'],
       \ 'ruby' : ['.', '::'],
+      \ 'typescript' : ['.', 're!:\s*'],
 \ }
 
 let g:ycm_extra_conf_vim_data = ['&filetype']
@@ -546,6 +557,9 @@ augroup vimrcExtra
 
   " Run tests in Ruby projects
   au BufNewFile,BufReadPost *.rb,*.erb noremap <F6> :Bundle exec rake test<CR>
+
+  " Compile typescript with <F5>
+  au FileType typescript nnoremap <F5> :!tsc<CR>
 
   " Use tabs for Makefiles
   au BufNewFile,BufReadPost Makefile,*.mak :setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
