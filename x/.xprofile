@@ -10,6 +10,8 @@
 /usr/bin/nm-applet &
 /usr/bin/cbatticon &
 
+xsetroot -cursor_name left_ptr
+
 if [ -z "${WALLPAPERS_DIR}"]; then
   export WALLPAPERS_DIR=$HOME/Pictures/wallpapers
 fi
@@ -19,4 +21,11 @@ if [ -d $WALLPAPERS_DIR ]; then
   hsetroot -fill `find $WALLPAPERS_DIR -type f | sort -R | tail -1`
 else
   hsetroot #111111
+fi
+
+# Fix Java GUIs in XMonad
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+if type xcompmgr >/dev/null 2>&1; then
+  xcompmgr -cfFD 2
 fi

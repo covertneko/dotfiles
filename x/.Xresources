@@ -33,7 +33,7 @@ URxvt.secondaryScroll:          true
 
 ! Extensions
 URxvt.perl-ext-common:          default,matcher,clipboard
-URxvt.url-launcher:             vivaldi-beta
+URxvt.url-launcher:             vivaldi-snapshot
 ! Left click to open link
 URxvt.matcher.button:           1
 
