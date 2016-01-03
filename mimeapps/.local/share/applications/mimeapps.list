@@ -5,3 +5,4 @@ text/xhtml=vivaldi-snapshot.desktop
 application/xhtml=vivaldi-snapshot.desktop
 x-scheme-handler/http=vivaldi-snapshot.desktop
 x-scheme-handler/https=vivaldi-snapshot.desktop
+application/pdf=vivaldi-snapshot.desktop
