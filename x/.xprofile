@@ -27,5 +27,5 @@ fi
 export _JAVA_AWT_WM_NONREPARENTING=1
 
 if type xcompmgr >/dev/null 2>&1; then
-  xcompmgr -cfFD 2
+  xcompmgr -cfFD 2 &
 fi
