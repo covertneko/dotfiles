@@ -35,8 +35,9 @@ myManageHook = composeOne . concat $
   [ [ title =? "Network Operations Manager" -?> doFloat ]
   , [ className =? "Pidgin"                 -?> doShift "1:main" ]
   , [ isDialog                              -?> doFloat ]
-  , [ role =? "pop-up"                      -?> doRectFloat
-      $ RationalRect 0.5 0.5 0.5 0.5 ]
+  , [ role =? "pop-up"                      -?> doRectFloat $
+    RationalRect 0.5 0.5 0.5 0.5 ]
+  , [ ( fmap ("Figure " `isInfixOf`) title <&&> className =? "Octave-gui") -?> doFloat ]
   -- [ [ fmap ( c `isInfixOf`) resource -?> doFloat | c <- matchTitleSubstringFloats ]
   ]
     where role = stringProperty "WM_WINDOW_ROLE"
