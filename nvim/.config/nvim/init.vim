@@ -48,7 +48,7 @@ set wildmenu
 set wildmode=list:longest,full
 " Show eol/tabs
 set list
-set listchars=eol:¬,tab:->
+set listchars=tab:\|\ ,eol:¬
 " Rolodex mode
 set winheight=5
 :set noequalalways winminheight=5 winheight=9999 helpheight=9999
@@ -417,11 +417,16 @@ augroup init_extra
   au BufNewFile,BufReadPost Makefile,*.mak :setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
   " }}}
 
+  " Go {{{
+  " Use tabs for go
+  au FileType go :setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
+  " }}}
+
   " Ruby {{{
   " Run tests in Ruby projects with <F6>
   au BufNewFile,BufReadPost *.rb,*.erb noremap <F6> :Bundle exec rake test<CR>
 
-  " Completion settings 
+  " Completion settings
   au FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
   au FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
   " Breaks due to RVM currently:
@@ -484,5 +489,10 @@ imap <c-c> <esc>
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 " Save as root
 cnoremap sudow w !sudo tee % > /dev/null
+" }}}
+
+" Terminal {{{
+" Double Esc exits to normal mode
+tnoremap <Esc><Esc> <C-\><C-n>
 " }}}
 " }}}
