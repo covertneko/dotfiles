@@ -24,7 +24,7 @@ URxvt.iso14755:                 false
 
 ! Fonts
 URxvt.allow_bold:               true
-URxvt.font:                     xft:Monospace:style=Regular:size=11,xft:DejaVu Sans Mono:style=Regular:size=12
+URxvt.font:                     xft:Monospace:style=Regular:size=12,xft:DejaVu Sans Mono:style=Regular:size=12
 
 ! Scrolling
 URxvt.scrollBar:                false
