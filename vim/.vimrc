@@ -145,6 +145,12 @@ if s:is_cygwin
 endif
 " }}}
 
+" Rust {{{
+Plug 'cespare/vim-toml'
+Plug 'wting/rust.vim'
+Plug 'racer-rust/vim-racer', { 'for' : 'rust' }
+" }}}
+
 " General Language Support {{{
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/syntastic'
@@ -560,6 +566,9 @@ augroup vimrcExtra
 
   " Compile typescript with <F5>
   au FileType typescript nnoremap <F5> :!tsc<CR>
+
+  " Compile CMake projects with <F5>
+  au FileType cpp nnoremap <F5> :!bash -c "\[ -d build \] \|\| mkdir build; cd build; cmake ../src && make"<CR>
 
   " Use tabs for Makefiles
   au BufNewFile,BufReadPost Makefile,*.mak :setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
