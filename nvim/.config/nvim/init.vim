@@ -225,6 +225,8 @@ nnoremap <leader>md :LivedownPreview<cr>
 " }}}
 " }}}
 
+Plug 'elixir-lang/vim-elixir', { 'for': 'elixir' }
+
 " C++ {{{
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
 " }}}
