@@ -225,7 +225,9 @@ nnoremap <leader>md :LivedownPreview<cr>
 " }}}
 " }}}
 
+" Elixir {{{
 Plug 'elixir-lang/vim-elixir', { 'for': 'elixir' }
+" }}}
 
 " C++ {{{
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
@@ -456,6 +458,9 @@ vmap <down> ]egv
 nnoremap <leader>w <C-w>
 " Re-source init.vim
 nnoremap <leader>rc :source ~/.config/nvim/init.vim<cr>
+
+" Clear search results
+nnoremap <leader>nh :nohlsearch<cr>
 
 " Change tab sizes quick and easily
 " Little tabs (2)
