@@ -5,12 +5,16 @@
 
 /usr/bin/start-pulseaudio-x11 &
 /usr/bin/xscreensaver -no-splash &
+/usr/bin/xss-lock -- xscreensaver-command -lock &
 /usr/bin/twmnd &
 /usr/bin/pnmixer &
 /usr/bin/nm-applet &
 /usr/bin/cbatticon &
 
 xsetroot -cursor_name left_ptr
+
+# Add local scripts to PATH
+export PATH=~/.local/bin:$PATH
 
 if [ -z "${WALLPAPERS_DIR}"]; then
   export WALLPAPERS_DIR=$HOME/Pictures/wallpapers
