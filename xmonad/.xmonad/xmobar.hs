@@ -11,7 +11,7 @@ Config  { font   = "xft:Droid Sans:style=Regular:size=10:antialias=true"
                                           , "--normal", "#859900"
                                           , "--high", "#dc322f"
                                           , "--low",  "#268bd2" ] 36000
-                     , Run MultiCpu [ "-t", "CPU: <total0> <total1> <total2> <total3>"
+                     , Run MultiCpu [ "-t", "CPU: <autototal>"
                                     , "-L", "30", "-H", "60"
                                     , "--normal", "#859900"
                                     , "--high", "#dc322f" ] 10
