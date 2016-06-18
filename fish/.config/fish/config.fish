@@ -28,7 +28,7 @@ for p in $paths
 end
 
 # init virtualfish
-eval (python -m virtualfish compat_aliases)
+eval (python -m virtualfish compat_aliases 2> /dev/null)
 
 # activate default ruby
 rvm default
