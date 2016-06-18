@@ -6,3 +6,4 @@ application/xhtml=vivaldi-beta.desktop
 x-scheme-handler/http=vivaldi-beta.desktop
 x-scheme-handler/https=vivaldi-beta.desktop
 application/pdf=vivaldi-beta.desktop
+application/x-java-jnlp-file=javaws.desktop
