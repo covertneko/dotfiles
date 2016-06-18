@@ -18,6 +18,9 @@ set incsearch
 set ignorecase smartcase
 set omnifunc=syntaxcomplete#Complete
 set foldmethod=syntax
+" No bell please
+set vb
+set t_vb=
 " Don't open a file with all folds closed
 set foldlevelstart=20
 " Scroll buffer when cursor is within 5 lines of top/bottom
@@ -268,11 +271,31 @@ au FileType c,cpp,cmake nnoremap <leader>ccr :call CMakeSetBuildType("RELEASE")<
 au FileType c,cpp,cmake nnoremap <leader>ccd :call CMakeSetBuildType("DEBUG")<cr>
 " }}}
 
+" Rust {{{
+Plug 'racer-rust/vim-racer', { 'for': 'rust' }
+Plug 'rust-lang/rust.vim'
+" }}}
+
 " General Language Support {{{
 " Tagbar {{{
 Plug 'majutsushi/tagbar'
 let g:tagbar_left = 1
 let g:tagbar_usearrows=1
+
+let g:tagbar_type_rust = {
+  \ 'ctagstype' : 'rust',
+  \ 'kinds' : [
+      \'T:types,type definitions',
+      \'f:functions,function definitions',
+      \'g:enum,enumeration names',
+      \'s:structure names',
+      \'m:modules,module names',
+      \'c:consts,static constants',
+      \'t:traits,traits',
+      \'i:impls,trait implementations',
+  \]
+\}
+
 nnoremap <leader>tt :TagbarToggle<cr>
 " }}}
 
@@ -289,6 +312,10 @@ let g:syntastic_typescript_tsc_fname = ''
 let g:syntastic_javascript_checkers = ['eslint']
 " For vim-jsx - highlight jsx in js files
 " let g:jsx_ext_required = 0
+" }}}
+
+" Tsuquyomi {{{
+Plug 'Quramy/tsuquyomi', { 'for': ['typescript', 'tsx'] }
 " }}}
 
 " YouCompleteMe {{{
@@ -318,6 +345,7 @@ let g:ycm_global_ycm_extra_conf = '~/.local/lib/YouCompleteMe/.ycm_extra_conf_li
 let g:ycm_semantic_triggers = {
       \ 'c': ['.', '->'],
       \ 'cpp': ['.', '->', '::'],
+      \ 'rust': ['.', '::'],
       \ 'css': ['re!.*:\s*', '::', 're!^\s+'],
       \ 'scss': ['re!.*:\s*', '::', 're!^\s+'],
       \ 'haskell' : ['.'],
@@ -325,11 +353,24 @@ let g:ycm_semantic_triggers = {
       \ 'typescript' : ['.', 're!:\s*'],
 \ }
 
+" Path to rust source
+let g:ycm_rust_src_path = '/usr/src/rust/src'
+
+" Use current python executable in path
+let g:ycm_python_binary_path = substitute(system('which python 2> /dev/null'), '\n*$', '', '')
+
 let g:ycm_extra_conf_vim_data = ['&filetype']
 let g:ycm_confirm_extra_conf = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
+
+nnoremap <leader>gd :YcmCompleter GoTo<cr>
 " }}}
+
+" Floobits {{{
+Plug 'floobits/floobits-neovim'
+" }}}
+
 " }}}
 
 call plug#end()
