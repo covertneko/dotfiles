@@ -13,7 +13,7 @@ set -g silentjobs "vim tmux screen man less more"
 # Exports
 set -x EDITOR vim
 set -x VISUAL vim
-set -x VIRTUALFISH_HOME=$HOME/virtualenvs
+set -x VIRTUALFISH_HOME $HOME/virtualenvs
 
 if not test -d $VIRTUALFISH_HOME
   mkdir -p $VIRTUALFISH_HOME
@@ -31,7 +31,7 @@ end
 eval (python -m virtualfish compat_aliases 2> /dev/null)
 
 # activate default ruby
-rvm default
+#rvm default
 
 # Set up ssh-agent on login if it isn't already running
 if status --is-login
