@@ -256,24 +256,48 @@ function! CMakeBuild()
   :make
 endfunction
 
-" Open new quickfix buffers in a new tab
-au FileType c,cpp set switchbuf+=newtab
 
-" Generate build tree and build
-au FileType c,cpp,cmake nnoremap <leader><F5> :call CMakeBuild()<cr>
-" Build without regenerating build tree
-au FileType c,cpp,cmake nnoremap <F5> :make<cr>
-" Clean build tree
-au FileType c,cpp,cmake nnoremap <F6> :CMakeClean<cr>
-" Set build type to release
-au FileType c,cpp,cmake nnoremap <leader>ccr :call CMakeSetBuildType("RELEASE")<cr>
-" Set build type to debug
-au FileType c,cpp,cmake nnoremap <leader>ccd :call CMakeSetBuildType("DEBUG")<cr>
+augroup cmake_settings
+  au!
+  " Open new quickfix buffers in a new tab
+  au FileType c,cpp set switchbuf+=newtab
+
+  " Generate build tree and build
+  au FileType c,cpp,cmake nnoremap <leader><F5> :call CMakeBuild()<cr>
+  " Build without regenerating build tree
+  au FileType c,cpp,cmake nnoremap <F5> :make<cr>
+  " Clean build tree
+  au FileType c,cpp,cmake nnoremap <F6> :CMakeClean<cr>
+  " Set build type to release
+  au FileType c,cpp,cmake nnoremap <leader>ccr :call CMakeSetBuildType("RELEASE")<cr>
+  " Set build type to debug
+  au FileType c,cpp,cmake nnoremap <leader>ccd :call CMakeSetBuildType("DEBUG")<cr>
+augroup END
 " }}}
 
 " Rust {{{
 Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 Plug 'rust-lang/rust.vim'
+
+let g:racer_no_default_keymappings = 1
+" }}}
+
+" Scala {{{
+Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
+Plug 'tfnico/vim-gradle', { 'for': ['scala', 'java', 'groovy'] }
+Plug 'ensime/ensime-vim', { 'for': 'scala' }
+augroup scala_settings
+  au!
+  autocmd BufWritePost *.scala :EnTypeCheck
+augroup END
+" }}}
+
+" Hashicorp {{{
+Plug 'hashivim/vim-terraform'
+" }}}
+
+" Swift {{{
+Plug 'keith/swift.vim', { 'for': 'swift' }
 " }}}
 
 " General Language Support {{{
@@ -366,11 +390,6 @@ let g:ycm_autoclose_preview_window_after_insertion = 1
 
 nnoremap <leader>gd :YcmCompleter GoTo<cr>
 " }}}
-
-" Floobits {{{
-Plug 'floobits/floobits-neovim'
-" }}}
-
 " }}}
 
 call plug#end()
