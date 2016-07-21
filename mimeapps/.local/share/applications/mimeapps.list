@@ -1,9 +1,11 @@
 
 [Default Applications]
-text/html=vivaldi-beta.desktop
-text/xhtml=vivaldi-beta.desktop
-application/xhtml=vivaldi-beta.desktop
-x-scheme-handler/http=vivaldi-beta.desktop
-x-scheme-handler/https=vivaldi-beta.desktop
-application/pdf=vivaldi-beta.desktop
+text/html=vivaldi-snapshot.desktop
+text/xhtml=vivaldi-snapshot.desktop
+application/xhtml=vivaldi-snapshot.desktop
+x-scheme-handler/http=vivaldi-snapshot.desktop
+x-scheme-handler/https=vivaldi-snapshot.desktop
+x-scheme-handler/about=vivaldi-snapshot.desktop
+x-scheme-handler/unknown=vivaldi-snapshot.desktop
+application/pdf=vivaldi-snapshot.desktop
 application/x-java-jnlp-file=javaws.desktop
