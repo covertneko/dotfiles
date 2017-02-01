@@ -8,7 +8,7 @@ import XMonad.Layout.NoBorders
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
-import Data.List(isInfixOf, concat)
+import Data.List(isInfixOf, isSuffixOf, concat)
 
 myTerminal = "/usr/bin/urxvt"
 myXMobarConfig = "/home/eric/.xmonad/xmobar.hs"
@@ -34,6 +34,9 @@ colorBase0F = "#ab7967" -- Brown
 myManageHook = composeOne . concat $
   [ [ title =? "Network Operations Manager" -?> doFloat ]
   , [ className =? "Pidgin"                 -?> doShift "1:main" ]
+  , [ className =? "Gimp-2.8"               -?> doShift "*"]
+  , [ (className =? "Gimp-2.8" <&&>
+       fmap ("tool" `isSuffixOf`) role)     -?> doFloat ]
   , [ isDialog                              -?> doFloat ]
   , [ role =? "pop-up"                      -?> doRectFloat $
     RationalRect 0.5 0.5 0.5 0.5 ]
