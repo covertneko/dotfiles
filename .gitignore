@@ -1,3 +1,6 @@
 .DS_Store
 *.pyc
 *.vim-rplugin~
+mimeapps/.local/share/applications/chrome-*-Default.desktop
+mimeapps/.local/share/applications/mimeinfo.cache
+mimeapps/.local/share/applications/wine-extension-*.desktop
