@@ -276,6 +276,10 @@ Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 Plug 'rust-lang/rust.vim'
 " }}}
 
+" Arduino {{{
+Plug 'vim-scripts/Arduino-syntax-file'
+" }}}
+
 " General Language Support {{{
 " Tagbar {{{
 Plug 'majutsushi/tagbar'
