@@ -11,7 +11,7 @@ import System.IO
 import Data.List(isInfixOf, isSuffixOf, concat)
 
 myTerminal = "/usr/bin/urxvt"
-myXMobarConfig = "/home/eric/.xmonad/xmobar.hs"
+myXMobarConfig = "~/.xmonad/xmobar.hs"
 
 -- Colors from https://chriskempson.github.io/base16/#ocean
 colorBase00 = "#2b303b" -- Background

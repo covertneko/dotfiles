@@ -1,12 +1,12 @@
 [user]
-	email = eric@nikelmwann.io
-	name = Eric Winkelmann
+	email = erin@winkel.io
+	name = Erin Winkelmann
 [push]
 	default = simple
 [color]
 	ui = true
 [core]
-	editor = vim
+	editor = nvim
 	autocrlf = false
 	safecrlf = true
 	eol = lf
