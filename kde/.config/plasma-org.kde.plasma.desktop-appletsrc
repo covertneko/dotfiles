@@ -1,2 +1,5 @@
 [Containments][1][Wallpaper][org.kde.slideshow][General]
 Image=file:///home/erin/.local/share/wallpapers/Landscape/Living Room Wallpapers/bgAyxCB.jpg
+
+[Containments][2][Applets][18][Configuration]
+PreloadWeight=100
