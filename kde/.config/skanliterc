@@ -1,0 +1,35 @@
+[General]
+DisableAutoSelection=false
+PreviewDPI=100
+SetPreviewDPI=false
+deviceModel=CX410de
+deviceName=escl:http://10.0.2.247:80
+deviceVendor=Lexmark
+
+[Image Saving]
+ImgFormat=image/png
+ImgQuality=90
+Location=file:///home/erin
+NamePrefix=Image-
+NumberStartsFrom=1
+SaveMode=0
+SetQuality=false
+ShowBeforeSave=true
+
+[Options For escl:http://10.0.2.247:80]
+KSane::BatchMode=false
+KSane::BatchTimeDelay=10
+KSane::InvertColors=false
+KSane::PageSize=Custom
+br-x=215.899994
+br-y=368.469330
+mode=Color
+preview=false
+preview-in-gray=false
+resolution=300
+source=ADF
+tl-x=0.000000
+tl-y=0.000000
+
+[Window]
+Geometry=879,400

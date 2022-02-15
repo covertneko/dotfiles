@@ -1,0 +1,37 @@
+[$Version]
+update_info=gwenview.upd:SideBar_StatusBar_Rename,gwenview.upd:ImageView_AlphaBackgroundMode_Update,gwenview.upd:DeleteThumbnailSetting_Rename
+
+[General]
+LastUsedVersion=210800
+
+[MainWindow]
+MenuBar=Disabled
+State=AAAA/wAAAAD9AAAAAAAACNAAAAWEAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgEAAAAA/////wAAAAAAAAAA
+ToolBarsMovable=Disabled
+eDP-1 Height 2256x1504=1464
+eDP-1 Width 2256x1504=2256
+eDP-1 XPosition 2256x1504=0
+eDP-1 YPosition 2256x1504=40
+eDP1 Height 2256x1504=1464
+eDP1 Width 2256x1504=2256
+eDP1 Window-Maximized 2256x1504=true
+eDP1 XPosition 2256x1504=0
+eDP1 YPosition 2256x1504=40
+
+[Print]
+PrintEnlargeSmallerImages=true
+PrintHeight=8.43
+
+[Recent Files]
+File1[$e]=https://cdn.discordapp.com/attachments/239856980343259146/918343032963731496/Untitled_12_2.png
+File2[$e]=$HOME/Pictures/Screenshot_20211222_145607.png
+File3[$e]=$HOME/Pictures/Screenshot_20211222_150435.png
+File4[$e]=$HOME/Pictures/Screenshot_20211222_150747.png
+File5[$e]=$HOME/Pictures/Screenshot_20211223_163846.png
+File6[$e]=$HOME/Documents/lab3graph.png
+Name1[$e]=Untitled_12_2.png
+Name2[$e]=Screenshot_20211222_145607.png
+Name3[$e]=Screenshot_20211222_150435.png
+Name4[$e]=Screenshot_20211222_150747.png
+Name5[$e]=Screenshot_20211223_163846.png
+Name6[$e]=lab3graph.png
