@@ -144,7 +144,7 @@ ForegroundVisited=155,89,182
 
 [General]
 AccentColor=235,185,210
-ColorScheme=BreezeDarkCustom.temp
+ColorScheme=BreezeDark
 Name=Breeze Dark Custom
 shadeSortColumn=true
 widgetStyle=Breeze

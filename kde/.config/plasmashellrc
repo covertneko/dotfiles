@@ -7,6 +7,9 @@ detailViewIconSize=16
 eDP-1 Height 2256x1504=560
 eDP-1 Width 2256x1504=564
 
+[PlasmaTransientsConfig]
+PreloadWeight=26
+
 [PlasmaViews][Panel 2]
 alignment=132
 panelOpacity=0
@@ -15,6 +18,9 @@ panelOpacity=0
 thickness=40
 
 [PlasmaViews][Panel 2][Horizontal2256]
+thickness=40
+
+[PlasmaViews][Panel 2][Vertical1504]
 thickness=40
 
 [PlasmaViews][Panel 22]
