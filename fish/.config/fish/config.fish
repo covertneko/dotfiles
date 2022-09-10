@@ -14,6 +14,7 @@ set -g silentjobs "vim tmux screen man less more"
 set -x EDITOR vim
 set -x VISUAL vim
 set -x VIRTUALFISH_HOME $HOME/virtualenvs
+set -x IDF_PATH /opt/esp-idf
 
 if not test -d $VIRTUALFISH_HOME
   mkdir -p $VIRTUALFISH_HOME
@@ -90,7 +91,7 @@ end
   and test -n "$last_job"; end
     # Ensure the job isn't in the "silentjobs" list.
     for j in $silentjobs
-      if echo "$j" | egrep -q -- "$last_job"
+      if echo "$j" | grep -Eq -- "$last_job"
         set -g last_job_silent
         break
       end
