@@ -1,4 +1,8 @@
-plugged
-session
-.ycm_extra_conf.pyc
+bundle/*
+plugged/*
+autoload/*
 .netrwhist
+spell/*.spl
+shada/*
+plugin/packer_compiled.lua
+lateinit-site.lua
