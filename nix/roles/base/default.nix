@@ -1,11 +1,10 @@
-{ config, pkgs, polkadots, ... }:
+{ config, pkgs, ... }:
 {
   nix.nixPath = [ "nixpkgs=${pkgs.path}" ];
 
   environment.systemPackages = with pkgs; [
     file
     neovim
-    pkgs.polkadots
     nodejs
     rustup
     zsh
@@ -14,7 +13,6 @@
   ];
 
   nixpkgs.overlays = [
-    (import ../../overlays/polkadots.nix { inherit polkadots; })
   ];
   nixpkgs.config.allowUnfree = true;
 
