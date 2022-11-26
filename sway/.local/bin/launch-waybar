@@ -1,0 +1,13 @@
+#!/bin/bash
+
+CONFIG_FILES="$HOME/.config/waybar/config $HOME/.config/waybar/style.css"
+
+trap "killall waybar" EXIT
+
+mv ~/.local/state/waybar.log ~/.local/state/waybar-prev.log
+
+while true; do
+    waybar &>~/.local/state/waybar.log &
+    inotifywait -e create,modify $CONFIG_FILES
+    killall waybar
+done

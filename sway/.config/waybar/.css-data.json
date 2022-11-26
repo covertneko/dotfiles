@@ -1,0 +1,6 @@
+{
+  "version": 1.1,
+  "atDirectives": [
+    { "name": "define-color", "description": "(GTK only) Define named color"}
+  ]
+}

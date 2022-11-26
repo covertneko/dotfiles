@@ -1,0 +1,133 @@
+@import url("./palette.css");
+
+* {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  font-family: Hack Nerd Font Mono;
+  font-weight: bold;
+  font-size: 1em;
+  /* margin: 0 0.5em; */
+}
+
+window#waybar {
+  color: @theme_fg_color;
+  background: transparent;
+  padding: 0;
+}
+
+window#waybar > box {
+  opacity: 0.9;
+  background-color: @theme_bg_color;
+  border-bottom: 2px solid @theme_selected_bg_color;
+  box-shadow: 0 0.1em 3px 0 @BLACK_900;
+  padding: 0 0.2em;
+  margin: 0;
+  margin-bottom: 4px; /* TODO: fix gap when single window shown */
+
+  transition: 250ms ease-out border-bottom;
+}
+
+/* Unfocused/empty outputs
+ * NOTE: this may be a waybar bug, but there doesn't appear to be
+ * a better way to target unfocused workspaces
+ */
+#waybar.empty > box {
+  border-bottom: 2px solid @theme_fg_color;
+}
+
+#workspaces {
+  margin-left: 2px;
+  padding-left: 2px;
+}
+
+#workspaces button {
+  font-size: 2em;
+  /* margin: 0.2em; */
+  padding: 0 0.25em;
+  padding-bottom: 0.1em;
+  margin: 0;
+  margin-left: -2px;
+  border: 2px solid transparent;
+  border-bottom: none;
+  border-top: none;
+  /* border-bottom-width: 3px; /1* negative margins cut 1px off bottom border *1/ */
+  color: @theme_fg_color;
+  transition-property: background, color, border-color, border, border-bottom-color;
+  transition-duration: 250ms;
+  transition-timing-function: ease-out;
+}
+
+/* #workspaces button > :nth-child(1) { */
+/*   font-size: 9px; */
+/* } */
+
+#workspaces button.visible:not(.focused) {
+  color: @theme_fg_color;
+  border-color: @theme_fg_color;
+  background: alpha(@theme_fg_color, 0.2);
+}
+
+#workspaces button.visible.focused {
+  color: @theme_selected_bg_color;
+  border-color: @theme_selected_bg_color;
+  /* background: @theme_selected_bg_color; */
+  /* border-color: @theme_selected_bg_color; */
+  background: alpha(@theme_selected_bg_color, 0.2);
+}
+
+#workspaces button.persistent {
+  color: @insensitive_fg_color;
+  transition-property: none;
+}
+
+#workspaces button > * {
+  background: transparent;
+}
+
+#idle_inhibitor {
+  font-size: 2em;
+  padding: 0 0.2em;
+}
+
+#waybar .modules-right > widget > * {
+  padding: 0 1em;
+  border-right: 2px solid @insensitive_fg_color;
+}
+
+/* #pulseaudio { */
+
+/* } */
+
+/* @keyframes critical { */
+/*   to { */
+/*   color: @color1; */
+/*   font-size: 1em; */
+/*   } */
+/* } */
+
+/* @keyframes empty { */
+/*   to { */
+/*   color: @color0; */
+/*   background-color: @color1; */
+/*   border-radius: 0.2em; */
+/*   font-size: 1em; */
+/*   margin: 0.5em 0.5em; */
+/*   padding: 0 0.5em; */
+/*   } */
+/* } */
+
+/* #battery.critical:not(.charging) { */
+/*   animation-name: critical; */
+/*   animation-duration: 0.5s; */
+/*   animation-iteration-count: infinite; */
+/*   animation-direction: alternate; */
+/* } */
+
+/* #battery.empty:not(.charging) { */
+/*   animation-name: empty; */
+/*   animation-duration: 0.5s; */
+/*   animation-iteration-count: infinite; */
+/*   animation-direction: alternate; */
+/* } */
+

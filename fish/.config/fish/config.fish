@@ -5,7 +5,7 @@ set -l paths \
   "/opt/local/bin" \
   "$HOME/.gem/ruby/2.2.0/bin" \
   "$GOPATH/bin" \
-  "$HOME/.cabal/bin" \
+  "$HOME/.cargo/bin" \
   "$HOME/.local/bin"
 # Commands not to notify for when their jobs run longer than 10 seconds
 set -g silentjobs "vim tmux screen man less more"

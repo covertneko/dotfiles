@@ -1,0 +1,69 @@
+{
+  "name": "topbar",
+  "layer": "bottom",
+  "position": "top",
+  "height": 30,
+  "spacing": 4, // Gaps between modules (4px)
+  "modules-left": ["sway/workspaces", "sway/mode"],
+  "modules-center": ["sway/window"],
+
+  "sway/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": false,
+    "format": "<span  letter_spacing=\"12288\">{icon}</span><span font_scale=\"subscript\" baseline_shift=\"subscript\">{index}</span>",
+    "persistent_workspaces": {
+      "1:main": ["DP-3"],
+      "2:code": ["DP-3"],
+      "3:school": ["DP-3"],
+      "4:eda": ["DP-3"],
+      "5:win": ["DP-3"],
+      "6:spare": ["DP-3"],
+      "7:urgent": ["DP-3"],
+      "8:ref": ["HDMI-A-1"],
+      "9:chat": ["DP-1"],
+      "10:watch": ["DP-2"],
+    },
+    "format-icons": {
+      "1:main": "",
+      "2:code": "",
+      "3:school": "",
+      "4:eda": "",
+      "5:win": "",
+      "6:spare": "",
+      "7:urgent": "",
+      "8:ref": "",
+      "9:chat": "",
+      "10:watch": "",
+      "default": ""
+    }
+  },
+  "sway/mode": {
+    "format": "<span style=\"italic\">{}</span>"
+  }
+  // "mpd": {
+  //   "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
+  //   "format-disconnected": "Disconnected ",
+  //   "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+  //   "unknown-tag": "N/A",
+  //   "interval": 2,
+  //   "consume-icons": {
+  //     "on": " "
+  //   },
+  //   "random-icons": {
+  //     "off": "<span color=\"#f53c3c\"></span> ",
+  //     "on": " "
+  //   },
+  //   "repeat-icons": {
+  //     "on": " "
+  //   },
+  //   "single-icons": {
+  //     "on": "1 "
+  //   },
+  //   "state-icons": {
+  //     "paused": "",
+  //     "playing": ""
+  //   },
+  //   "tooltip-format": "MPD (connected)",
+  //   "tooltip-format-disconnected": "MPD (disconnected)"
+  // },
+}
