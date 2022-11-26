@@ -1,0 +1,36 @@
+output "DP-3" {
+    mode  2560x1440@74.924Hz
+    pos 1080 1080
+    transform normal
+    scale 1.0
+    scale_filter nearest
+    adaptive_sync off
+    dpms on
+}
+output "DP-2" {
+    mode  1920x1080@60.0Hz
+    pos 1399 0
+    transform 180
+    scale 1.0
+    scale_filter nearest
+    adaptive_sync off
+    dpms on
+}
+output "DP-1" {
+    mode  1920x1080@143.981Hz
+    pos 3640 600
+    transform 90
+    scale 1.0
+    scale_filter nearest
+    adaptive_sync off
+    dpms on
+}
+output "HDMI-A-1" {
+    mode  1920x1080@144.001Hz
+    pos 0 600
+    transform 270
+    scale 1.0
+    scale_filter nearest
+    adaptive_sync off
+    dpms on
+}
