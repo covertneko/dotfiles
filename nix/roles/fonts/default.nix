@@ -18,5 +18,7 @@ in {
     libertine
     open-sans
     roboto
+    hack-font
+    font-awesome
   ];
 }

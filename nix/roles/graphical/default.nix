@@ -2,29 +2,30 @@
 {
   imports = [ ../fonts ];
   environment.systemPackages = with pkgs; [
-    firefox-wayland
+    libinput
+    firefox
     chromium
+    lxappearance
     alacritty
     glxinfo
     yubikey-manager-qt
     xsel
-    wl-clipboard
-    zoom-us
+    # wl-clipboard
+    # zoom-us
     xdg-utils
     obs-studio
     kdenlive
-    spotify
-    libreoffice
+    # spotify
+    # libreoffice
     arandr
-    gimp
-    zeal
 
-    vscode
+    # vscode
 
-    pulseaudio
+    # pulseaudio
     pavucontrol
 
-    audacity
+    # audacity
+    # webcord
   ];
 
   # gitk
@@ -38,6 +39,7 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    wireplumber.enable = true;
   };
   security.rtkit.enable = true;
 

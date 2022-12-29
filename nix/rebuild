@@ -1,0 +1,6 @@
+#/usr/bin/env sh
+
+MACHINE=$1
+shift
+
+nixos-rebuild switch --flake ".#${MACHINE}" "$@"

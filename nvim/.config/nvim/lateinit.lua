@@ -334,6 +334,7 @@ nnoremap("<Leader>hl", "<Cmd>:call CocAction('toggleService', 'languageserver.ha
 
 -- telescope
 nnoremap("<C-p>", "<Cmd>Telescope find_files<cr>")
+nnoremap("<space><C-p>", "<Cmd>Telescope find_files hidden=true<cr>")
 nnoremap("<Leader><C-p>", "<Cmd>lua find_files_relative()<cr>")
 nnoremap("<space>g", "<Cmd>Telescope live_grep<cr>")
 nnoremap("<space>*", "<Cmd>Telescope grep_string<cr>")

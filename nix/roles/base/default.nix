@@ -8,6 +8,8 @@
     nodejs
     rustup
     zsh
+    fish
+    stow
     tree
     htop
   ];

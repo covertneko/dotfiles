@@ -38,6 +38,9 @@ in
 
   programs.git.enable = true;
   programs.zsh.enable = true;
+  programs.fish.enable = true;
+
+  networking.networkmanager.enable = true;
 
   documentation.dev.enable = true;
 }
