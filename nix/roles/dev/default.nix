@@ -41,6 +41,7 @@ in
     ctags
     broot
     bat
+    exa
 
     msmtp
 
