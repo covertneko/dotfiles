@@ -1,0 +1,91 @@
+# vim: set ft=config foldmethod=marker foldlevel=0:
+
+super + ctrl + q
+    bspc quit
+
+super + w
+    bspc node -c
+
+super + m
+    bspc desktop -l monocle || bspc desktop -l tiled
+
+# switch to previously focused desktop on the current monitor
+super + {_,shift +}Tab
+    bspc wm --record-history off; \
+    bspc desktop -f {older,newer}.local
+
+@{Super_L,Super_R}
+    bspc wm --record-history on; \
+    bspc desktop -f focused
+
+# switch to previously focused node on the current desktop
+alt + {_,shift +}Tab
+    bspc wm --record-history off; \
+    bspc node -f {older,newer}.local.leaf
+
+@{Alt_L,Alt_R}
+    bspc wm --record-history on; \
+    bspc node -f focused
+
+# focus or swap nodes directionally
+super + {_,shift + }{h,j,k,l}
+    bspc node -{f,s} {west,south,north,east} --follow
+
+# focus or swap nodes based on cycle order
+super + {_,shift + }{bracketleft,bracketright}
+    bspc node -{f,s} {prev,next}.local
+
+# focus or send node to a monitor directionally
+super + ctrl + {_,shift +}{h,j,k,l}
+    bspc {monitor -f,node -m} {west,south,north,east} --follow
+
+# focus or send node to a desktop by index
+super + {_,shift + }{1-9,0}
+    bspc {desktop -f, node -d} focused:^{1-9,10}
+
+### layout and floats {{{
+# toggle floating state for node
+super + f
+    bspc node -t ~floating
+
+# toggle visibility of floating nodes on current desktop
+super + shift + f
+    bspc query -N -n .floating.local | xargs -I '_' bspc node '_' --flag hidden
+### }}}
+
+### .sticky-based scratchpad {{{
+# any window with the sticky flag is treated as a scratchpad window
+# TODO: extract scratchpad handling to external script?
+# TODO: consider using something more specific to allow other sticky windows
+# and smarter visibility/focus tracking.
+
+# send window to scratchpad
+super + shift + grave
+    scratch_sel='.floating.sticky'; \
+    hidden=$(if bspc query -N -n "${scratch_sel}.hidden" &>/dev/null; then echo on; else echo off; fi); \
+    bspc node -g sticky -t floating -g "hidden=$hidden"
+
+# toggle visibility of scratchpad windows, ensuring their hidden states match
+super + grave
+    scratch_sel='.floating.sticky'; \
+    hidden=$(if bspc query -N -n ".floating.sticky.hidden" &>/dev/null; then echo off; else echo on; fi); \
+    bspc query -N -n "$scratch_sel" | xargs -I '_' bspc node '_' -g "hidden=$hidden"; \
+    bspc node -f any.floating.sticky.!hidden
+### }}}
+
+### applications and launchers {{{
+
+super + Return
+    alacritty
+
+super + space
+    rofi -show drun
+### }}}
+
+# reload sxhkd config
+super + Escape
+    pkill -USR1 -x sxhkd
+
+# reapply bspwm config
+super + shift + Escape
+    $HOME/.config/bspwm/bspwmrc # $BSPWMRC
