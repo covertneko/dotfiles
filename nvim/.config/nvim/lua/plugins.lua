@@ -58,6 +58,7 @@ return require('packer').startup(function(use)
     use 'gcmt/taboo.vim'
     use 'romainl/flattened'
     use 'NLKNguyen/papercolor-theme'
+    use {'catppuccin/nvim', as = 'catppuccin'}
     use 'vim-airline/vim-airline'
     use 'vim-airline/vim-airline-themes'
     use 'wesQ3/vim-windowswap'

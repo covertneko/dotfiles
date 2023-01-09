@@ -88,7 +88,7 @@ endif
 
 syntax enable
 set background=dark
-colorscheme flattened_dark
+colorscheme catppuccin
 
 highlight Normal guisp=fg
 
