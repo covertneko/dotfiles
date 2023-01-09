@@ -26,12 +26,15 @@
 
     # audacity
     # webcord
+    spice-autoresize
   ];
 
   # gitk
   programs.git.package = pkgs.gitFull;
 
   hardware.pulseaudio.enable = lib.mkForce false;
+
+  services.udev.packages = [ pkgs.spice-autoresize ];
 
   services.pipewire = {
     enable = true;
@@ -42,6 +45,11 @@
     wireplumber.enable = true;
   };
   security.rtkit.enable = true;
+
+  fonts.fonts = with pkgs; [
+    # (nerdfonts.override { fonts = [ "Hack" "MPlus" ]; })
+    mplus-outline-fonts-nf
+  ];
 
   boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
   boot.kernelModules = [ "v4l2loopback" ];

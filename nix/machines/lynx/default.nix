@@ -16,6 +16,11 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
+  services.spice-vdagentd.enable = true;
+  services.qemuGuest.enable = true;
+
+  services.xserver.enableCtrlAltBackspace = true;
+
   networking.hostName = "lynx";
 
   # This value determines the NixOS release from which the default

@@ -21,6 +21,8 @@ in
     nix-index
     nix-doc
     rnix-lsp
+    nil
+    nixpkgs-fmt
     nix-direnv
     direnv
 
@@ -37,6 +39,8 @@ in
     jq
     graphviz
     ctags
+    broot
+    bat
 
     msmtp
 

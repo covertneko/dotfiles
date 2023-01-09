@@ -8,10 +8,31 @@
     [ (modulesPath + "/profiles/qemu-guest.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sr_mod" "virtio_blk" ];
-  boot.initrd.kernelModules = [ ];
+  nixpkgs.config.allowUnfree = true;
+  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "usbhid" "sr_mod" "virtio_blk" "virtio_scsi" ];
+  boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+
+  # Fix f-keys on shitty keyboard
+  boot.extraModprobeConfig = ''
+    options hid_apple fnmode=0
+  '';
+
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    extraPackages = [pkgs.mesa.drivers];
+  };
+
+  # hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.enableRedistributableFirmware = true;
+
+  services.xserver.videoDrivers = [ "amdgpu" "mesa" ];
+
+  environment.systemPackages = with pkgs; [
+    mesa
+  ];
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/b40817f4-a67d-46d7-85a9-b060dcbb075d";
@@ -35,5 +56,4 @@
   # networking.interfaces.enp1s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
