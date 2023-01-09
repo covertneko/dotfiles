@@ -21,12 +21,12 @@
 
     # vscode
 
-    # pulseaudio
+    pulseaudio
     pavucontrol
 
     # audacity
-    # webcord
-    spice-autoresize
+    webcord
+    # spice-autoresize
   ];
 
   # gitk
@@ -34,7 +34,7 @@
 
   hardware.pulseaudio.enable = lib.mkForce false;
 
-  services.udev.packages = [ pkgs.spice-autoresize ];
+  # services.udev.packages = [ pkgs.spice-autoresize ];
 
   services.pipewire = {
     enable = true;

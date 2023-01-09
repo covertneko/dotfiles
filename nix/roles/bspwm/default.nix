@@ -41,6 +41,7 @@
     polybar
     picom
 
+    # TODO: patch, this is quite out of date
     catppuccin-gtk
   ];
 }

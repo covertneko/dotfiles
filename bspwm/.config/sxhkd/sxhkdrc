@@ -82,6 +82,19 @@ super + space
     rofi -show drun
 ### }}}
 
+### media {{{
+XF86Audio{RaiseVolume,LowerVolume}
+	pactl set-sink-volume @DEFAULT_SINK@ {+,-}5%
+XF86AudioMute
+	playerctl set-sink-mute @DEFAULT_SINK@ toggle
+XF86AudioMicMute
+	playerctl set-source-mute @DEFAULT_SOURCE@ toggle
+XF86MonBrightness{Up,Down}
+    brightnessctl set {+,-}10%
+XF86Audio{Play,Next,Prev}
+	playerctl {play-pause,next,previous}
+### }}}
+
 # reload sxhkd config
 super + Escape
     pkill -USR1 -x sxhkd
