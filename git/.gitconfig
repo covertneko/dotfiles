@@ -12,3 +12,5 @@
 	eol = lf
 [alias]
 	co = checkout
+[init]
+    defaultBranch = main
