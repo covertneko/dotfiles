@@ -11,8 +11,14 @@
     "coc.preferences.formatOnSaveFiletypes": ["rust", "typescript", "typescriptreact"],
     "languageserver": {
         "nix": {
-            "command": "rnix-lsp",
-            "filetypes": ["nix"]
+            "command": "nil",
+            "filetypes": ["nix"],
+            "rootPatterns": ["flake.nix"],
+            "settings": {
+                "nil": {
+                    "formatting": ["nixpkgs-fmt"]
+                }
+            }
         },
         "svlangserver": {
             // npm i -g @imc-trading/svlangserver
