@@ -1,4 +1,4 @@
-{ config, lib, nixpkgs, ... }: {
+{ config, lib, pkgs, ... }: {
   imports = [
     ../../roles/dev
     ../../roles/linux
@@ -22,6 +22,15 @@
   services.xserver.enableCtrlAltBackspace = true;
 
   networking.hostName = "lynx";
+
+  boot.kernelModules = [ "kvmfr" ];
+  services.udev.extraRules = ''
+    SUBSYSTEM=="kvmfr", OWNER="erin", GROUP="kvm", MODE="0660"
+  '';
+
+  environment.systemPackages = with pkgs; [
+    looking-glass-client
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
