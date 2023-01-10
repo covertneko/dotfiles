@@ -28,7 +28,16 @@
     libinput.touchpad.disableWhileTyping = true;
   };
 
-
+  # TODO: idk maybe just remove this and set redshift location manually on every machine
+  services.geoclue2 = {
+    enable = true;
+    # appConfig = {
+    #   redshift = {
+    #     isAllowed = true;
+    #     isSystem = false;
+    #   };
+    # };
+  };
 
   environment.systemPackages = with pkgs; [
     sxhkd
@@ -40,6 +49,10 @@
 
     polybar
     picom
+    dunst
+
+    redshift
+    xsecurelock
 
     # TODO: patch, this is quite out of date
     catppuccin-gtk

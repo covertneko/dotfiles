@@ -3,6 +3,7 @@
 bspc config border_width    2
 bspc config window_gap      12
 
+# edges to reduce gap for
 edges=(top bottom left right)
 for d in ${edges[@]}; do
     bspc config "${d}_padding" -6
@@ -17,29 +18,37 @@ bspc config pointer_action1 move
 bspc config pointer_action2 resize_side
 bspc config pointer_action3 resize_corner
 
-if command -v sxhkd &>/dev/null; then
-    export SXHKD_SHELL=/bin/sh
-    killall -q sxhkd
-    sxhkd &
-fi
+# run a command in the background if available
+# usage: launch <command> <args>
+launch() {
+    command -v "$1" &>/dev/null && "$@" 2>&1 &
+}
 
-if command -v picom &>/dev/null; then
-    killall -q picom
-    picom 2>&1 &
-fi
+# usage: relaunch-with "<kill-command>" <command> <args>
+relaunch-with() {
+    eval "$1"; shift; launch "$@"
+}
+
+# usage: relaunch <command> <args>
+relaunch() {
+    relaunch-with "killall -q '$1'" "$@"
+}
+
+export SXHKD_SHELL=/bin/sh
+relaunch sxhkd
+relaunch picom
+relaunch dunst
+launch redshift-gtk -x
 
 killall -q polybar
 primary=$(bspc query -M -m primary --names)
 for monitor in $(bspc query -M --names); do
     bspc monitor "$monitor" -d 1 2 3 4 5 6 7 8 9 10
 
-    if command -v polybar &>/dev/null; then
-        export POLYBAR_MONITOR="$monitor"
-
-        if [ "$monitor" = "$primary" ]; then
-            polybar -r main 2>&1 &
-        else
-            polybar -r secondary 2>&1 &
-        fi
+    export POLYBAR_MONITOR="$monitor"
+    if [ "$monitor" = "$primary" ]; then
+        launch polybar -r main
+    else
+        launch polybar -r secondary
     fi
 done

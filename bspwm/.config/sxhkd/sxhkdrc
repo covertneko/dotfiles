@@ -1,7 +1,10 @@
 # vim: set ft=config foldmethod=marker foldlevel=0:
 
+# super + 
+#     bspc quit
+
 super + ctrl + q
-    bspc quit
+    xsecurelock
 
 super + w
     bspc node -c
