@@ -170,7 +170,7 @@ g.bookmark_save_per_working_dir = 1
 -- Options
 ----------------------------------------------------------------------
 
-opt.modelines = 0
+opt.modelines = 1
 opt.history = 1000
 
 -- completion stuff
@@ -342,6 +342,12 @@ nnoremap("<space>b", "<Cmd>Telescope buffers<cr>")
 
 -- replace the word under the cursor with ,s
 nnoremap("<Leader>s", [[:%s/\<<C-r><C-w>\>//g<Left><Left>]])
+
+-- clear search results
+-- nnoremap("<space>nh", ":nohlsearch<cr>")
+
+-- double Esc exits to normal mode
+-- vim.api.nvim_set_keymap("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true })
 
 -- Use tab for trigger completion with characters ahead and navigate.
 -- Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.

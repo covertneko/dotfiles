@@ -90,34 +90,12 @@ syntax enable
 set background=dark
 colorscheme catppuccin
 
-highlight Normal guisp=fg
-
 " make rust-analyzer ChainingHints a different colour than the rest of the
 " code
 highlight CocHintSign ctermfg=10 guifg=#586e75
 
 " likewise on code lenses
 highlight! link CocCodeLens CocHintSign
-
-function! s:configure_highlights() abort
-  let s:normal_bg = toupper(synIDattr(synIDtrans(hlID("Normal")), 'bg#'))
-  exe 'highlight CocHintHighlight guibg=' . color_helper#hex_color_darken(s:normal_bg, 0.40)
-
-  " also make the floating window background have contrast with the normal background
-  exe 'highlight CocFloating guibg=' . color_helper#hex_color_darken(s:normal_bg, 0.30)
-
-  exe 'highlight TreesitterContext guibg=' . color_helper#hex_color_darken(s:normal_bg, 0.40)
-endfunction
-
-" Make the highlight of inactive code and such much much less obtrusive
-if has('gui_running') || &termguicolors
-  call s:configure_highlights()
-  au ColorScheme * call <SID>configure_highlights()
-endif
-
-" By default the search highlight is very obvious and kinda ugly. we make it
-" quieter
-highlight Search cterm=reverse ctermfg=10 guifg=Black guibg=fg
 
 " Get the highlight groups under the cursor
 function! s:syntax_query() abort
