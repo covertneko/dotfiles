@@ -4,6 +4,8 @@
     ../../roles/linux
     ../../roles/users
     ../../roles/bspwm
+    ../../roles/print
+    ../../roles/vpn
     ./hardware-configuration.nix
   ];
 
