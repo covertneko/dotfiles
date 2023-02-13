@@ -1,0 +1,7 @@
+[Desktop Entry]
+Exec=looking-glass-client
+Icon=lg-logo
+Name=Looking Glass Client
+Terminal=false
+Type=Application
+Version=1.4

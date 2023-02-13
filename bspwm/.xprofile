@@ -4,6 +4,8 @@ export QT_STYLE_OVERRIDE=GTK+
 
 xsetroot -cursor_name left_ptr &
 
+xrdb -merge ~/.Xresources
+
 if command -v spice-vdagent; then
     spice-vdagent &
 fi

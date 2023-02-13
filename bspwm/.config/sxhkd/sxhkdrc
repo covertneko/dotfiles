@@ -1,22 +1,15 @@
-# vim: set ft=config foldmethod=marker foldlevel=0:
+# vim: ft=sxhkdrc:fdm=marker:fdl=0
 
-# super + 
-#     bspc quit
-
-super + ctrl + q
-    xsecurelock
-
+### focus and node management {{{
 super + w
     bspc node -c
-
-super + m
-    bspc desktop -l monocle || bspc desktop -l tiled
 
 # switch to previously focused desktop on the current monitor
 super + {_,shift +}Tab
     bspc wm --record-history off; \
     bspc desktop -f {older,newer}.local
 
+# TODO: review if desktop focus is necessary
 @{Super_L,Super_R}
     bspc wm --record-history on; \
     bspc desktop -f focused
@@ -46,7 +39,28 @@ super + ctrl + {_,shift +}{h,j,k,l}
 super + {_,shift + }{1-9,0}
     bspc {desktop -f, node -d} focused:^{1-9,10}
 
+super + {Up,Down,Left,Right}
+    bspc node -p ~{north,south,west,east}
+
+# TODO: select newest relative to parent somehow
+super + shift + {Up,Down,Left,Right}
+    bspc node @parent -p ~{north,south,west,east} -i; \
+    bspc node -n 'biggest.leaf.!window.local'
+
+super + backslash
+    bspc node @parent -R 90
+
+super + {_,shift + }equal
+    bspc node @parent {-E,-B}
+#}}}
+
 ### layout and floats {{{
+super + m
+    bspc desktop -l monocle || bspc desktop -l tiled
+
+super + shift + m
+    bspc node -t ~fullscreen
+
 # toggle floating state for node
 super + f
     bspc node -t ~floating
@@ -69,20 +83,32 @@ super + shift + grave
     bspc node -g sticky -t floating -g "hidden=$hidden"
 
 # toggle visibility of scratchpad windows, ensuring their hidden states match
+# if no windows present, open dropdown terminal at top of primary monitor
+# NOTE: dropdown terminal must be made sticky manually due to bspwm monitor rule weirdness (see bspwmrc)
+# TODO: clean this mess up, ideally find a better way to get dropdown window id once open
 super + grave
     scratch_sel='.floating.sticky'; \
-    hidden=$(if bspc query -N -n ".floating.sticky.hidden" &>/dev/null; then echo off; else echo on; fi); \
-    bspc query -N -n "$scratch_sel" | xargs -I '_' bspc node '_' -g "hidden=$hidden"; \
-    bspc node -f any.floating.sticky.!hidden
+    if scratch_nodes=$(bspc query -N -n "${scratch_sel}"); then \
+        hidden=$(if bspc query -N -n "${scratch_sel}.hidden" &>/dev/null; then echo off; else echo on; fi); \
+        echo "$scratch_nodes" | xargs -I '_' bspc node '_' -g "hidden=$hidden"; \
+        if ! bspc node -f "any${scratch_sel}.!hidden"; then bspc node -f last; fi; \
+    else \
+        alacritty --class Alacritty,dropdown & \
+        pid="$!"; \
+        until window_id=$(xdotool search --pid "$pid"); do sleep 0.1; done; \
+        bspc node "$window_id" -g sticky=on -f; \
+    fi
 ### }}}
 
 ### applications and launchers {{{
+super + ctrl + q
+    xsecurelock
 
 super + Return
     alacritty
 
-super + space
-    rofi -show drun
+super + {space,shift + q,r,s}
+    $HOME/.config/rofi/bin/{launcher,powermenu,runner,screenshot}
 ### }}}
 
 ### media {{{
@@ -96,12 +122,17 @@ XF86MonBrightness{Up,Down}
     brightnessctl set {+,-}10%
 XF86Audio{Play,Next,Prev}
 	playerctl {play-pause,next,previous}
+
+# set random wallpapers
+super + shift + Home
+    [[ -x $HOME/.local/bin/wallpaper.sh ]] && $HOME/.local/bin/wallpaper.sh
 ### }}}
 
 # reload sxhkd config
-super + Escape
-    pkill -USR1 -x sxhkd
+# TODO: fix this; currently causes sxhkd to hang if used
+#super + Escape
+#    pkill -USR1 -x sxhkd
 
 # reapply bspwm config
 super + shift + Escape
-    $HOME/.config/bspwm/bspwmrc # $BSPWMRC
+    $HOME/.config/bspwm/bspwmrc

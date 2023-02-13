@@ -1,0 +1,26 @@
+client_id = "3ff9f2bcbfdd4e64a21a2ad228314fe7"
+cover_img_width = 16
+cover_img_length = 16
+theme = "termcolors"
+# proxy = "http://127.0.0.1:8080"
+
+[device]
+name = "lynx"
+device_type = "computer"
+volume = 100
+
+[[keymaps]]
+command = "VolumeUp"
+key_sequence = "C-up"
+
+[[keymaps]]
+command = "VolumeDown"
+key_sequence = "C-down"
+
+[[keymaps]]
+command = "ResumePause"
+key_sequence = "space"
+
+[[keymaps]]
+command = "Quit"
+key_sequence = "q"

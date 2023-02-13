@@ -140,8 +140,8 @@ g['airline#extensions#branch#displayed_head_limit'] = 15
 
 -- remove annoying hamburger symbol
 -- unicode symbols
-g.airline_left_sep = '»'
 g.airline_left_sep = '▶'
+g.airline_left_sep = '»'
 g.airline_right_sep = '«'
 g.airline_right_sep = '◀'
 g.airline_symbols.crypt = '🔒'
@@ -162,9 +162,11 @@ g.airline_right_alt_sep = ''
 g.airline_symbols.branch = ''
 g.airline_symbols.readonly = ''
 g.airline_symbols.linenr = ''
+-- TODO: hahahahaha why doesn't this work?
+--g.airline_symbols.colnr = ''
+vim.api.nvim_exec("let g:airline_symbols.colnr = ''", false)
 
 g.bookmark_save_per_working_dir = 1
-
 
 ----------------------------------------------------------------------
 -- Options
@@ -344,10 +346,10 @@ nnoremap("<space>b", "<Cmd>Telescope buffers<cr>")
 nnoremap("<Leader>s", [[:%s/\<<C-r><C-w>\>//g<Left><Left>]])
 
 -- clear search results
--- nnoremap("<space>nh", ":nohlsearch<cr>")
+nnoremap("<space>nh", ":nohlsearch<cr>")
 
 -- double Esc exits to normal mode
--- vim.api.nvim_set_keymap("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true })
+vim.api.nvim_set_keymap("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true })
 
 -- Use tab for trigger completion with characters ahead and navigate.
 -- Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.

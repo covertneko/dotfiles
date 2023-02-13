@@ -32,6 +32,9 @@ in
 
     stdenv
 
+    # prefer procps over coreutils
+    (lib.hiPrio procps)
+
     # FIXME: probably should be in a diff file
     sshfs
   ];
@@ -39,8 +42,11 @@ in
   programs.git.enable = true;
   programs.zsh.enable = true;
   programs.fish.enable = true;
+  documentation.man.generateCaches = false;
 
   networking.networkmanager.enable = true;
+  # NOTE: see https://github.com/NixOS/nixpkgs/issues/180175
+  systemd.services.NetworkManager-wait-online.enable = false;
 
   documentation.dev.enable = true;
 }

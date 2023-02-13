@@ -11,7 +11,7 @@
     fish
     stow
     tree
-    htop
+    bottom
   ];
 
   nixpkgs.overlays = [

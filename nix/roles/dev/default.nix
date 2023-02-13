@@ -20,9 +20,11 @@ in
   environment.systemPackages = with pkgs; [
     nix-index
     nix-doc
+
     rnix-lsp
     nil
     nixpkgs-fmt
+
     nix-direnv
     direnv
 
@@ -65,7 +67,7 @@ in
     ''
   ];
 
-  nix.trustedBinaryCaches = [
+  nix.settings.trusted-substituters = [
     "https://haskell-language-server.cachix.org"
   ];
 

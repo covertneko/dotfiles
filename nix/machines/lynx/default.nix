@@ -23,6 +23,7 @@
 
   networking.hostName = "lynx";
 
+  boot.extraModulePackages = with config.boot.kernelPackages; [ kvmfr ];
   boot.kernelModules = [ "kvmfr" ];
   services.udev.extraRules = ''
     SUBSYSTEM=="kvmfr", OWNER="erin", GROUP="kvm", MODE="0660"
@@ -30,6 +31,7 @@
 
   environment.systemPackages = with pkgs; [
     looking-glass-client
+    virt-manager
   ];
 
   # This value determines the NixOS release from which the default

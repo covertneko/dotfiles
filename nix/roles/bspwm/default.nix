@@ -31,28 +31,31 @@
   # TODO: idk maybe just remove this and set redshift location manually on every machine
   services.geoclue2 = {
     enable = true;
-    # appConfig = {
-    #   redshift = {
-    #     isAllowed = true;
-    #     isSystem = false;
-    #   };
-    # };
   };
 
   environment.systemPackages = with pkgs; [
+    arandr
     sxhkd
+    polybar
+    picom
+    dunst
     rofi
+    redshift
+    xsecurelock
+    xclip
+    maim
+    feh
+    imagemagick
+    pamixer
+
+    xdotool
+    xorg.xev
+    xorg.xprop
+
     alacritty
 
     libsForQt5.breeze-icons
     libsForQt5.breeze-qt5
-
-    polybar
-    picom
-    dunst
-
-    redshift
-    xsecurelock
 
     # TODO: patch, this is quite out of date
     catppuccin-gtk

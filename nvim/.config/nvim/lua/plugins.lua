@@ -60,7 +60,7 @@ return require('packer').startup(function(use)
     use 'NLKNguyen/papercolor-theme'
     use {'catppuccin/nvim', as = 'catppuccin'}
     use 'vim-airline/vim-airline'
-    use 'vim-airline/vim-airline-themes'
+    -- use 'vim-airline/vim-airline-themes'
     use 'wesQ3/vim-windowswap'
     use 'AndrewRadev/undoquit.vim'
     use 'MattesGroeger/vim-bookmarks'

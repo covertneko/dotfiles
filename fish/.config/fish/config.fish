@@ -181,3 +181,7 @@ function fish_right_prompt
   # And back down to the ">"
   echo -e $_down
 end
+
+alias ll 'exa -l'
+alias la 'exa -a'
+alias l 'exa -la'
