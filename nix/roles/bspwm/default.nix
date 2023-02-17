@@ -57,7 +57,10 @@
     libsForQt5.breeze-icons
     libsForQt5.breeze-qt5
 
-    # TODO: patch, this is quite out of date
-    catppuccin-gtk
+    (pkgs.catppuccin-gtk.override {
+      accents = [ "mauve" ];
+      size = "standard";
+      variant = "mocha";
+    })
   ];
 }

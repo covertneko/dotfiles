@@ -12,8 +12,10 @@ in
   # security
   services.openssh = {
     enable = true;
-    permitRootLogin = "no";
-    passwordAuthentication = false;
+    settings = {
+      permitRootLogin = "no";
+      passwordAuthentication = false;
+    };
     extraConfig = ''
       AcceptEnv COLORTERM LC_*
     '';
