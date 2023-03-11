@@ -1,16 +1,20 @@
 [user]
-	email = erin@covertneko.dev
-	name = Erin Winkelmann
+    email = erin@covertneko.dev
+    name = Erin Winkelmann
 [push]
-	default = simple
+    default = simple
 [color]
-	ui = true
+    ui = true
 [core]
-	editor = nvim
-	autocrlf = false
-	safecrlf = true
-	eol = lf
+    editor = nvim
+    autocrlf = false
+    safecrlf = true
+    eol = lf
 [alias]
-	co = checkout
+    s = status
+    d = diff --staged
+    co = checkout
 [init]
     defaultBranch = main
+[url "ssh://github.com/"]
+    pushInsteadOf = https://github.com/
