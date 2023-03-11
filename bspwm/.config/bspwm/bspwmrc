@@ -50,6 +50,13 @@ launch "$HOME/.screenlayout/$(hostname).sh"
 
 launch "$HOME/.local/bin/wallpaper.sh"
 
+# TODO: add "activities" (no relation to KDE activities, maybe find a better name. "tags"?)
+# color+icon for each, active displayed in polybar (will need to maintain external state somewhere)
+# associate active workspaces for each monitor with an activity
+# switching to an activity switches all monitors to the last set of workspaces used in that activity
+# changing workspaces in an activity updates that activity
+# the same workspace can be active in multiple activities. they are effectively tags.
+# eventually use this to build simple session restore
 killall -q polybar
 primary=$(bspc query -M -m primary --names)
 for monitor in $(bspc query -M --names); do
@@ -79,6 +86,7 @@ rule() {
 # bspc config external_rules_command ~/.config/bspwm/scripts/external_rules.sh
 
 rule "*:scratchpad:*" state=floating sticky=on
+rule "screenshot_preview:*:*" state=floating
 
 # NOTE: dropdown window must be made sticky manually. for some reason sticky and monitor cannot
 # be used together
