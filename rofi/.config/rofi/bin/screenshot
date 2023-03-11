@@ -31,7 +31,7 @@ fi
 # Notify and view screenshot
 notify_view () {
 	dunstify -u low --replace=699 -i $icon1 "Copied to clipboard."
-	feh ${dir}/"$file"
+	feh --class screenshot_preview ${dir}/"$file"
 	if [[ -e "$dir/$file" ]]; then
 		dunstify -u low --replace=699 -i $icon1 "Screenshot Saved."
 	else
