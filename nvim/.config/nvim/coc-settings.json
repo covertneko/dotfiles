@@ -3,31 +3,54 @@
     "hover.floatMaxHeight": 20,
     "signature.maxWindowHeight": 15,
     "list.maxPreviewHeight": 25,
-    "rust-analyzer.diagnostics.disabled": ["incorrect-ident-case"],
+    "rust-analyzer.diagnostics.disabled": [
+        "incorrect-ident-case"
+    ],
     "rust-analyzer.server.extraEnv": {
         "RA_LOG": "info,salsa::derived::slot=warn,chalk_recursive=warn,hir_ty::traits=warn,flycheck=trace,rust_analyzer::main_loop=warn,ide_db::apply_change=warn,project_model=debug,proc_macro_api=debug,hir_expand::db=error,ide_assists=debug,ide=debug"
     },
     "rust-analyzer.updates.channel": "nightly",
-    "coc.preferences.formatOnSaveFiletypes": ["rust", "typescript", "typescriptreact"],
+    "coc.preferences.formatOnSaveFiletypes": [
+        "rust",
+        "typescript",
+        "typescriptreact"
+    ],
     "languageserver": {
         "nix": {
             "command": "nil",
-            "filetypes": ["nix"],
-            "rootPatterns": ["flake.nix"],
+            "filetypes": [
+                "nix"
+            ],
+            "rootPatterns": [
+                "flake.nix"
+            ],
             "settings": {
                 "nil": {
-                    "formatting": ["nixpkgs-fmt"]
+                    "formatting": {
+                        "command": [
+                            "nixpkgs-fmt"
+                        ]
+                    }
                 }
             }
         },
         "svlangserver": {
             // npm i -g @imc-trading/svlangserver
             "module": "~/.local/share/npm-packages/lib/node_modules/@imc-trading/svlangserver/lib/svlangserver.js",
-            "rootPatterns": [".svls_root"],
-            "filetypes": ["systemverilog", "verilog"],
+            "rootPatterns": [
+                ".svls_root"
+            ],
+            "filetypes": [
+                "systemverilog",
+                "verilog"
+            ],
             "settings": {
-                "systemverilog.includeIndexing": ["**/*.{sv,svh}"],
-                "systemverilog.excludeIndexing": ["test/**/*.sv*"],
+                "systemverilog.includeIndexing": [
+                    "**/*.{sv,svh}"
+                ],
+                "systemverilog.excludeIndexing": [
+                    "test/**/*.sv*"
+                ],
                 "systemverilog.defines": [],
                 "systemverilog.launchConfiguration": "verilator -sv -Wall --lint-only",
                 "systemverilog.formatCommand": "verible-verilog-format --indentation_spaces 4"
@@ -36,11 +59,15 @@
         "serenata": {
             "host": "127.0.0.1",
             "port": 11111,
-            "filetypes": ["php"]
+            "filetypes": [
+                "php"
+            ]
         },
         "haskell": {
             "command": "hls-nix",
-            "args": ["--lsp"],
+            "args": [
+                "--lsp"
+            ],
             "rootPatterns": [
                 "*.cabal",
                 "stack.yaml",
@@ -48,7 +75,10 @@
                 "package.yaml",
                 "hie.yaml"
             ],
-            "filetypes": ["haskell", "lhaskell"]
+            "filetypes": [
+                "haskell",
+                "lhaskell"
+            ]
         }
     },
     "prettier.tabWidth": 4,
@@ -62,7 +92,10 @@
         ".projections.json"
     ],
     "rust-analyzer.experimental.procAttrMacros": true,
-    "rust-analyzer.cargo.unsetTest": ["ed25519-dalek", "core"],
+    "rust-analyzer.cargo.unsetTest": [
+        "ed25519-dalek",
+        "core"
+    ],
     "yaml.schemaStore.enable": true,
     "yaml.trace.server": "verbose",
     "sumneko-lua.enableNvimLuaDev": true,
@@ -70,16 +103,13 @@
     "Lua.runtime.version": "LuaJIT",
     "Lua.runtime.pathStrict": false,
     "Lua.workspace.library": [
-      "/home/jade/.local/share/nvim/site"
+        "/home/jade/.local/share/nvim/site"
     ],
-
     // dont do stuff when i type
     "html.autoClosingTags": false,
     "html.autoCreateQuotes": false,
-
     "suggest.noselect": true,
     "suggest.enablePreselect": false,
-
     "list.insertMappings": {
         "<C-x>": "action:split",
         "<C-v>": "action:vsplit"

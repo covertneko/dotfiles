@@ -12,7 +12,7 @@
     eol = lf
 [alias]
     s = status
-    d = diff --staged
+	d = diff --staged
     co = checkout
 [init]
     defaultBranch = main
