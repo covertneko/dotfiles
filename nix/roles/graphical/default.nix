@@ -14,7 +14,11 @@
     obs-studio
     kdenlive
 
-    blender
+    # blender
+
+    # slicer
+
+    scream
 
     prismlauncher
 
@@ -24,9 +28,13 @@
     pulseaudio
     pavucontrol
 
+    eyedropper
+
     super-slicer-latest
 
     kicad
+    xdg-desktop-portal
+    xdg-desktop-portal-gtk
 
     signal-desktop
     webcord
@@ -35,7 +43,17 @@
   # gitk
   programs.git.package = pkgs.gitFull;
 
+  services.gnome = {
+    gnome-keyring.enable = true;
+    at-spi2-core.enable = true;
+  };
+  programs.seahorse.enable = true;
+  programs.dconf.enable = true;
+
   hardware.pulseaudio.enable = lib.mkForce false;
+
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   services.pipewire = {
     enable = true;

@@ -57,6 +57,12 @@
     libsForQt5.breeze-icons
     libsForQt5.breeze-qt5
 
+    (pkgs.colloid-gtk-theme.override {
+      themeVariants = [ "purple" ];
+      sizeVariants = [ "standard" ];
+      colorVariants = [ "dark" "light" ];
+    })
+
     (pkgs.catppuccin-gtk.override {
       accents = [ "mauve" ];
       size = "standard";
