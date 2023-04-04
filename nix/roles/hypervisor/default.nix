@@ -41,7 +41,7 @@ with lib;
                   sha256 = "sha256-5V3gXZoePxRVL0miV/ku/HILT7d06E8UI28XRx8vZjA=";
                 };
               });
-            })
+            }).fd
           ];
         };
 
