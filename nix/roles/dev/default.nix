@@ -50,7 +50,7 @@ in
     (python3.withPackages pyPkgs)
   ];
 
-  nix.nixPath = [ "nixpkgs=${pkgs.outPath}" ];
+  nix.nixPath = [ "nixpkgs=${toString pkgs.path}" ];
 
   nixpkgs.overlays = [
   ];

@@ -5,7 +5,7 @@ in
   users.users.erin = mkMerge [
     {
       isNormalUser = true;
-      extraGroups = [ "wheel" ];
+      extraGroups = [ "wheel" "kvm" "libvirtd" ];
 
       openssh.authorizedKeys.keys = [
 "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDwJT+cXE/+JyYMIbShC/PSF7uHoFCg+xaW32eTMBzo3o/hajPpq7GR0+kUuw9g7cM3V9RffTX0bHDt7QkehiuIMhDxX7Eg4nIPipSOycE9zG9jhdfdHydFmvk3oskc7z4+DUm+L6y8j89c8WtYZsEmTX+ktV09Gg/IRjzvO5wJ+Jt2Ncz10/4CQSmZ3runaDZ+K0E/D7MXlitIs+/kk69O8PCmSH+wcfhDajcs09/A8/s6QBUd3unoaYfS3uPT2WI/9K2PGryLLo4lBbHitA3XNVh6RRxdx5aqSkZLtqjo0scSKc092xNngxORmghoj24zHhgx/j2gk9aNhJriEeH5IideYEfuSBaMcNxLAHGyy8yIIp6/WlP/nl1N1B93T17NSqxrGc8eRpZduP/X0tIXDRhmnSajsvjJfELajh+ITAzCIwnX2z9gnnqS9B+bTr+iU/12TK/mPAFQUddvOiyVOVB2ZTqxhgVdvoSRyQLahF36QAO4ENi/a/a00r0FhyE="

@@ -1,5 +1,5 @@
-<domain type='kvm' id='6'>
-  <name>nixos</name>
+<domain type='kvm'>
+  <name>lynx</name>
   <uuid>d25703a4-7e57-4fd7-8e9b-823b4ffade7f</uuid>
   <metadata>
     <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
@@ -9,25 +9,13 @@
   <memory unit='KiB'>25165824</memory>
   <currentMemory unit='KiB'>25165824</currentMemory>
   <vcpu placement='static'>8</vcpu>
-  <cputune>
-    <vcpupin vcpu='0' cpuset='2'/>
-    <vcpupin vcpu='1' cpuset='10'/>
-    <vcpupin vcpu='2' cpuset='3'/>
-    <vcpupin vcpu='3' cpuset='11'/>
-    <vcpupin vcpu='4' cpuset='4'/>
-    <vcpupin vcpu='5' cpuset='12'/>
-    <vcpupin vcpu='6' cpuset='5'/>
-    <vcpupin vcpu='7' cpuset='13'/>
-    <emulatorpin cpuset='0,8'/>
-  </cputune>
   <resource>
     <partition>/machine</partition>
   </resource>
   <os>
-    <type arch='x86_64' machine='pc-q35-5.1'>hvm</type>
-    <loader readonly='yes' type='pflash'>/usr/share/edk2-ovmf/x64/OVMF_CODE.secboot.fd</loader>
-    <nvram template='/usr/share/edk2-ovmf/x64/OVMF_VARS.fd'>/var/lib/libvirt/qemu/nvram/nixos_VARS.fd</nvram>
-    <bootmenu enable='yes'/>
+    <type arch='x86_64' machine='pc-q35-7.2'>hvm</type>
+    <loader readonly='yes' type='pflash'>/run/libvirt/nix-ovmf/OVMF_CODE.fd</loader>
+    <nvram>/var/lib/libvirt/qemu/nvram/lynx_VARS.fd</nvram>
   </os>
   <features>
     <acpi/>
@@ -57,24 +45,15 @@
     <suspend-to-disk enabled='no'/>
   </pm>
   <devices>
-    <emulator>/usr/bin/qemu-system-x86_64</emulator>
+    <emulator>/run/libvirt/nix-emulators/qemu-system-x86_64</emulator>
     <disk type='file' device='disk'>
       <driver name='qemu' type='raw'/>
-      <source file='/mnt/storage/images/nixos/nixos.img' index='2'/>
+      <source file='/var/lib/libvirt/images/lynx.img' index='2'/>
       <backingStore/>
       <target dev='sdb' bus='scsi'/>
       <boot order='1'/>
       <alias name='scsi0-0-0-1'/>
       <address type='drive' controller='0' bus='0' target='0' unit='1'/>
-    </disk>
-    <disk type='file' device='cdrom'>
-      <driver name='qemu' type='raw'/>
-      <source file='/mnt/storage/images/installers/nixos-plasma5-22.11.1069.cbe419ed4c8-x86_64-linux.iso' index='1'/>
-      <backingStore/>
-      <target dev='sda' bus='sata'/>
-      <readonly/>
-      <alias name='sata0-0-0'/>
-      <address type='drive' controller='0' bus='0' target='0' unit='0'/>
     </disk>
     <controller type='usb' index='0' model='qemu-xhci' ports='15'>
       <alias name='usb'/>
@@ -204,11 +183,6 @@
       <alias name='channel0'/>
       <address type='virtio-serial' controller='0' bus='0' port='1'/>
     </channel>
-    <channel type='spicevmc'>
-      <target type='virtio' name='com.redhat.spice.0' state='disconnected'/>
-      <alias name='channel1'/>
-      <address type='virtio-serial' controller='0' bus='0' port='2'/>
-    </channel>
     <input type='tablet' bus='usb'>
       <alias name='input0'/>
       <address type='usb' bus='0' port='1'/>
@@ -223,38 +197,30 @@
       <alias name='sound0'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x1b' function='0x0'/>
     </sound>
-    <hostdev mode='subsystem' type='pci' managed='yes'>
-      <driver name='vfio'/>
-      <source>
-        <address domain='0x0000' bus='0x0d' slot='0x00' function='0x0'/>
-      </source>
-      <alias name='hostdev0'/>
-      <address type='pci' domain='0x0000' bus='0x07' slot='0x00' function='0x0'/>
-    </hostdev>
-    <hostdev mode='subsystem' type='pci' managed='yes'>
-      <driver name='vfio'/>
-      <source>
-        <address domain='0x0000' bus='0x0d' slot='0x00' function='0x1'/>
-      </source>
-      <alias name='hostdev1'/>
-      <address type='pci' domain='0x0000' bus='0x08' slot='0x00' function='0x0'/>
-    </hostdev>
-    <hostdev mode='subsystem' type='pci' managed='yes'>
-      <driver name='vfio'/>
-      <source>
-        <address domain='0x0000' bus='0x10' slot='0x00' function='0x3'/>
-      </source>
-      <alias name='hostdev2'/>
-      <address type='pci' domain='0x0000' bus='0x09' slot='0x00' function='0x0'/>
-    </hostdev>
-    <redirdev bus='usb' type='spicevmc'>
-      <alias name='redir0'/>
-      <address type='usb' bus='0' port='2'/>
-    </redirdev>
-    <redirdev bus='usb' type='spicevmc'>
-      <alias name='redir1'/>
-      <address type='usb' bus='0' port='3'/>
-    </redirdev>
+    <!-- <hostdev mode='subsystem' type='pci' managed='yes'> -->
+    <!--   <driver name='vfio'/> -->
+    <!--   <source> -->
+    <!--     <address domain='0x0000' bus='0x0e' slot='0x00' function='0x0'/> -->
+    <!--   </source> -->
+    <!--   <alias name='rx570-vga'/> -->
+    <!--   <address type='pci' domain='0x0000' bus='0x07' slot='0x00' function='0x0'/> -->
+    <!-- </hostdev> -->
+    <!-- <hostdev mode='subsystem' type='pci' managed='yes'> -->
+    <!--   <driver name='vfio'/> -->
+    <!--   <source> -->
+    <!--     <address domain='0x0000' bus='0x0e' slot='0x00' function='0x1'/> -->
+    <!--   </source> -->
+    <!--   <alias name='rx570-audio'/> -->
+    <!--   <address type='pci' domain='0x0000' bus='0x08' slot='0x00' function='0x0'/> -->
+    <!-- </hostdev> -->
+    <!-- <hostdev mode='subsystem' type='pci' managed='yes'> -->
+    <!--   <driver name='vfio'/> -->
+    <!--   <source> -->
+    <!--     <address domain='0x0000' bus='0x11' slot='0x00' function='0x3'/> -->
+    <!--   </source> -->
+    <!--   <alias name='usb-rear'/> -->
+    <!--   <address type='pci' domain='0x0000' bus='0x09' slot='0x00' function='0x0'/> -->
+    <!-- </hostdev> -->
     <memballoon model='none'/>
     <rng model='virtio'>
       <backend model='random'>/dev/urandom</backend>

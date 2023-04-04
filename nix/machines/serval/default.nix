@@ -20,44 +20,82 @@
     };
   };
 
-  hypervisor.guests = [
-    {
-      name = "nixos";
-      config = ./nix.dump.xml;
-    }
-  ];
+  hypervisor = {
+    guests = {
+      # NixOS workstation
+      lynx = {
+        template = ./lynx.xml;
+        autostart = lib.mkDefault true;
+        hostDevices.pci = [
+          # Upper rear panel USB ports
+          { bus = "11"; slot = "00"; functions = [ "3" ]; }
 
-  vfio.enable = false;
-  vfio.deviceIds = [
-    # 2070 Super
-    "10de:1e84"
-    "10de:10f8"
-    "10de:1ad8"
-    "10de:1ad9"
+          # RX 570
+          { bus = "0e"; slot = "00"; functions = [ "0" "1" ]; }
+        ];
+      };
 
-    # GTX 760
-    "10de:1187"
-    "10de:0e0a"
+      # Windows 10
+      hotgarbage = {
+        template = ./hotgarbage.xml;
+        hostDevices.pci = [
+          # RTX 2070 Super
+          { bus = "0f"; slot = "00"; functions = [ "0" "1" "2" "3" ]; }
+        ];
+        hostDevices.usb = [
+          # DS4 bluetooth adapter
+          { vendorId = "054c"; productId = "0ba0"; startupPolicy = "optional"; }
+        ];
+      };
+    };
 
-    # RX 570
-    "1002:67df"
-    "1002:aaf0"
+    vfio = {
+      enable = lib.mkDefault true;
+      headless = true;
+      deviceIds = [
+        # RTX 2070 Super
+        "10de:1e84"
+        "10de:10f8"
+        "10de:1ad8"
+        "10de:1ad9"
 
-    # USB host controller (upper ports on rear IO)
-    "1022:149c"
-  ];
+        # GTX 760
+        #"10de:1187"
+        #"10de:0e0a"
 
+        # RX 570
+        "1002:67df"
+        "1002:aaf0"
+
+        # AMD USB Host Controller
+        "1022:149c"
+      ];
+    };
+  };
+
+  # Safe mode with vfio and autostart disabled
   specialisation.safe = {
     inheritParentConfig = true;
 
-    configuration = {
+    configuration.hypervisor = {
       vfio.enable = false;
+      guests.lynx.autostart = false;
     };
 
     # TODO: disable VM autostart
   };
 
   networking.hostName = "serval";
+  networking.interfaces.enp9s0.useDHCP = true;
+  networking.interfaces.br0.useDHCP = true;
+  networking.bridges = {
+    br0 = {
+      interfaces = [ "enp9s0" ];
+    };
+  };
+
+  networking.hostId = "d8adf964";
+  boot.supportedFilesystems = [ "zfs" ];
 
   # environment.systemPackages = with pkgs; [
   # ];

@@ -1,5 +1,5 @@
 <domain type='kvm'>
-  <name>win10</name>
+  <name>hotgarbage</name>
   <uuid>e7829f2b-3c3f-4857-a585-7090581e7046</uuid>
   <metadata>
     <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
@@ -8,8 +8,8 @@
   </metadata>
   <memory unit='MiB'>4096</memory>
   <currentMemory unit='MiB'>4096</currentMemory>
-  <vcpu placement='static'>2</vcpu>
-  <!-- <iothreads>1</iothreads> -->
+  <vcpu placement='static'>4</vcpu>
+  <iothreads>1</iothreads>
   <!-- <cputune> -->
   <!--   <vcpupin vcpu='0' cpuset='6'/> -->
   <!--   <vcpupin vcpu='1' cpuset='14'/> -->
@@ -21,9 +21,9 @@
     <partition>/machine</partition>
   </resource>
   <os>
-    <type arch='x86_64' machine='pc-q35-4.1'>hvm</type>
+    <type arch='x86_64' machine='pc-q35-7.2'>hvm</type>
     <loader readonly='yes' type='pflash'>/run/libvirt/nix-ovmf/OVMF_CODE.fd</loader>
-    <!-- <nvram>/var/lib/libvirt/qemu/nvram/win10_VARS.fd</nvram> -->
+    <nvram>/var/lib/libvirt/qemu/nvram/hotgarbage_VARS.fd</nvram>
     <bootmenu enable='yes'/>
   </os>
   <features>
@@ -42,7 +42,7 @@
     <ioapic driver='kvm'/>
   </features>
   <cpu mode='host-passthrough' check='none' migratable='on'>
-    <topology sockets='1' dies='1' cores='1' threads='2'/>
+    <topology sockets='1' dies='1' cores='2' threads='2'/>
     <feature policy='require' name='topoext'/>
     <feature policy='disable' name='hypervisor'/>
   </cpu>
@@ -60,10 +60,10 @@
     <suspend-to-disk enabled='no'/>
   </pm>
   <devices>
-    <emulator>@emulator@</emulator>
+    <emulator>/run/libvirt/nix-emulators/qemu-system-x86_64</emulator>
     <disk type='file' device='disk'>
       <driver name='qemu' type='qcow2'/>
-      <source file='/mnt/storage/images/win10/root.qcow2' index='1'/>
+      <source file='/var/lib/libvirt/images/hotgarbage.qcow2' index='1'/>
       <backingStore/>
       <target dev='vda' bus='scsi'/>
       <boot order='2'/>
@@ -187,45 +187,17 @@
       <image compression='off'/>
     </graphics>
     <sound model='ich9'>
-      <alias name='sound0'/>
+      <codec type='output'/>
+      <audio id='1'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x1b' function='0x0'/>
     </sound>
+    <audio id='1' type='spice'>
+      <output mixingEngine='yes' fixedSettings='no'/>
+    </audio>
     <video>
       <model type='none'/>
       <alias name='video0'/>
     </video>
-    <!-- <hostdev mode='subsystem' type='pci' managed='yes'> -->
-    <!--   <driver name='vfio'/> -->
-    <!--   <source> -->
-    <!--     <address domain='0x0000' bus='0x0e' slot='0x00' function='0x0'/> -->
-    <!--   </source> -->
-    <!--   <alias name='hostdev0'/> -->
-    <!--   <address type='pci' domain='0x0000' bus='0x06' slot='0x00' function='0x0'/> -->
-    <!-- </hostdev> -->
-    <!-- <hostdev mode='subsystem' type='pci' managed='yes'> -->
-    <!--   <driver name='vfio'/> -->
-    <!--   <source> -->
-    <!--     <address domain='0x0000' bus='0x0e' slot='0x00' function='0x1'/> -->
-    <!--   </source> -->
-    <!--   <alias name='hostdev1'/> -->
-    <!--   <address type='pci' domain='0x0000' bus='0x09' slot='0x00' function='0x0'/> -->
-    <!-- </hostdev> -->
-    <!-- <hostdev mode='subsystem' type='pci' managed='yes'> -->
-    <!--   <driver name='vfio'/> -->
-    <!--   <source> -->
-    <!--     <address domain='0x0000' bus='0x0e' slot='0x00' function='0x2'/> -->
-    <!--   </source> -->
-    <!--   <alias name='hostdev2'/> -->
-    <!--   <address type='pci' domain='0x0000' bus='0x0a' slot='0x00' function='0x0'/> -->
-    <!-- </hostdev> -->
-    <!-- <hostdev mode='subsystem' type='pci' managed='yes'> -->
-    <!--   <driver name='vfio'/> -->
-    <!--   <source> -->
-    <!--     <address domain='0x0000' bus='0x0e' slot='0x00' function='0x3'/> -->
-    <!--   </source> -->
-    <!--   <alias name='hostdev3'/> -->
-    <!--   <address type='pci' domain='0x0000' bus='0x0b' slot='0x00' function='0x0'/> -->
-    <!-- </hostdev> -->
     <!-- <hostdev mode='subsystem' type='usb' managed='yes'> -->
     <!--   <source startupPolicy='mandatory'> -->
     <!--     <vendor id='0x054c'/> -->
