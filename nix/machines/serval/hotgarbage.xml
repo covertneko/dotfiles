@@ -6,17 +6,22 @@
       <libosinfo:os id="http://microsoft.com/win/10"/>
     </libosinfo:libosinfo>
   </metadata>
-  <memory unit='MiB'>4096</memory>
-  <currentMemory unit='MiB'>4096</currentMemory>
-  <vcpu placement='static'>4</vcpu>
+  <memory unit='GiB'>16</memory>
+  <currentMemory unit='GiB'>16</currentMemory>
+  <vcpu placement='static'>8</vcpu>
   <iothreads>1</iothreads>
-  <!-- <cputune> -->
-  <!--   <vcpupin vcpu='0' cpuset='6'/> -->
-  <!--   <vcpupin vcpu='1' cpuset='14'/> -->
-  <!--   <vcpupin vcpu='2' cpuset='7'/> -->
-  <!--   <vcpupin vcpu='3' cpuset='15'/> -->
-  <!--   <emulatorpin cpuset='1,9'/> -->
-  <!-- </cputune> -->
+  <cputune>
+    <vcpupin vcpu='0' cpuset='12'/>
+    <vcpupin vcpu='1' cpuset='28'/>
+    <vcpupin vcpu='2' cpuset='13'/>
+    <vcpupin vcpu='3' cpuset='29'/>
+    <vcpupin vcpu='4' cpuset='14'/>
+    <vcpupin vcpu='5' cpuset='30'/>
+    <vcpupin vcpu='6' cpuset='15'/>
+    <vcpupin vcpu='7' cpuset='31'/>
+    <emulatorpin cpuset='1,17'/>
+    <iothreadpin iothread='1' cpuset='1,17'/>
+  </cputune>
   <resource>
     <partition>/machine</partition>
   </resource>
@@ -42,7 +47,7 @@
     <ioapic driver='kvm'/>
   </features>
   <cpu mode='host-passthrough' check='none' migratable='on'>
-    <topology sockets='1' dies='1' cores='2' threads='2'/>
+    <topology sockets='1' dies='1' cores='4' threads='2'/>
     <feature policy='require' name='topoext'/>
     <feature policy='disable' name='hypervisor'/>
   </cpu>

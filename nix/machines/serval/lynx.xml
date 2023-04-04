@@ -6,9 +6,22 @@
       <libosinfo:os id="http://nixos.org/nixos/unknown"/>
     </libosinfo:libosinfo>
   </metadata>
-  <memory unit='KiB'>25165824</memory>
-  <currentMemory unit='KiB'>25165824</currentMemory>
-  <vcpu placement='static'>8</vcpu>
+  <memory unit='GiB'>32</memory>
+  <currentMemory unit='GiB'>32</currentMemory>
+  <vcpu placement='static'>16</vcpu>
+  <iothreads>1</iothreads>
+  <cputune>
+    <vcpupin vcpu='0' cpuset='8'/>
+    <vcpupin vcpu='1' cpuset='24'/>
+    <vcpupin vcpu='2' cpuset='9'/>
+    <vcpupin vcpu='3' cpuset='25'/>
+    <vcpupin vcpu='4' cpuset='10'/>
+    <vcpupin vcpu='5' cpuset='26'/>
+    <vcpupin vcpu='6' cpuset='11'/>
+    <vcpupin vcpu='7' cpuset='27'/>
+    <emulatorpin cpuset='0,16'/>
+    <iothreadpin iothread='1' cpuset='0,16'/>
+  </cputune>
   <resource>
     <partition>/machine</partition>
   </resource>
@@ -28,7 +41,7 @@
     <ioapic driver='kvm'/>
   </features>
   <cpu mode='host-passthrough' check='none' migratable='on'>
-    <topology sockets='1' dies='1' cores='4' threads='2'/>
+    <topology sockets='1' dies='1' cores='8' threads='2'/>
     <feature policy='require' name='topoext'/>
     <feature policy='disable' name='hypervisor'/>
   </cpu>
@@ -166,6 +179,7 @@
       <address type='pci' domain='0x0000' bus='0x03' slot='0x00' function='0x0'/>
     </controller>
     <controller type='scsi' index='0' model='virtio-scsi'>
+      <driver queues='4' iothread='1'/>
       <alias name='scsi0'/>
       <address type='pci' domain='0x0000' bus='0x0a' slot='0x00' function='0x0'/>
     </controller>
