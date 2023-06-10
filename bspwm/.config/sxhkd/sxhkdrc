@@ -10,16 +10,16 @@ super + {_,shift +}Tab
     bspc desktop -f {older,newer}.local
 
 # TODO: review if desktop focus is necessary
-@{Super_L,Super_R}
+@Super_L
     bspc wm --record-history on; \
     bspc desktop -f focused
 
 # switch to previously focused node on the current desktop
-alt + {_,shift +}Tab
+ALT_R + {_,shift +}Tab
     bspc wm --record-history off; \
-    bspc node -f {older,newer}.local.leaf
+    bspc node -f {older,newer}.local.leaf;
 
-@{Alt_L,Alt_R}
+@ALT_R
     bspc wm --record-history on; \
     bspc node -f focused
 
